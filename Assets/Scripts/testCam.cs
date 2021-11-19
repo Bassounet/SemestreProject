@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class testCam : MonoBehaviour
 {
 
 
     // **************************** ///////////////////// DEV ZONE ////////////////// ************************** //
+
+    //public bool ToCollect;
+
     bool camMoving;
 
     Vector3 endPosition;
@@ -14,14 +18,23 @@ public class testCam : MonoBehaviour
     public float dragSpeed = 2;
     private Vector3 dragOrigin;
 
+    [Header("UI")]
+    [Tooltip(" ** ALL_ZONE ** Rentrez ici les éléments UI")]
+    [SerializeField] Image[] slots;
+
+    private int indexSlots;
+
     void Start()
     {
         camMoving = false;
+        
     }
-    
+        
 
     void Update()
     {
+
+        #region ControlCam
         // ------------------------------ // CAM CONTROLLER DE SES MORTS // ------------------------------ // 
         if (Input.GetMouseButtonDown(0))
         {
@@ -70,7 +83,30 @@ public class testCam : MonoBehaviour
 
 
         // ------------------------------ // CAM CONTROLLER DE SES MORTS FIN // ------------------------------ // 
+
+        #endregion
     }
+
+
+    // ---------------------------- FONCTION DE COLLECTE ----------------------
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Collectable"))
+        {
+            
+            Debug.Log("It's Collectable");
+            slots[indexSlots].sprite = other.GetComponent<Image>().sprite;
+            other.gameObject.SetActive(false);
+            indexSlots++;
+
+        }
+    }
+
+    // ---------------------------- FONCTION DE COLLECTE ----------------------
+
+    #region InputTouches
 
     //void Update()
     //{
@@ -98,6 +134,12 @@ public class testCam : MonoBehaviour
     //    //    //    pos[touch.fingerId] = touch.position; // on fout les coordonnées dans le tableau. 
 
     //    //    //}
+
+
+    #endregion
+
+
+
 
 
 

@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     [Tooltip(" ** All_Zone ** -- > vitesse de rotation caméra ")]
     public float RotateSpeed; // vitesse de rotation de la caméra
 
+    
+
     void Start()
     {
         
@@ -54,4 +56,8 @@ public class GameManager : MonoBehaviour
     }
 
     // *************** FONTCTIONS DE CONTROLE CAMERA ROTATE *********************** // 
+
+    
+
+    
 }
