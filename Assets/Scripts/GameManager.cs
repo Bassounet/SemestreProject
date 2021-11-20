@@ -15,11 +15,18 @@ public class GameManager : MonoBehaviour
     [Tooltip(" ** All_Zone ** -- > vitesse de rotation caméra ")]
     public float RotateSpeed; // vitesse de rotation de la caméra
 
+    [Header("UI")]
+    [Tooltip("** All_Zone ** -- > Gestion de l'UI")]
+    [SerializeField] Image[] Slots;
+
+    
+
+
     
 
     void Start()
     {
-        
+
     }
 
     void Update()
@@ -28,6 +35,7 @@ public class GameManager : MonoBehaviour
 
         if (Input.touchCount > 0)
         {
+
             Touch touch = Input.GetTouch(0); // création variable de touch pour récupérer l'index du doigt 1
             InputPosition.gameObject.SetActive(true); // on active l'image du canvas qu'on a récupéré au dessus
             InputPosition.transform.position = touch.position; // on associe la position à chaque tick de l'image à la position récupérée du doigt
@@ -41,8 +49,22 @@ public class GameManager : MonoBehaviour
         }
 
         // ---------- INPUT ACTIVATION CERCLE BLANC FIN ---------------- //
+
+
+        // ---------- UI ------------ //
+
+
+       
+
     }
+
+
+
+    
+
     // *************** FONTCTIONS DE CONTROLE CAMERA ROTATE *********************** // 
+
+
     public void TurnRight() 
     {
 
