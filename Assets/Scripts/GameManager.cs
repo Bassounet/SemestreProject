@@ -26,8 +26,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-
-    }
+        Slots[0].GetComponent<Selectable>().OnDeselect();
 
     void Update()
     {
@@ -52,6 +51,8 @@ public class GameManager : MonoBehaviour
 
 
         // ---------- UI ------------ //
+
+
 
 
        
