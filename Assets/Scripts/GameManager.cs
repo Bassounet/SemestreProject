@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,16 +18,18 @@ public class GameManager : MonoBehaviour
 
     [Header("UI")]
     [Tooltip("** All_Zone ** -- > Gestion de l'UI")]
-    [SerializeField] Image[] Slots;
-
-    
+    [SerializeField] Image Slots1;
 
 
-    
+
+
+
 
     void Start()
     {
-        Slots[0].GetComponent<Selectable>().OnDeselect();
+
+    }
+
 
     void Update()
     {
@@ -53,34 +56,34 @@ public class GameManager : MonoBehaviour
         // ---------- UI ------------ //
 
 
+        
 
 
-       
 
     }
 
 
 
-    
+
 
     // *************** FONTCTIONS DE CONTROLE CAMERA ROTATE *********************** // 
 
 
-    public void TurnRight() 
+    public void TurnRight()
     {
 
-        MainCam.transform.Rotate(Vector3.up * RotateSpeed );
+        MainCam.transform.Rotate(Vector3.up * RotateSpeed);
 
-    }public void TurnLeft()
+    } 
+    
+    public void TurnLeft()
     {
 
-        MainCam.transform.Rotate(Vector3.down * RotateSpeed );
+        MainCam.transform.Rotate(Vector3.down * RotateSpeed);
 
     }
 
     // *************** FONTCTIONS DE CONTROLE CAMERA ROTATE *********************** // 
 
-    
 
-    
 }

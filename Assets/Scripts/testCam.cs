@@ -22,6 +22,9 @@ public class testCam : MonoBehaviour
     [Tooltip(" ** ALL_ZONE ** Rentrez ici les éléments UI")]
     [SerializeField] Image[] slots;
 
+    [SerializeField] Camera mainCam;
+    public bool itsH;
+
     private int indexSlots;
 
     void Start()
@@ -29,82 +32,175 @@ public class testCam : MonoBehaviour
         camMoving = false;
         
     }
-        
+
 
     void Update()
     {
 
+
+        if (slots[0].GetComponent<Toggle>().isOn )
+        {
+            Debug.Log("selected");
+
+            if  (itsH )
+            {
+
+                Debug.Log("Tu donnes l'objet à Hippo");
+                slots[0].GetComponent<Toggle>().isOn = false;
+
+
+            }
+            
+            
+
+
+        }
+
+
+
+        // ---------------------------- FONCTION DE TIR DE RAYCAST ----------------------
+
+
+
+        if (Input.touchCount > 0)
+        {
+
+            whatIsIt();
+
+        }
+
+
+        // ---------------------------- FONCTION DE TIR DE RAYCAST ----------------------
+
+
+
+
         #region ControlCam
+
+
+
         // ------------------------------ // CAM CONTROLLER DE SES MORTS // ------------------------------ // 
+
+
+
+
         if (Input.GetMouseButtonDown(0))
-        {
+            {
 
-          camMoving = true;
-          dragOrigin = Input.mousePosition;            
-                     
+                camMoving = true;
+                dragOrigin = Input.mousePosition;
+
+            }
+
+            if (!camMoving)
+            {
+
+                dragOrigin = endPosition;
+
+            }
+
+            if (!Input.GetMouseButton(0)) return;
+
+            Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
+            Vector3 move = new Vector3(pos.x * -dragSpeed, 0);
+
+            if (camMoving)
+            {
+
+                transform.Translate(move, Space.World);
+
+
+            }
+
+
+
+            if (Input.mousePosition != endPosition)
+            {
+                endPosition = Input.mousePosition;
+
+                camMoving = true;
+            }
+            else
+            {
+
+                camMoving = false;
+            }
+
+
+
+
+            // **************************** ///////////////////// DEV ZONE ////////////////// ************************** //
+
+
+            // ------------------------------ // CAM CONTROLLER DE SES MORTS FIN // ------------------------------ // 
+
+
+
+
+            
         }
 
-        if (!camMoving)
-        {
-
-            dragOrigin = endPosition;
-
-        }
-
-        if (!Input.GetMouseButton(0)) return;
-
-        Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
-        Vector3 move = new Vector3(pos.x * -dragSpeed, 0);
-
-        if (camMoving)
-        {
-
-            transform.Translate(move, Space.World);
-
-
-        }
-
-
-
-        if (Input.mousePosition != endPosition)
-        {
-            endPosition = Input.mousePosition;
-
-            camMoving = true;
-        }
-        else
-        {
-
-            camMoving = false;
-        }
-
-
-        // **************************** ///////////////////// DEV ZONE ////////////////// ************************** //
-
-
-        // ------------------------------ // CAM CONTROLLER DE SES MORTS FIN // ------------------------------ // 
-
-        #endregion
-    }
+    #endregion
 
 
     // ---------------------------- FONCTION DE COLLECTE ----------------------
 
 
     private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Collectable"))
         {
-            
-            Debug.Log("It's Collectable");
-            slots[indexSlots].sprite = other.GetComponent<Image>().sprite;
-            other.gameObject.SetActive(false);
-            indexSlots++;
+            if (other.gameObject.CompareTag("Collectable"))
+            {
 
+                Debug.Log("It's Collectable");
+                slots[indexSlots].sprite = other.GetComponent<Image>().sprite;
+                other.gameObject.SetActive(false);
+                indexSlots++;
+
+            }
         }
-    }
 
     // ---------------------------- FONCTION DE COLLECTE ----------------------
+
+
+
+    // ---------------------------- FONCTION DE KECECE ?  ----------------------
+
+
+
+    public void whatIsIt() 
+    {
+
+        Touch touch = Input.GetTouch(0);
+        RaycastHit hit;
+        Ray ray = mainCam.ScreenPointToRay(touch.position);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+
+            Debug.DrawRay(transform.position, hit.point);
+            //Debug.Log("its : " + hit.transform.gameObject);
+
+            if (hit.transform.gameObject.CompareTag("Hippocrate"))
+            {
+
+                itsH = true;
+
+            }
+            else
+            {
+
+                itsH = false;
+
+            }
+            
+        }
+        
+
+    }
+
+
+    // ---------------------------- FONCTION DE KECECE ? FIN  ----------------------
+
 
     #region InputTouches
 
@@ -139,8 +235,8 @@ public class testCam : MonoBehaviour
     #endregion
 
 
-
-
-
-
 }
+
+
+
+
