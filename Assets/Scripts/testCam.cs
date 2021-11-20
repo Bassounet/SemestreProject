@@ -8,27 +8,31 @@ public class testCam : MonoBehaviour
 
 
     // **************************** ///////////////////// DEV ZONE ////////////////// ************************** //
-
-    //public bool ToCollect;
-
-    bool camMoving;
-
-    Vector3 endPosition;
-
-    public float dragSpeed = 2;
-    private Vector3 dragOrigin;
+    
 
     [Header("UI")]
     [Tooltip(" ** ALL_ZONE ** Rentrez ici les éléments UI")]
     [SerializeField] Image[] slots;
+    [SerializeField] Image ObectCollected;
 
+
+    [Header("This IsGame Object")]
+    [Tooltip(" ** DEV_ZONE ** Rentrez ici les games Objects dont vous avez besoins")]
     [SerializeField] Camera mainCam;
-    public bool itsH;
 
+
+    public float dragSpeed = 2;
+
+
+    private bool itsH;
     private int indexSlots;
+    bool camMoving;
+    Vector3 endPosition;
+    private Vector3 dragOrigin;
 
     void Start()
     {
+
         camMoving = false;
         
     }
@@ -50,16 +54,8 @@ public class testCam : MonoBehaviour
 
 
             }
-            
-            
-
 
         }
-
-
-
-        // ---------------------------- FONCTION DE TIR DE RAYCAST ----------------------
-
 
 
         if (Input.touchCount > 0)
@@ -70,10 +66,7 @@ public class testCam : MonoBehaviour
         }
 
 
-        // ---------------------------- FONCTION DE TIR DE RAYCAST ----------------------
-
-
-
+   
 
         #region ControlCam
 
@@ -145,8 +138,7 @@ public class testCam : MonoBehaviour
 
     // ---------------------------- FONCTION DE COLLECTE ----------------------
 
-
-    private void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag("Collectable"))
             {
@@ -161,10 +153,20 @@ public class testCam : MonoBehaviour
 
     // ---------------------------- FONCTION DE COLLECTE ----------------------
 
+    // ---------------------------- FONCTION DE SHOW OBJECT ----------------------
+
+    public void ShowTheObjectCollected()
+    {
+
+
+
+
+    }
+
+    // ---------------------------- FONCTION DE SHOW OBJECT FIN ----------------------
 
 
     // ---------------------------- FONCTION DE KECECE ?  ----------------------
-
 
 
     public void whatIsIt() 
@@ -193,10 +195,10 @@ public class testCam : MonoBehaviour
 
             }
             
-        }
-        
+        }        
 
     }
+
 
 
     // ---------------------------- FONCTION DE KECECE ? FIN  ----------------------

@@ -19,6 +19,9 @@ public class GameManager : MonoBehaviour
     [Header("UI")]
     [Tooltip("** All_Zone ** -- > Gestion de l'UI")]
     [SerializeField] Image Slots1;
+    
+
+
 
 
 
