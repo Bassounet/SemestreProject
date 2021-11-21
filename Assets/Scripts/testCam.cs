@@ -13,7 +13,10 @@ public class testCam : MonoBehaviour
     [Header("UI")]
     [Tooltip(" ** ALL_ZONE ** Rentrez ici les éléments UI")]
     [SerializeField] Image[] slots;
-    [SerializeField] Image ObectCollected;
+    [SerializeField] Image BlurDialogueHippo;
+    [SerializeField] Image HippocrateClue;
+    [SerializeField] Button QuitBtn;
+    
 
 
     [Header("This IsGame Object")]
@@ -41,16 +44,17 @@ public class testCam : MonoBehaviour
     void Update()
     {
 
-
-        if (slots[0].GetComponent<Toggle>().isOn )
+        // TEST DE GIVE DU PREMIER ELEMENT 
+        if (slots[0].GetComponent<Toggle>().isOn ) // on détecte de voir si le bouton est actif ( donc si on l'a séléctionné ) 
         {
-            Debug.Log("selected");
-
-            if  (itsH )
+            
+            if  (itsH ) // si on sélectionne Hippocrate
             {
 
                 Debug.Log("Tu donnes l'objet à Hippo");
                 slots[0].GetComponent<Toggle>().isOn = false;
+
+                HippocrateGiveAClue();
 
 
             }
@@ -202,6 +206,43 @@ public class testCam : MonoBehaviour
 
 
     // ---------------------------- FONCTION DE KECECE ? FIN  ----------------------
+
+    // ---------------------------- FONCTION APPEL HIPPOCRATE  ----------------------
+
+    public void HippocrateGiveAClue()
+    {
+
+        BlurDialogueHippo.gameObject.SetActive(true);
+        HippocrateClue.gameObject.SetActive(true);
+        StartCoroutine("WaitBeforeQuit");
+
+    }
+
+    IEnumerator WaitBeforeQuit()
+    {
+
+        yield return new WaitForSeconds(3);
+        QuitBtn.gameObject.SetActive(true);
+
+
+    }
+
+    // ---------------------------- FONCTION APPEL HIPPOCRATE  ----------------------
+
+    //  --------------------------- Fontcion du bouton quit du dialogue -------------------
+
+
+    public void QuitDialogue()
+    {
+
+        BlurDialogueHippo.gameObject.SetActive(false);
+        HippocrateClue.gameObject.SetActive(false);
+        QuitBtn.gameObject.SetActive(false);
+
+    }
+
+
+    //  --------------------------- Fontcion du bouton quit du dialogue -------------------
 
 
     #region InputTouches
