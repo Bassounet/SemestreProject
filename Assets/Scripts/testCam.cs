@@ -16,12 +16,17 @@ public class testCam : MonoBehaviour
     [SerializeField] Image BlurDialogueHippo;
     [SerializeField] Image HippocrateClue;
     [SerializeField] Button QuitBtn;
+    [SerializeField] Image ObjectCollected;
     
 
 
     [Header("This IsGame Object")]
     [Tooltip(" ** DEV_ZONE ** Rentrez ici les games Objects dont vous avez besoins")]
     [SerializeField] Camera mainCam;
+
+    [Header(" INTERACTABLE ZONE ")]
+    [Tooltip(" ** ALL_ZONE ** Ici réglez tous les éléments d'interaction ")]
+    public float distanceMaxForGrab;
 
 
     public float dragSpeed = 2;
@@ -32,6 +37,8 @@ public class testCam : MonoBehaviour
     bool camMoving;
     Vector3 endPosition;
     private Vector3 dragOrigin;
+
+    private bool inMenu; // ce bool permet de figer la caméra A UTILISER AVEC PRUDENCE 
 
     void Start()
     {
@@ -45,6 +52,7 @@ public class testCam : MonoBehaviour
     {
 
         // TEST DE GIVE DU PREMIER ELEMENT 
+
         if (slots[0].GetComponent<Toggle>().isOn ) // on détecte de voir si le bouton est actif ( donc si on l'a séléctionné ) 
         {
             
@@ -66,6 +74,7 @@ public class testCam : MonoBehaviour
         {
 
             whatIsIt();
+            Collect();
 
         }
 
@@ -81,7 +90,7 @@ public class testCam : MonoBehaviour
 
 
 
-        if (Input.GetMouseButtonDown(0))
+        if ( Input.GetMouseButtonDown(0) )
             {
 
                 camMoving = true;
@@ -101,7 +110,7 @@ public class testCam : MonoBehaviour
             Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
             Vector3 move = new Vector3(pos.x * -dragSpeed, 0);
 
-            if (camMoving)
+            if (camMoving && !inMenu)
             {
 
                 transform.Translate(move, Space.World);
@@ -140,22 +149,6 @@ public class testCam : MonoBehaviour
     #endregion
 
 
-    // ---------------------------- FONCTION DE COLLECTE ----------------------
-
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.gameObject.CompareTag("Collectable"))
-            {
-
-                Debug.Log("It's Collectable");
-                slots[indexSlots].sprite = other.GetComponent<Image>().sprite;
-                other.gameObject.SetActive(false);
-                indexSlots++;
-
-            }
-        }
-
-    // ---------------------------- FONCTION DE COLLECTE ----------------------
 
     // ---------------------------- FONCTION DE SHOW OBJECT ----------------------
 
@@ -211,10 +204,12 @@ public class testCam : MonoBehaviour
 
     public void HippocrateGiveAClue()
     {
+        inMenu = true;
 
         BlurDialogueHippo.gameObject.SetActive(true);
         HippocrateClue.gameObject.SetActive(true);
         StartCoroutine("WaitBeforeQuit");
+        
 
     }
 
@@ -229,7 +224,7 @@ public class testCam : MonoBehaviour
 
     // ---------------------------- FONCTION APPEL HIPPOCRATE  ----------------------
 
-    //  --------------------------- Fontcion du bouton quit du dialogue -------------------
+    //  --------------------------- Fonction du bouton quit du dialogue -------------------
 
 
     public void QuitDialogue()
@@ -238,11 +233,44 @@ public class testCam : MonoBehaviour
         BlurDialogueHippo.gameObject.SetActive(false);
         HippocrateClue.gameObject.SetActive(false);
         QuitBtn.gameObject.SetActive(false);
+        inMenu = false;
 
     }
 
 
     //  --------------------------- Fontcion du bouton quit du dialogue -------------------
+
+
+    //  --------------------------- FONCTION DE COLLECTE-------------------
+
+    public void Collect()
+    {
+        Touch touch = Input.GetTouch(0);
+        RaycastHit hit;
+        Ray ray = mainCam.ScreenPointToRay(touch.position );
+
+        if (Physics.Raycast(ray, out hit))
+        {
+
+            Debug.DrawRay(transform.position, hit.point, Color.red);
+            
+            if (hit.transform.gameObject.CompareTag("Collectable") && hit.distance <= distanceMaxForGrab) // pn vérifie que l'objet n'est pas à l'autre bout de la MAP avec une disatnce max de grab
+            {
+                GameObject ObjectToCollect = hit.transform.gameObject;
+                Debug.Log("It's Collectable");
+                ObjectCollected.gameObject.SetActive(true);                
+                ObjectCollected.sprite = ObjectToCollect.GetComponent<Image>().sprite;
+                slots[indexSlots].sprite = ObjectToCollect.GetComponent<Image>().sprite;
+                ObjectToCollect.gameObject.SetActive(false);
+                indexSlots++;
+                //ObjectCollected.gameObject.SetActive(false);
+            }
+
+
+        }
+    }
+
+    //  --------------------------- FONCTION DE COLLECTE-------------------
 
 
     #region InputTouches

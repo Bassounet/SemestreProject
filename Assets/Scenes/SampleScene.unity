@@ -21801,7 +21801,9 @@ MonoBehaviour:
   BlurDialogueHippo: {fileID: 1096117950}
   HippocrateClue: {fileID: 373850903}
   QuitBtn: {fileID: 1120746332}
+  ObjectCollected: {fileID: 1045071131}
   mainCam: {fileID: 963194227}
+  distanceMaxForGrab: 8.4
   dragSpeed: 12.22
 --- !u!135 &963194230
 SphereCollider:
@@ -24830,6 +24832,7 @@ GameObject:
   - component: {fileID: 1045071130}
   - component: {fileID: 1045071132}
   - component: {fileID: 1045071131}
+  - component: {fileID: 1045071133}
   m_Layer: 5
   m_Name: ObjecCollected
   m_TagString: Untagged
@@ -24846,7 +24849,7 @@ RectTransform:
   m_GameObject: {fileID: 1045071129}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 6.0365, y: 6.0365, z: 6.0365}
+  m_LocalScale: {x: 1.3530815, y: 1.3530815, z: 1.3530815}
   m_Children: []
   m_Father: {fileID: 189111282}
   m_RootOrder: 4
@@ -24894,6 +24897,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1045071129}
   m_CullTransparentMesh: 1
+--- !u!95 &1045071133
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1045071129}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 94c130672de324a43a9c0f8a46ce62b1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1049307886
 GameObject:
   m_ObjectHideFlags: 0
@@ -30590,7 +30612,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh27546
+  m_Name: pb_Mesh27564
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
