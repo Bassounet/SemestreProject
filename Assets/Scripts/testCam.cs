@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class testCam : MonoBehaviour
 {
-
+    public InventoryObject inventory;
 
     // **************************** ///////////////////// DEV ZONE ////////////////// ************************** //
     
@@ -33,12 +33,13 @@ public class testCam : MonoBehaviour
 
 
     private bool itsH;
-    private int indexSlots;
     bool camMoving;
     Vector3 endPosition;
     private Vector3 dragOrigin;
 
     private bool inMenu; // ce bool permet de figer la caméra A UTILISER AVEC PRUDENCE 
+    //int shoot = 0; // pour ne tirer qu'un seul raycast
+
 
     void Start()
     {
@@ -50,7 +51,7 @@ public class testCam : MonoBehaviour
 
     void Update()
     {
-
+        
         // TEST DE GIVE DU PREMIER ELEMENT 
 
         if (slots[0].GetComponent<Toggle>().isOn ) // on détecte de voir si le bouton est actif ( donc si on l'a séléctionné ) 
@@ -70,12 +71,13 @@ public class testCam : MonoBehaviour
         }
 
 
-        if (Input.touchCount > 0)
+        if (Input.touchCount > 0  )
         {
-
+            
             whatIsIt();
             Collect();
-
+            
+            
         }
 
 
@@ -248,29 +250,45 @@ public class testCam : MonoBehaviour
         Touch touch = Input.GetTouch(0);
         RaycastHit hit;
         Ray ray = mainCam.ScreenPointToRay(touch.position );
+        
 
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit) )
         {
-
+            
             Debug.DrawRay(transform.position, hit.point, Color.red);
             
-            if (hit.transform.gameObject.CompareTag("Collectable") && hit.distance <= distanceMaxForGrab) // pn vérifie que l'objet n'est pas à l'autre bout de la MAP avec une disatnce max de grab
+            if (hit.transform.gameObject.GetComponent<item>() /*&& hit.distance <= distanceMaxForGrab*/) // pn vérifie que l'objet n'est pas à l'autre bout de la MAP avec une disatnce max de grab
             {
-                GameObject ObjectToCollect = hit.transform.gameObject;
-                Debug.Log("It's Collectable");
-                ObjectCollected.gameObject.SetActive(true);                
-                ObjectCollected.sprite = ObjectToCollect.GetComponent<Image>().sprite;
-                slots[indexSlots].sprite = ObjectToCollect.GetComponent<Image>().sprite;
-                ObjectToCollect.gameObject.SetActive(false);
-                indexSlots++;
-                //ObjectCollected.gameObject.SetActive(false);
+                Debug.Log("It's In ");
+                var TargetItemScript = hit.transform.gameObject.GetComponent<item>();
+                inventory.AddItem(TargetItemScript.TheItem, 1);
+                hit.transform.gameObject.SetActive(false);
+                ObjectCollected.gameObject.SetActive(true);
+                ObjectCollected.sprite = TargetItemScript.TheItem.logo;
+                //slots[indexSlots].sprite = ObjectToCollect.GetComponent<Image>().sprite;
+                //ObjectToCollect.gameObject.SetActive(false);
+                //indexSlots++;
+
             }
 
-
+            
         }
     }
 
     //  --------------------------- FONCTION DE COLLECTE-------------------
+
+
+    //  --------------------------- FONCTION DE CLEAR ON APPLICATION QUIT -------------------
+
+    private void OnApplicationQuit()
+    {
+        inventory.Container.Clear();
+    }
+
+
+    //  --------------------------- FONCTION DE CLEAR ON APPLICATION QUIT -------------------
+
+
 
 
     #region InputTouches

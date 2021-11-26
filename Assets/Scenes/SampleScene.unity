@@ -21790,6 +21790,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1d0b80d4b0aa5948856c731246b93e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventory: {fileID: 11400000, guid: a6ea1ebeae93c5c4cb4058b2e3157027, type: 2}
   slots:
   - {fileID: 1965508419}
   - {fileID: 1580823660}
@@ -29924,8 +29925,9 @@ GameObject:
   - component: {fileID: 1221704934}
   - component: {fileID: 1221704933}
   - component: {fileID: 1221704932}
+  - component: {fileID: 1221704939}
   m_Layer: 0
-  m_Name: Cube (4)
+  m_Name: scalpel
   m_TagString: Collectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30113,6 +30115,19 @@ RectTransform:
   m_AnchoredPosition: {x: -12.34, y: -0.5203099}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1221704939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1221704931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b31bebc9145411e4e9ccc65b6194f558, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TheItem: {fileID: 0}
 --- !u!1 &1221732314
 GameObject:
   m_ObjectHideFlags: 0
@@ -36795,8 +36810,9 @@ GameObject:
   - component: {fileID: 1538122181}
   - component: {fileID: 1538122180}
   - component: {fileID: 1538122179}
+  - component: {fileID: 1538122186}
   m_Layer: 0
-  m_Name: Cube (3)
+  m_Name: Potion
   m_TagString: Collectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36984,6 +37000,19 @@ RectTransform:
   m_AnchoredPosition: {x: -4.68, y: -0.5203099}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1538122186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538122178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b31bebc9145411e4e9ccc65b6194f558, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TheItem: {fileID: 11400000, guid: c9e84896d21ed1642baf8503aae08051, type: 2}
 --- !u!1 &1538297174
 GameObject:
   m_ObjectHideFlags: 0
@@ -38379,8 +38408,9 @@ GameObject:
   - component: {fileID: 1595692175}
   - component: {fileID: 1595692174}
   - component: {fileID: 1595692177}
+  - component: {fileID: 1595692178}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: Cadenas
   m_TagString: Collectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38568,6 +38598,19 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &1595692178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595692170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b31bebc9145411e4e9ccc65b6194f558, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TheItem: {fileID: 0}
 --- !u!1 &1604372878
 GameObject:
   m_ObjectHideFlags: 0
