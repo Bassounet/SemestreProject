@@ -245,12 +245,12 @@ public class testCam : MonoBehaviour
         {
                       
             
-            if (hit.transform.gameObject.GetComponent<item>() /*&& hit.distance <= distanceMaxForGrab*/) // pn vérifie que l'objet n'est pas à l'autre bout de la MAP avec une disatnce max de grab
+            if (hit.transform.gameObject.GetComponent<item>() && hit.distance <= distanceMaxForGrab) // pn vérifie que l'objet n'est pas à l'autre bout de la MAP avec une disatnce max de grab
             {
                 Debug.Log("It's In ");
                 var TargetItemScript = hit.transform.gameObject.GetComponent<item>();
-                inventory.AddItem(TargetItemScript.TheItem, 1);
-                hit.transform.gameObject.SetActive(false);
+                //inventory.AddItem(TargetItemScript.TheItem, 1); // ancien système d'inventaire                 
+                //hit.transform.gameObject.SetActive(false);
                 //ObjectCollected.gameObject.SetActive(true);
                 //ObjectCollected.sprite = TargetItemScript.TheItem.logo;               
 
