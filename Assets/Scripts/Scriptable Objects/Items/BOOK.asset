@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f162cc83284bee40940c892818a505f, type: 3}
   m_Name: BOOK
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
+  prefab: {fileID: 8155608733338398997, guid: 54ec6b5b1200de3449633955926ab07e, type: 3}
   type: 0
   SentenceH: 
-  logo: {fileID: 0}
+  logo: {fileID: 21300000, guid: e5d4bbf94c986e149a28342f3edfd7e1, type: 3}

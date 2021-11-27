@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f162cc83284bee40940c892818a505f, type: 3}
   m_Name: POTIN
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
+  prefab: {fileID: 8155608733338398997, guid: 54ec6b5b1200de3449633955926ab07e, type: 3}
   type: 0
   SentenceH: "tu as r\xE9cup\xE9r\xE9 la potion va la donner \xE0 l'autre fdp"
   logo: {fileID: 21300000, guid: 4d2eaf5ef8e68364994c18f5ed5c866c, type: 3}

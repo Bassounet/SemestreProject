@@ -12,7 +12,6 @@ public class testCam : MonoBehaviour
 
     [Header("UI")]
     [Tooltip(" ** ALL_ZONE ** Rentrez ici les éléments UI")]
-    [SerializeField] Image[] slots;
     [SerializeField] Image BlurDialogueHippo;
     [SerializeField] Image HippocrateClue;
     [SerializeField] Button QuitBtn;
@@ -32,13 +31,13 @@ public class testCam : MonoBehaviour
     public float dragSpeed = 2;
 
 
-    private bool itsH;
+    public bool itsH;
     bool camMoving;
     Vector3 endPosition;
     private Vector3 dragOrigin;
 
-    private bool inMenu; // ce bool permet de figer la caméra A UTILISER AVEC PRUDENCE 
-    //int shoot = 0; // pour ne tirer qu'un seul raycast
+    public bool inMenu; // ce bool permet de figer la caméra A UTILISER AVEC PRUDENCE 
+    int shoot = 0; // pour ne tirer qu'un seul raycast
 
 
     void Start()
@@ -51,48 +50,37 @@ public class testCam : MonoBehaviour
 
     void Update()
     {
-        
+
         // TEST DE GIVE DU PREMIER ELEMENT 
 
-        if (slots[0].GetComponent<Toggle>().isOn ) // on détecte de voir si le bouton est actif ( donc si on l'a séléctionné ) 
+        
+
+        if (Input.touchCount == 0)
         {
-            
-            if  (itsH ) // si on sélectionne Hippocrate
-            {
 
-                Debug.Log("Tu donnes l'objet à Hippo");
-                slots[0].GetComponent<Toggle>().isOn = false;
-
-                HippocrateGiveAClue();
-
-
-            }
+            shoot = 0;
 
         }
 
-
-        if (Input.touchCount > 0  )
+        if (Input.touchCount > 0 && shoot == 0 )
         {
-            
+           
             whatIsIt();
             Collect();
-            
-            
+
         }
 
 
-   
-
-        #region ControlCam
+           #region ControlCam
 
 
 
-        // ------------------------------ // CAM CONTROLLER DE SES MORTS // ------------------------------ // 
+            // ------------------------------ // CAM CONTROLLER DE SES MORTS // ------------------------------ // 
 
 
 
 
-        if ( Input.GetMouseButtonDown(0) )
+            if ( Input.GetMouseButtonDown(0) )
             {
 
                 camMoving = true;
@@ -179,7 +167,7 @@ public class testCam : MonoBehaviour
         {
 
             Debug.DrawRay(transform.position, hit.point);
-            //Debug.Log("its : " + hit.transform.gameObject);
+            
 
             if (hit.transform.gameObject.CompareTag("Hippocrate"))
             {
@@ -247,6 +235,7 @@ public class testCam : MonoBehaviour
 
     public void Collect()
     {
+        shoot++;
         Touch touch = Input.GetTouch(0);
         RaycastHit hit;
         Ray ray = mainCam.ScreenPointToRay(touch.position );
@@ -254,8 +243,7 @@ public class testCam : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit) )
         {
-            
-            Debug.DrawRay(transform.position, hit.point, Color.red);
+                      
             
             if (hit.transform.gameObject.GetComponent<item>() /*&& hit.distance <= distanceMaxForGrab*/) // pn vérifie que l'objet n'est pas à l'autre bout de la MAP avec une disatnce max de grab
             {
@@ -263,11 +251,8 @@ public class testCam : MonoBehaviour
                 var TargetItemScript = hit.transform.gameObject.GetComponent<item>();
                 inventory.AddItem(TargetItemScript.TheItem, 1);
                 hit.transform.gameObject.SetActive(false);
-                ObjectCollected.gameObject.SetActive(true);
-                ObjectCollected.sprite = TargetItemScript.TheItem.logo;
-                //slots[indexSlots].sprite = ObjectToCollect.GetComponent<Image>().sprite;
-                //ObjectToCollect.gameObject.SetActive(false);
-                //indexSlots++;
+                //ObjectCollected.gameObject.SetActive(true);
+                //ObjectCollected.sprite = TargetItemScript.TheItem.logo;               
 
             }
 
@@ -288,40 +273,6 @@ public class testCam : MonoBehaviour
 
     //  --------------------------- FONCTION DE CLEAR ON APPLICATION QUIT -------------------
 
-
-
-
-    #region InputTouches
-
-    //void Update()
-    //{
-
-    //    //Debug.Log("Nombre de touches " + Input.touchCount); // nombres de touches sur écran
-
-    //    //if ( Input.touchCount > 0)
-    //    //{
-    //    //    Touch touch = Input.GetTouch(0); // on crée une variable de touch
-
-    //    //    //touch.position // donne la position des doigts. 
-
-    //    //    //switch (touch.phase)
-    //    //    //{
-    //    //    //    case TouchPhase.Began: // la touch phase permet de renvoyer l'état du doigt est ce qu'il bouge est ce qu'il se pose ou est ce qu'il s'en va . 
-    //    //    //        Debug.Log("Debut");
-
-
-    //    //    //}
-
-    //    //    //Debug.Log(Input.GetTouch(0)); // position du doigt 0 return une coordonnée en pixel vector 2 
-    //    //    //foreach (Touch touch in Input.touches) // dans le tableau des touches on affecte le fingerId
-    //    //    //{
-
-    //    //    //    pos[touch.fingerId] = touch.position; // on fout les coordonnées dans le tableau. 
-
-    //    //    //}
-
-
-    #endregion
 
 
 }
