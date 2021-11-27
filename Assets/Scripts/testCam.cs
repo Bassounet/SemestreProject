@@ -51,9 +51,31 @@ public class testCam : MonoBehaviour
     void Update()
     {
 
+
+        // ------------------------------ DEBUG ----------------------- // 
+
+        if (Input.GetKeyDown("space"))
+        {
+
+            Debug.Log("Its Space");
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+
+            Debug.Log("Test_Clear");
+            ClearObjectPic();            
+
+        }
+
+        // ------------------------------ DEBUG ----------------------- // 
+
+
+
         // TEST DE GIVE DU PREMIER ELEMENT 
 
-        
+
 
         if (Input.touchCount == 0)
         {
@@ -249,10 +271,11 @@ public class testCam : MonoBehaviour
             {
                 Debug.Log("It's In ");
                 var TargetItemScript = hit.transform.gameObject.GetComponent<item>();
+                ObjectCollected.sprite = TargetItemScript.TheItem.logo;
                 //inventory.AddItem(TargetItemScript.TheItem, 1); // ancien système d'inventaire                 
                 //hit.transform.gameObject.SetActive(false);
                 //ObjectCollected.gameObject.SetActive(true);
-                //ObjectCollected.sprite = TargetItemScript.TheItem.logo;               
+
 
             }
 
@@ -272,6 +295,15 @@ public class testCam : MonoBehaviour
 
 
     //  --------------------------- FONCTION DE CLEAR ON APPLICATION QUIT -------------------
+    
+    //  --------------------------- FONCTION DE CLEAN -------------------
+
+    public void ClearObjectPic()
+    {
+
+        ObjectCollected.sprite = null;
+
+    }
 
 
 
