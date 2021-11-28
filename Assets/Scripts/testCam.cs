@@ -16,6 +16,10 @@ public class testCam : MonoBehaviour
     [SerializeField] Image HippocrateClue;
     [SerializeField] Button QuitBtn;
     [SerializeField] Image ObjectCollected;
+
+    [SerializeField] GameObject Potion;
+
+
     
 
 
@@ -35,7 +39,7 @@ public class testCam : MonoBehaviour
     bool camMoving;
     Vector3 endPosition;
     private Vector3 dragOrigin;
-
+    
     public bool inMenu; // ce bool permet de figer la caméra A UTILISER AVEC PRUDENCE 
     int shoot = 0; // pour ne tirer qu'un seul raycast
 
@@ -44,7 +48,7 @@ public class testCam : MonoBehaviour
     {
 
         camMoving = false;
-        
+
     }
 
 
@@ -52,42 +56,37 @@ public class testCam : MonoBehaviour
     {
 
 
-        // ------------------------------ DEBUG ----------------------- // 
-
-        if (Input.GetKeyDown("space"))
-        {
-
-            Debug.Log("Its Space");
-
-        }
-
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-
-            Debug.Log("Test_Clear");
-            ClearObjectPic();            
-
-        }
 
         // ------------------------------ DEBUG ----------------------- // 
 
+        // ------------------------------ DEBUG ----------------------- // 
 
+        whatIsItAgain();
 
-        // TEST DE GIVE DU PREMIER ELEMENT 
+        if (ObjectCollected.GetComponent<displaceTheItem>().HoldingItem)
+        {
 
+            camMoving = false;
 
+        }
+        //else
+        //{
 
-        if (Input.touchCount == 0)
+        //    camMoving = true;
+
+        //}
+
+        if (Input.touchCount == 0) // zone arrêt raycast
         {
 
             shoot = 0;
 
         }
 
-        if (Input.touchCount > 0 && shoot == 0 )
+        if (Input.touchCount > 0 && shoot == 0 ) // fonction lancment de collect quand on appuie 
+
         {
            
-            whatIsIt();
             Collect();
 
         }
@@ -175,39 +174,30 @@ public class testCam : MonoBehaviour
     // ---------------------------- FONCTION DE SHOW OBJECT FIN ----------------------
 
 
-    // ---------------------------- FONCTION DE KECECE ?  ----------------------
+    // ---------------------------- FONCTION DE KECECE ?  ----------------------rf
 
-
-    public void whatIsIt() 
+    
+    public void whatIsItAgain() 
     {
 
-        Touch touch = Input.GetTouch(0);
+        
         RaycastHit hit;
-        Ray ray = mainCam.ScreenPointToRay(touch.position);
+        Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out hit))
         {
-
-            Debug.DrawRay(transform.position, hit.point);
-            
-
-            if (hit.transform.gameObject.CompareTag("Hippocrate"))
+            if (hit.transform.gameObject.CompareTag("Hippocrate") && ObjectCollected.GetComponent<displaceTheItem>().HoldingItem)
             {
-
-                itsH = true;
+                camMoving = false;
+                ObjectCollected.GetComponent<Image>().sprite = null;
+                Debug.Log("La tu gives et c bon enfait ");
 
             }
-            else
-            {
-
-                itsH = false;
-
-            }
+                       
             
         }        
 
     }
-
 
 
     // ---------------------------- FONCTION DE KECECE ? FIN  ----------------------
@@ -235,6 +225,7 @@ public class testCam : MonoBehaviour
     }
 
     // ---------------------------- FONCTION APPEL HIPPOCRATE  ----------------------
+
 
     //  --------------------------- Fonction du bouton quit du dialogue -------------------
 
@@ -272,10 +263,15 @@ public class testCam : MonoBehaviour
                 Debug.Log("It's In ");
                 var TargetItemScript = hit.transform.gameObject.GetComponent<item>();
                 ObjectCollected.sprite = TargetItemScript.TheItem.logo;
-                //inventory.AddItem(TargetItemScript.TheItem, 1); // ancien système d'inventaire                 
-                //hit.transform.gameObject.SetActive(false);
-                //ObjectCollected.gameObject.SetActive(true);
 
+                if (ObjectCollected.GetComponent<displaceTheItem>().HoldingItem)
+                {
+
+                    Debug.Log("Now Its OK");
+
+                }
+                
+            
 
             }
 
@@ -295,8 +291,9 @@ public class testCam : MonoBehaviour
 
 
     //  --------------------------- FONCTION DE CLEAR ON APPLICATION QUIT -------------------
+
     
-    //  --------------------------- FONCTION DE CLEAN -------------------
+    //  --------------------------- FONCTION DE CLEAN PIC -------------------
 
     public void ClearObjectPic()
     {
@@ -304,6 +301,9 @@ public class testCam : MonoBehaviour
         ObjectCollected.sprite = null;
 
     }
+
+
+    //  --------------------------- FONCTION DE CLEAN PIC -------------------
 
 
 

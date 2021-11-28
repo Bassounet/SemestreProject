@@ -8,45 +8,19 @@ public class displaceTheItem : MonoBehaviour, IPointerDownHandler, IBeginDragHan
 {
 
     Vector2 BasePos;
-    public bool ItsH;
+    public bool HoldingItem;
     
 
     private void Start()
     {
         BasePos = transform.position;
-        ItsH = false;
+        
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
 
-        Debug.Log("Gatcha");
-
-        Touch fire = Input.GetTouch(0);
-        //RaycastHit toucheur;
-        Ray rayon = Camera.current.ScreenPointToRay(fire.position);
-
-        //if (Physics.Raycast(rayon, out toucheur))
-        //{
-
-        //    Debug.DrawRay(transform.position, toucheur.point);
-
-
-        //    if (toucheur.transform.gameObject.CompareTag("Hippocrate"))
-        //    {
-
-        //        ItsH = true;
-
-        //    }
-        //    else
-        //    {
-
-        //        ItsH = false;
-
-        //    }
-
-        //}
-
+        Debug.Log("Gatcha");       
 
 
     }
@@ -55,21 +29,8 @@ public class displaceTheItem : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     {       
 
         Debug.Log("End Drag");
-        if ( !ItsH)
-        {
-
-            transform.position = BasePos;
-
-        }
-
-        if (ItsH)
-        {
-
-            transform.position = BasePos;
-            Debug.Log("C'est H");
-
-        }
-        
+        transform.position = BasePos;
+        HoldingItem = false;
 
     }
     
@@ -85,8 +46,7 @@ public class displaceTheItem : MonoBehaviour, IPointerDownHandler, IBeginDragHan
         
         transform.position = Input.mousePosition;
         Debug.Log("Ca drag");
-
-        
+        HoldingItem = true;
 
     }
 
