@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class item : MonoBehaviour
 {
-    public ItemsObjects TheItem;
+    
     public int itemIndex;
+    public Sprite picto;
+    public string SentenceH;
+
 }
