@@ -188,9 +188,21 @@ public class testCam : MonoBehaviour
         {
             if (hit.transform.gameObject.CompareTag("Hippocrate") && ObjectCollected.GetComponent<displaceTheItem>().HoldingItem)
             {
-                camMoving = false;
+                //camMoving = false;
                 ObjectCollected.GetComponent<Image>().sprite = null;
                 Debug.Log("La tu gives et c bon enfait ");
+              if (ObjectCollected.GetComponent<displaceTheItem>().itemIndex == 0)
+                {
+                    Debug.Log("ca c'est la popo");
+                }
+                if (ObjectCollected.GetComponent<displaceTheItem>().itemIndex == 1)
+                {
+                    Debug.Log("ca c'est la scalpel et tou");
+                  }
+                if (ObjectCollected.GetComponent<displaceTheItem>().itemIndex == 2)
+                {
+                    Debug.Log("cadenas tu connais");
+                }
 
             }
                        
@@ -263,7 +275,7 @@ public class testCam : MonoBehaviour
                 Debug.Log("It's In ");
                 var TargetItemScript = hit.transform.gameObject.GetComponent<item>();
                 ObjectCollected.sprite = TargetItemScript.TheItem.logo;
-
+                ObjectCollected.GetComponent<displaceTheItem>().itemIndex = TargetItemScript.GetComponent<item>().itemIndex;
                 if (ObjectCollected.GetComponent<displaceTheItem>().HoldingItem)
                 {
 

@@ -5380,12 +5380,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 2050187709}
   - {fileID: 453447641}
   - {fileID: 950110951}
   - {fileID: 1079683083}
   - {fileID: 1096117949}
   - {fileID: 373850902}
-  - {fileID: 2050187709}
   - {fileID: 341672129}
   m_Father: {fileID: 0}
   m_RootOrder: 6
@@ -9380,7 +9380,7 @@ RectTransform:
   - {fileID: 726723512}
   - {fileID: 1120746330}
   m_Father: {fileID: 189111282}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -10943,7 +10943,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 189111282}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -17504,7 +17504,7 @@ RectTransform:
   m_GameObject: {fileID: 767309419}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.86, y: 0.86, z: 0.86}
+  m_LocalScale: {x: 0.6952068, y: 0.6952068, z: 0.6952068}
   m_Children: []
   m_Father: {fileID: 2050187709}
   m_RootOrder: 0
@@ -17527,7 +17527,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -17564,7 +17564,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e95508119da3a4c4bb8b59525208bc85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItsH: 0
+  HoldingItem: 0
+  itemIndex: 0
 --- !u!1 &768893753
 GameObject:
   m_ObjectHideFlags: 0
@@ -21547,7 +21548,7 @@ RectTransform:
   m_Children:
   - {fileID: 568283032}
   m_Father: {fileID: 189111282}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -21752,6 +21753,7 @@ MonoBehaviour:
   HippocrateClue: {fileID: 373850903}
   QuitBtn: {fileID: 1120746332}
   ObjectCollected: {fileID: 767309421}
+  Potion: {fileID: 0}
   mainCam: {fileID: 963194227}
   distanceMaxForGrab: 8.4
   dragSpeed: 12.22
@@ -25540,7 +25542,7 @@ RectTransform:
   m_Children:
   - {fileID: 2099788392}
   m_Father: {fileID: 189111282}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -25671,7 +25673,7 @@ RectTransform:
   m_LocalScale: {x: 29.600267, y: 14.36, z: 14.36}
   m_Children: []
   m_Father: {fileID: 189111282}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -29860,6 +29862,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TheItem: {fileID: 11400000, guid: 60958d3b4d88b4a4187d928a15d0257a, type: 2}
+  itemIndex: 1
 --- !u!1 &1221732314
 GameObject:
   m_ObjectHideFlags: 0
@@ -36247,7 +36250,7 @@ BoxCollider:
   m_GameObject: {fileID: 1538122178}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -36333,6 +36336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TheItem: {fileID: 11400000, guid: c9e84896d21ed1642baf8503aae08051, type: 2}
+  itemIndex: 0
 --- !u!1 &1538297174
 GameObject:
   m_ObjectHideFlags: 0
@@ -41223,6 +41227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TheItem: {fileID: 11400000, guid: a317cf19e25a69a49b913df4690a44d9, type: 2}
+  itemIndex: 2
 --- !u!108 &1794737106
 Light:
   m_ObjectHideFlags: 0
@@ -48830,7 +48835,7 @@ RectTransform:
   m_Children:
   - {fileID: 767309420}
   m_Father: {fileID: 189111282}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
