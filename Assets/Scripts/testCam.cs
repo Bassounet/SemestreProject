@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class testCam : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class testCam : MonoBehaviour
     [SerializeField] Button QuitBtn;
     [SerializeField] Image ObjectCollected;
     [SerializeField] Text HippocrateSentence;
+    [SerializeField] Button InspectButton;
 
 
     [Header("This IsGame Object")]
@@ -208,6 +210,13 @@ public class testCam : MonoBehaviour
 
             }
 
+            if (hit.transform.gameObject.CompareTag("CADENAS"))
+            {
+
+                InspectButton.gameObject.SetActive(true);
+
+            }
+
 
         }
 
@@ -286,10 +295,41 @@ public class testCam : MonoBehaviour
             }
         }
     }
-}
 
     //  --------------------------- FONCTION DE COLLECTE-------------------
-    
+
+
+    //  --------------------------- FONCTION DE CADENAS APPEAR-------------------
+
+
+    public void Cadenas()
+    {
+
+        InspectButton.gameObject.SetActive(false);
+        StartCoroutine("WaitBeforeCadenas");              
+
+    }
+
+    IEnumerator WaitBeforeCadenas()
+    {
+
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene("Cadenas");
+
+    }
+
+
+
+
+    //  --------------------------- FONCTION DE CADENAS APPEAR-------------------
+
+
+
+
+}
+
+
+
 
 
 
