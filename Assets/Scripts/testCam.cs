@@ -19,6 +19,7 @@ public class testCam : MonoBehaviour
     [SerializeField] Image ObjectCollected;
     [SerializeField] Text HippocrateSentence;
     [SerializeField] Button InspectButton;
+    [SerializeField] GameObject Player;
 
 
     [Header("This IsGame Object")]
@@ -38,8 +39,12 @@ public class testCam : MonoBehaviour
     Vector3 endPosition;
     private Vector3 dragOrigin;
 
+    private bool hasTP;
+
     public bool inMenu; // ce bool permet de figer la caméra A UTILISER AVEC PRUDENCE 
     int shoot = 0; // pour ne tirer qu'un seul raycast
+
+    Transform TargetForTp;
 
 
     void Start()
@@ -81,6 +86,9 @@ public class testCam : MonoBehaviour
         {
 
             Collect();
+            ShootTP();
+
+
 
         }
 
@@ -301,7 +309,6 @@ public class testCam : MonoBehaviour
 
     //  --------------------------- FONCTION DE CADENAS APPEAR-------------------
 
-
     public void Cadenas()
     {
 
@@ -318,10 +325,33 @@ public class testCam : MonoBehaviour
 
     }
 
-
-
-
     //  --------------------------- FONCTION DE CADENAS APPEAR-------------------
+
+    //  --------------------------- FONCTION SHOOT TP -------------------
+
+    public void ShootTP()
+    {
+
+        Touch touch = Input.GetTouch(0);
+        RaycastHit hit;
+        Ray ray = mainCam.ScreenPointToRay(touch.position);
+
+
+        if (Physics.Raycast(ray, out hit))
+        {
+
+            if (hit.transform.gameObject.CompareTag("TP") && !hasTP)
+            {
+                TargetForTp = hit.transform.gameObject.GetComponent<TP>().TargetZone.transform;
+                Player.transform.position = TargetForTp.position;
+
+            }
+
+        }
+
+    }
+
+    //  --------------------------- FONCTION SHOOT TP -------------------
 
 
 

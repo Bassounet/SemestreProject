@@ -8,6 +8,7 @@ TagManager:
   - Slots
   - Hippocrate
   - CADENAS
+  - TP
   layers:
   - Default
   - TransparentFX
