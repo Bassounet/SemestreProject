@@ -88,8 +88,6 @@ public class testCam : MonoBehaviour
             Collect();
             ShootTP();
 
-
-
         }
 
 
@@ -120,12 +118,14 @@ public class testCam : MonoBehaviour
         if (!Input.GetMouseButton(0)) return;
 
         Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
-        Vector3 move = new Vector3(pos.x * -dragSpeed, 0);
+        Vector3 movex = new Vector3(pos.x * -dragSpeed, 0);
+        Vector3 movey = new Vector3(0,0, pos.y * -dragSpeed);
 
         if (camMoving && !inMenu)
         {
 
-            transform.Translate(move, Space.World);
+            transform.Translate(movex, Space.Self); // passer en world au besoin pour changer le point de ref // .world si effet rail.
+            transform.Translate(movey, Space.Self);
 
 
         }
