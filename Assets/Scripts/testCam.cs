@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Cinemachine;
 
 public class testCam : MonoBehaviour
 {
@@ -20,7 +21,10 @@ public class testCam : MonoBehaviour
     [SerializeField] Text HippocrateSentence;
     [SerializeField] Button InspectButton;
     [SerializeField] GameObject Player;
+    [SerializeField] CinemachineVirtualCamera VirtualCam;
 
+    [SerializeField]
+    [Range(0, 1)] float pathCam;
 
     [Header("This IsGame Object")]
     [Tooltip(" ** DEV_ZONE ** Rentrez ici les games Objects dont vous avez besoins")]
@@ -32,6 +36,7 @@ public class testCam : MonoBehaviour
 
 
     public float dragSpeed = 2;
+    //public CinemachinePathBase pathbase;
 
 
     public bool itsH;
@@ -51,13 +56,16 @@ public class testCam : MonoBehaviour
     {
 
         camMoving = false;
-
+        
     }
 
 
     void Update()
     {
 
+        VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = pathCam;
+        //Camera.current.GetComponentInChildren<CinemachineTrackedDolly>().m_PathPosition = pathCam;
+        //mainCam.GetComponent<CinemachineTrackedDolly>().m_PathPosition = pathCam;
 
 
         // ------------------------------ DEBUG ----------------------- // 
@@ -117,20 +125,17 @@ public class testCam : MonoBehaviour
 
         if (!Input.GetMouseButton(0)) return;
 
-        Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
-        Vector3 movex = new Vector3(pos.x * -dragSpeed, 0);
-        Vector3 movey = new Vector3(0,0, pos.y * -dragSpeed);
+        //Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
+        //Vector3 movex = new Vector3(pos.x * -dragSpeed, 0);
+        //Vector3 movey = new Vector3(0,0, pos.y * -dragSpeed);
 
         if (camMoving && !inMenu)
         {
 
-            transform.Translate(movex, Space.Self); // passer en world au besoin pour changer le point de ref // .world si effet rail.
-            transform.Translate(movey, Space.Self);
-
+            //transform.Translate(movex, Space.Self); // passer en world au besoin pour changer le point de ref // .world si effet rail.
+            //transform.Translate(movey, Space.Self);
 
         }
-
-
 
         if (Input.mousePosition != endPosition)
         {
