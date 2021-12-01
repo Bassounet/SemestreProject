@@ -24,7 +24,7 @@ public class testCam : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera VirtualCam;
 
     [SerializeField]
-    [Range(0, 1)] float pathCam;
+    [Range(0, 10)] float pathCam;
 
     [Header("This IsGame Object")]
     [Tooltip(" ** DEV_ZONE ** Rentrez ici les games Objects dont vous avez besoins")]
@@ -36,8 +36,7 @@ public class testCam : MonoBehaviour
 
 
     public float dragSpeed = 2;
-    //public CinemachinePathBase pathbase;
-
+   
 
     public bool itsH;
     bool camMoving;
