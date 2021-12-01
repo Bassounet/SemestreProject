@@ -23,6 +23,7 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject Player;
     [SerializeField] CinemachineVirtualCamera VirtualCamHall;
     [SerializeField] CinemachineVirtualCamera VirtualCamPortrait;
+    
 
     [SerializeField]
     [Range(0, 10)] public float pathCam;
@@ -51,8 +52,10 @@ public class testCam : MonoBehaviour
 
     Transform TargetForTp;
 
-    public bool inHall, inLabo, inPortrait;
-
+    [Header("POSITION > SPACEWORLD")]
+    public bool inHall ;
+    public bool inLabo ;
+    public bool inPortrait ;
 
     void Start()
     {
@@ -68,12 +71,12 @@ public class testCam : MonoBehaviour
         if (inHall)
         {
 
-            VirtualCamHall.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = pathCam;
+            //VirtualCamHall.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = pathCam;
 
         } else
         {
 
-            VirtualCamPortrait.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = pathCam;
+            //VirtualCamPortrait.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = pathCam;
 
         }
         
@@ -114,9 +117,7 @@ public class testCam : MonoBehaviour
 
 
 
-        // ------------------------------ // CAM CONTROLLER DE SES MORTS // ------------------------------ // 
-
-
+        // ------------------------------ // CAM CONTROLLER DE SES MORTS // ------------------------------ //
 
 
         if (Input.GetMouseButtonDown(0))
@@ -137,12 +138,25 @@ public class testCam : MonoBehaviour
         if (!Input.GetMouseButton(0)) return;
 
         //Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
+        Vector3 pos = mainCam.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
         //Vector3 movex = new Vector3(pos.x * -dragSpeed, 0);
-        //Vector3 movey = new Vector3(0,0, pos.y * -dragSpeed);
+
+        ////Vector3 movey = new Vector3(0,0, pos.y * -dragSpeed);
 
         if (camMoving && !inMenu)
         {
+            if (inHall)
+            {
 
+                VirtualCamHall.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition += pos.x * -dragSpeed;
+
+            }else if (inPortrait)
+            {
+
+                VirtualCamPortrait.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition += pos.x * -dragSpeed;
+
+            }
+            
             //transform.Translate(movex, Space.Self); // passer en world au besoin pour changer le point de ref // .world si effet rail.
             //transform.Translate(movey, Space.Self);
 

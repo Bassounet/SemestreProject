@@ -39,6 +39,7 @@ public class detectPorteHallPortrait : MonoBehaviour
         CamToDisable.gameObject.SetActive(false);
         GoToPortrait.gameObject.SetActive(false);        
         ScriptTestCam.gameObject.GetComponent<testCam>().inHall =! ScriptTestCam.gameObject.GetComponent<testCam>().inHall;
+        ScriptTestCam.gameObject.GetComponent<testCam>().inPortrait = !ScriptTestCam.gameObject.GetComponent<testCam>().inPortrait;
 
         if (!ScriptTestCam.gameObject.GetComponent<testCam>().inHall)
         {
