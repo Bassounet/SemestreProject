@@ -21,10 +21,11 @@ public class testCam : MonoBehaviour
     [SerializeField] Text HippocrateSentence;
     [SerializeField] Button InspectButton;
     [SerializeField] GameObject Player;
-    [SerializeField] CinemachineVirtualCamera VirtualCam;
+    [SerializeField] CinemachineVirtualCamera VirtualCamHall;
+    [SerializeField] CinemachineVirtualCamera VirtualCamPortrait;
 
     [SerializeField]
-    [Range(0, 10)] float pathCam;
+    [Range(0, 10)] public float pathCam;
 
     [Header("This IsGame Object")]
     [Tooltip(" ** DEV_ZONE ** Rentrez ici les games Objects dont vous avez besoins")]
@@ -50,21 +51,32 @@ public class testCam : MonoBehaviour
 
     Transform TargetForTp;
 
+    public bool inHall, inLabo, inPortrait;
+
 
     void Start()
     {
 
         camMoving = false;
+        inHall = true;
         
     }
 
 
     void Update()
     {
+        if (inHall)
+        {
 
-        VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = pathCam;
-        //Camera.current.GetComponentInChildren<CinemachineTrackedDolly>().m_PathPosition = pathCam;
-        //mainCam.GetComponent<CinemachineTrackedDolly>().m_PathPosition = pathCam;
+            VirtualCamHall.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = pathCam;
+
+        } else
+        {
+
+            VirtualCamPortrait.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = pathCam;
+
+        }
+        
 
 
         // ------------------------------ DEBUG ----------------------- // 
