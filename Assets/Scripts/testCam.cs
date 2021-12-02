@@ -23,7 +23,11 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject Player;
     [SerializeField] CinemachineVirtualCamera VirtualCamHall;
     [SerializeField] CinemachineVirtualCamera VirtualCamPortrait;
-    
+    [SerializeField] CinemachineVirtualCamera VirtualCamVestiaire;
+    [SerializeField] GameObject dollyHall;
+    [SerializeField] GameObject dollyPortrait;
+    [SerializeField] GameObject dollyVestiaire;
+
 
     [SerializeField]
     [Range(0, 10)] public float pathCam;
@@ -35,6 +39,12 @@ public class testCam : MonoBehaviour
     [Header(" INTERACTABLE ZONE ")]
     [Tooltip(" ** ALL_ZONE ** Ici réglez tous les éléments d'interaction ")]
     public float distanceMaxForGrab;
+
+    [Header(" LOOK AT ")]
+    [SerializeField] GameObject targetvestiaire;
+    [SerializeField] GameObject targetHall;
+    [SerializeField] GameObject targetDoorPortrait;
+
 
 
     public float dragSpeed = 2;
@@ -55,7 +65,10 @@ public class testCam : MonoBehaviour
     [Header("POSITION > SPACEWORLD")]
     public bool inHall ;
     public bool inLabo ;
+    public bool inVestiaire;
     public bool inPortrait ;
+
+    private CinemachineVirtualCamera actualCam;
 
     void Start()
     {
@@ -68,25 +81,37 @@ public class testCam : MonoBehaviour
 
     void Update()
     {
+
+
+        // ------------------------------ DEBUG ----------------------- // 
+
+        // ------------------------------ DEBUG ----------------------- // 
+
+
         if (inHall)
         {
 
-            //VirtualCamHall.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = pathCam;
-
-        } else
-        {
-
-            //VirtualCamPortrait.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = pathCam;
+            actualCam = VirtualCamHall;
 
         }
-        
 
+        if (inPortrait)
+        {
 
-        // ------------------------------ DEBUG ----------------------- // 
+            actualCam = VirtualCamPortrait;
 
-        // ------------------------------ DEBUG ----------------------- // 
+        }
+
+        if (inVestiaire)
+        {
+
+            actualCam = VirtualCamVestiaire;
+
+        }
+
 
         whatIsItAgain();
+
 
         if (ObjectCollected.GetComponent<displaceTheItem>().HoldingItem)
         {
@@ -94,7 +119,6 @@ public class testCam : MonoBehaviour
             camMoving = false;
 
         }
-
 
         if (Input.touchCount == 0) // zone arrêt raycast
         {
@@ -113,11 +137,7 @@ public class testCam : MonoBehaviour
         }
 
 
-        #region ControlCam
-
-
-
-        // ------------------------------ // CAM CONTROLLER DE SES MORTS // ------------------------------ //
+        #region ControlCam       
 
 
         if (Input.GetMouseButtonDown(0))
@@ -148,12 +168,22 @@ public class testCam : MonoBehaviour
             if (inHall)
             {
 
-                VirtualCamHall.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition += pos.x * -dragSpeed;
+                MakePositionCam(VirtualCamHall, pos);
+                DontPathOverTheMax(VirtualCamHall, dollyHall);
 
-            }else if (inPortrait)
+            }
+            else if (inPortrait)
             {
 
-                VirtualCamPortrait.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition += pos.x * -dragSpeed;
+                MakePositionCam(VirtualCamPortrait, pos);
+                DontPathOverTheMax(VirtualCamPortrait, dollyPortrait);
+
+            }
+            else if (inVestiaire)
+            {
+
+                MakePositionCam(VirtualCamVestiaire, pos);
+                DontPathOverTheMax(VirtualCamVestiaire, dollyVestiaire);
 
             }
             
@@ -173,24 +203,9 @@ public class testCam : MonoBehaviour
 
             camMoving = false;
         }
-
-
-
-
-        // **************************** ///////////////////// DEV ZONE ////////////////// ************************** //
-
-
-        // ------------------------------ // CAM CONTROLLER DE SES MORTS FIN // ------------------------------ // 
-
-
-
-
-
     }
 
     #endregion
-
-
 
     // ---------------------------- FONCTION DE SHOW OBJECT ----------------------
 
@@ -382,6 +397,75 @@ public class testCam : MonoBehaviour
     }
 
     //  --------------------------- FONCTION SHOOT TP -------------------
+
+    // ---------------------------- LOOK AT ------------------------
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("PorteVestiaire"))
+        {
+            Debug.Log("Its Vestiaire");
+            VirtualCamHall.LookAt.SetPositionAndRotation(targetvestiaire.transform.position, Quaternion.identity);
+
+        }
+
+        if (other.gameObject.CompareTag("PortePortrait"))
+        {
+
+            VirtualCamHall.LookAt.SetPositionAndRotation(targetDoorPortrait.transform.position, Quaternion.identity);
+
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("PorteVestiaire") || other.gameObject.CompareTag("PortePortrait"))
+        {
+
+            VirtualCamHall.LookAt.SetPositionAndRotation(targetHall.transform.position, Quaternion.identity);
+
+        }
+    }
+
+
+    // ---------------------------- LOOK AT ------------------------
+
+    // ---------------------------- DON'T Pass over the max Path -------------------------
+
+    public void DontPathOverTheMax(CinemachineVirtualCamera VirtualCam, GameObject DollyCam)
+    {
+
+        if (VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition > DollyCam.GetComponent<CinemachineSmoothPath>().MaxPos) 
+        {
+
+            VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = DollyCam.GetComponent<CinemachineSmoothPath>().MaxPos;
+
+        }
+
+        if (VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition <= DollyCam.GetComponent<CinemachineSmoothPath>().MinPos)
+        {
+
+            VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = DollyCam.GetComponent<CinemachineSmoothPath>().MinPos;
+
+        }
+
+    }
+
+
+    // ---------------------------- DON'T Pass over the max Path -------------------------
+
+    // ---------------------------- MOVE THE CAM -------------------------
+
+    public void MakePositionCam(CinemachineVirtualCamera VirtualCam, Vector3 pos)
+    {
+
+        VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition += pos.x * -dragSpeed;
+
+    }
+
+    // ---------------------------- MOVE THE CAM -------------------------
+
+
 
 
 

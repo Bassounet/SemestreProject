@@ -14,6 +14,7 @@ public class cadenas : MonoBehaviour
   
     void Update()
     {
+
         #region DON'T MESS WITH NB
 
         if (currentIndexC1 > 9 )
@@ -75,6 +76,7 @@ public class cadenas : MonoBehaviour
         #endregion
 
         currentCode = currentIndexC1.ToString() + currentIndexC2.ToString() + currentIndexC3.ToString() + currentIndexC4.ToString();
+
     }
 
     public void turnRight(GameObject cellule)

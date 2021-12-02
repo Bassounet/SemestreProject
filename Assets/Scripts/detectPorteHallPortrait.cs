@@ -13,10 +13,14 @@ public class detectPorteHallPortrait : MonoBehaviour
 
     bool inActualHall;
 
+    public bool GoToVestiaire;
+    public bool ThePortraix;
+    public bool ToThehall;
+
     private void Start()
     {
 
-        inActualHall = ScriptTestCam.gameObject.GetComponent<testCam>().inHall;
+        //inActualHall = ScriptTestCam.gameObject.GetComponent<testCam>().inHall;
 
     }
 
@@ -32,28 +36,38 @@ public class detectPorteHallPortrait : MonoBehaviour
 
     }
 
-    public void f_GoToPortrait()
+    public void f_GoTo()
     {
 
         CamToEnable.gameObject.SetActive(true);
         CamToDisable.gameObject.SetActive(false);
         GoToPortrait.gameObject.SetActive(false);        
         ScriptTestCam.gameObject.GetComponent<testCam>().inHall =! ScriptTestCam.gameObject.GetComponent<testCam>().inHall;
-        ScriptTestCam.gameObject.GetComponent<testCam>().inPortrait = !ScriptTestCam.gameObject.GetComponent<testCam>().inPortrait;
+        
 
-        if (!ScriptTestCam.gameObject.GetComponent<testCam>().inHall)
+        if (GoToVestiaire)
         {
 
-            ScriptTestCam.GetComponent<testCam>().pathCam = 0f;
+            Debug.Log("GoToVestiaire");
+            ScriptTestCam.gameObject.GetComponent<testCam>().inVestiaire = true;
 
         }
-        else
+        if (ThePortraix)
         {
 
-            ScriptTestCam.GetComponent<testCam>().pathCam = 3.76f;
+            ScriptTestCam.gameObject.GetComponent<testCam>().inPortrait = true;
 
         }
 
+        if (ToThehall)
+        {
+
+            ScriptTestCam.gameObject.GetComponent<testCam>().inPortrait = false;
+            ScriptTestCam.gameObject.GetComponent<testCam>().inVestiaire = false;
+
+        }
+
+     
     }
 
     private void OnTriggerExit(Collider other)

@@ -9,6 +9,9 @@ TagManager:
   - Hippocrate
   - CADENAS
   - TP
+  - Porte
+  - PorteVestiaire
+  - PortePortrait
   layers:
   - Default
   - TransparentFX
