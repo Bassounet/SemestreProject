@@ -13,6 +13,7 @@ TagManager:
   - PorteVestiaire
   - PortePortrait
   - TableauLapeyronie
+  - CLEF
   layers:
   - Default
   - TransparentFX
