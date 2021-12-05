@@ -21,7 +21,9 @@ public class testCam : MonoBehaviour
     [SerializeField] Image ObjectCollected;
     [SerializeField] Text HippocrateSentence;
     [SerializeField] Button InspectButton;
-    [SerializeField] GameObject Player;
+    [SerializeField] Text WhatUGot;
+    
+    [Header("VIRTUAL_CAM")]
     [SerializeField] CinemachineVirtualCamera VirtualCamHall;
     [SerializeField] CinemachineVirtualCamera VirtualCamPortrait;
     [SerializeField] CinemachineVirtualCamera VirtualCamVestiaire;
@@ -30,14 +32,6 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject dollyPortrait;
     [SerializeField] GameObject dollyVestiaire;
     [SerializeField] GameObject dollyBibli;
-
-    [Header("This IsGame Object")]
-    [Tooltip(" ** DEV_ZONE ** Rentrez ici les games Objects dont vous avez besoins")]
-    [SerializeField] Camera mainCam;
-
-    [Header(" INTERACTABLE ZONE ")]
-    [Tooltip(" ** ALL_ZONE ** Ici réglez tous les éléments d'interaction ")]
-    public float distanceMaxForGrab;
 
     [Header(" LOOK AT ")]
     [SerializeField] GameObject targetvestiaire;
@@ -48,11 +42,15 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject TargetPortrait;
     [SerializeField] GameObject TargetPortraitRest;
 
+    [Header("This IsGame Object")]
+    [Tooltip(" ** DEV_ZONE ** Rentrez ici les games Objects dont vous avez besoins")]
+    [SerializeField] Camera mainCam;
+    [SerializeField] GameObject Player;
 
 
-
-
-
+    [Header(" INTERACTABLE ZONE ")]
+    [Tooltip(" ** ALL_ZONE ** Ici réglez tous les éléments d'interaction ")]
+    public float distanceMaxForGrab;
     public float dragSpeed = 2;
    
 
@@ -75,6 +73,12 @@ public class testCam : MonoBehaviour
     public bool inPortrait ;
     public bool inBibli;
 
+
+    [Header("KEY ACCESS")]
+    public bool AccesVestiaire;
+    public bool AccessBibli;
+    public bool AccessLabo;
+
     public bool PremierInteract; 
 
     private CinemachineVirtualCamera actualCam;
@@ -92,11 +96,9 @@ public class testCam : MonoBehaviour
     void Update()
     {
 
-
         // ------------------------------ DEBUG ----------------------- // 
 
         // ------------------------------ DEBUG ----------------------- // 
-
 
         whatIsItAgain();
 
@@ -122,6 +124,7 @@ public class testCam : MonoBehaviour
             Collect();
             ShootTP();
             ShootTableaux();
+            ShootClefs();
             Debug.Log("Shoot");
 
         }
@@ -146,12 +149,12 @@ public class testCam : MonoBehaviour
         }
 
         if (!Input.GetMouseButton(0)) return;
-
-        //Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
+        
         Vector3 pos = mainCam.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
-        //Vector3 movex = new Vector3(pos.x * -dragSpeed, 0);
 
-        ////Vector3 movey = new Vector3(0,0, pos.y * -dragSpeed);
+
+        #region Where Are We ?
+        
 
         if (camMoving && !inMenu)
         {
@@ -192,6 +195,8 @@ public class testCam : MonoBehaviour
 
         }
 
+        #endregion
+
         if (Input.mousePosition != endPosition)
         {
             endPosition = Input.mousePosition;
@@ -208,6 +213,10 @@ public class testCam : MonoBehaviour
 
         //transform.Translate(movex, Space.Self); // passer en world au besoin pour changer le point de ref // .world si effet rail.
         //transform.Translate(movey, Space.Self);
+
+        //Vector3 movex = new Vector3(pos.x * -dragSpeed, 0);
+        ////Vector3 movey = new Vector3(0,0, pos.y * -dragSpeed);
+        /////Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
 
 
         //float positionsurlerail = currentPos / maxPos;
@@ -400,11 +409,10 @@ public class testCam : MonoBehaviour
 
             if (hit.transform.gameObject.CompareTag("TP") )
             {
+
                 Debug.Log("GoTiLib");
                 BoutonToBibli.gameObject.SetActive(true);
-                //TargetForTp = hit.transform.gameObject.GetComponent<TP>().TargetZone.transform;
-                //Player.transform.position = TargetForTp.position;
-
+                
             }
 
         }
@@ -412,6 +420,57 @@ public class testCam : MonoBehaviour
     }
 
     //  --------------------------- FONCTION SHOOT TP -------------------
+
+    //  --------------------------- FONCTION SHOOT CLEF -------------------
+
+    public void ShootClefs()
+    {
+
+        Touch touch = Input.GetTouch(0);
+        RaycastHit hit;
+        Ray ray = mainCam.ScreenPointToRay(touch.position);        
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.transform.gameObject.CompareTag("CLEF"))
+            {
+                if (hit.transform.GetComponent<Clef>().KeyVestaire)
+                {
+
+                    AccesVestiaire = true;
+                    var textUI = hit.transform.GetComponent<Clef>().WhatUGat;
+                    Debug.Log("Its a Key Vestiaire");
+                    WhatUGot.text = textUI;
+                    WhatUGot.gameObject.SetActive(true);
+
+                }
+
+                if (hit.transform.GetComponent<Clef>().KeyBibli)
+                {
+
+                    AccessBibli = true;
+                    var textUI = hit.transform.GetComponent<Clef>().WhatUGat;
+                    Debug.Log("Its a Key Bibli");
+                    WhatUGot.text = textUI;
+                    WhatUGot.gameObject.SetActive(true);
+
+                }
+
+                if (hit.transform.GetComponent<Clef>().KeyLabo)
+                {
+
+                    AccessLabo = true;
+                    var textUI = hit.transform.GetComponent<Clef>().WhatUGat;
+                    Debug.Log("Its a Key Bibli");
+                    WhatUGot.text = textUI;
+                    WhatUGot.gameObject.SetActive(true);
+
+                }
+            }
+        }
+    }
+
+    //  --------------------------- FONCTION SHOOT CLEF FIN -------------------
 
     //  --------------------------- FONCTION SHOOT Tableaux -------------------
 
@@ -521,11 +580,6 @@ public class testCam : MonoBehaviour
     }
 
     // ---------------------------- MOVE THE CAM -------------------------
-
-
-
-
-
 
 }
 

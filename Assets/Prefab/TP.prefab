@@ -297,7 +297,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9084905110401268940}
-  - component: {fileID: 3843568654562169795}
   - component: {fileID: 9028283923491037294}
   - component: {fileID: 922739064502516224}
   - component: {fileID: 9013471887297038044}
@@ -325,25 +324,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &3843568654562169795
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6087069060553637671}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9180c4a94da8e77428c7355fac2d067a, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &9028283923491037294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,6 +355,7 @@ MonoBehaviour:
   CamToEnable: {fileID: 0}
   ScriptTestCam: {fileID: 0}
   TargetLookAt: {fileID: 0}
+  Clefs: {fileID: 0}
   GoToVestiaire: 0
   ThePortraix: 0
   ToThehall: 0
