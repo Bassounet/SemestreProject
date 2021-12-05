@@ -24,6 +24,7 @@ public class testCam : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera VirtualCamHall;
     [SerializeField] CinemachineVirtualCamera VirtualCamPortrait;
     [SerializeField] CinemachineVirtualCamera VirtualCamVestiaire;
+    [SerializeField] CinemachineVirtualCamera VirtualCamBibli;
     [SerializeField] GameObject dollyHall;
     [SerializeField] GameObject dollyPortrait;
     [SerializeField] GameObject dollyVestiaire;
@@ -44,6 +45,13 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject targetvestiaire;
     [SerializeField] GameObject targetHall;
     [SerializeField] GameObject targetDoorPortrait;
+    [SerializeField] GameObject LookAtTarget;
+    [SerializeField] GameObject Hippocrate;
+    [SerializeField] GameObject TargetPortrait;
+    [SerializeField] GameObject TargetPortraitRest;
+
+
+
 
 
 
@@ -67,6 +75,7 @@ public class testCam : MonoBehaviour
     public bool inLabo ;
     public bool inVestiaire;
     public bool inPortrait ;
+    public bool inBibli;
 
     private CinemachineVirtualCamera actualCam;
 
@@ -106,6 +115,13 @@ public class testCam : MonoBehaviour
         {
 
             actualCam = VirtualCamVestiaire;
+
+        }
+
+        if (inBibli)
+        {
+
+            actualCam = VirtualCamBibli;
 
         }
 
@@ -186,9 +202,15 @@ public class testCam : MonoBehaviour
                 DontPathOverTheMax(VirtualCamVestiaire, dollyVestiaire);
 
             }
-            
+
             //transform.Translate(movex, Space.Self); // passer en world au besoin pour changer le point de ref // .world si effet rail.
             //transform.Translate(movey, Space.Self);
+            
+
+            //float positionsurlerail = currentPos / maxPos;
+            //Debug.Log(positionsurlerail);
+            //if (positionsurlerail<0.5f) LookAtTarget.transform.position = Vector3.Lerp(targetvestiaire.transform.position, targetHall.transform.position, positionsurlerail * 2f);
+            //else LookAtTarget.transform.position = Vector3.Lerp(targetHall.transform.position, targetDoorPortrait.transform.position, (positionsurlerail-0.5f)*2f);
 
         }
 
@@ -402,19 +424,36 @@ public class testCam : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
+        // ------------------- TARGET HALL ---------------------- //
+
         if (other.gameObject.CompareTag("PorteVestiaire"))
         {
-            Debug.Log("Its Vestiaire");
-            VirtualCamHall.LookAt.SetPositionAndRotation(targetvestiaire.transform.position, Quaternion.identity);
+            Debug.Log("its vestiaire");
+            actualCam.LookAt.SetPositionAndRotation(targetvestiaire.transform.position, Quaternion.identity);
 
         }
 
         if (other.gameObject.CompareTag("PortePortrait"))
         {
 
-            VirtualCamHall.LookAt.SetPositionAndRotation(targetDoorPortrait.transform.position, Quaternion.identity);
+            Debug.Log("its portrait");
+            actualCam.LookAt.SetPositionAndRotation(targetDoorPortrait.transform.position, Quaternion.identity);
 
         }
+
+        // ------------------- TARGET HALL ---------------------- //
+
+        // ------------------- TARGET PORTRAIT ---------------------- //
+
+        if (other.gameObject.CompareTag("Hippocrate"))
+        {
+
+            actualCam.LookAt.SetPositionAndRotation(Hippocrate.transform.position, Quaternion.identity);
+
+        }
+
+        // ------------------- TARGET PORTRAIT ---------------------- //
     }
 
     private void OnTriggerExit(Collider other)
@@ -422,7 +461,14 @@ public class testCam : MonoBehaviour
         if (other.gameObject.CompareTag("PorteVestiaire") || other.gameObject.CompareTag("PortePortrait"))
         {
 
-            VirtualCamHall.LookAt.SetPositionAndRotation(targetHall.transform.position, Quaternion.identity);
+            actualCam.LookAt.SetPositionAndRotation(targetHall.transform.position, Quaternion.identity);
+
+        }
+
+        if (other.gameObject.CompareTag("Hippocrate") )
+        {
+            Debug.Log("We lache hippo");
+            actualCam.LookAt.SetPositionAndRotation(TargetPortraitRest.transform.position, Quaternion.identity);
 
         }
     }
@@ -432,22 +478,14 @@ public class testCam : MonoBehaviour
 
     // ---------------------------- DON'T Pass over the max Path -------------------------
 
+    float currentPos;
+    float maxPos; 
     public void DontPathOverTheMax(CinemachineVirtualCamera VirtualCam, GameObject DollyCam)
     {
+        maxPos = DollyCam.GetComponent<CinemachineSmoothPath>().MaxPos;
+        currentPos = VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition;
 
-        if (VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition > DollyCam.GetComponent<CinemachineSmoothPath>().MaxPos) 
-        {
-
-            VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = DollyCam.GetComponent<CinemachineSmoothPath>().MaxPos;
-
-        }
-
-        if (VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition <= DollyCam.GetComponent<CinemachineSmoothPath>().MinPos)
-        {
-
-            VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = DollyCam.GetComponent<CinemachineSmoothPath>().MinPos;
-
-        }
+        VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = Mathf.Clamp(currentPos,0, maxPos);
 
     }
 

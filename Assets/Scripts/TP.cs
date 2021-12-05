@@ -5,6 +5,14 @@ using UnityEngine;
 public class TP : MonoBehaviour
 {
 
-  public GameObject TargetZone;
-    
+    [SerializeField] GameObject Player;
+    public GameObject TargetZone;
+
+    private void Update()
+    {
+
+        this.gameObject.transform.LookAt(Player.transform);
+
+    }
+
 }
