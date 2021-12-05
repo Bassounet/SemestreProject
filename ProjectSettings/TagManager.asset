@@ -12,6 +12,7 @@ TagManager:
   - Porte
   - PorteVestiaire
   - PortePortrait
+  - TableauLapeyronie
   layers:
   - Default
   - TransparentFX

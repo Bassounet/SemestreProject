@@ -18,6 +18,7 @@ public class detectPorteHallPortrait : MonoBehaviour
     public bool GoToVestiaire;
     public bool ThePortraix;
     public bool ToThehall;
+    public bool ToBibli;
 
     private void Start()
     {
@@ -55,11 +56,20 @@ public class detectPorteHallPortrait : MonoBehaviour
             ScriptTestCam.gameObject.GetComponent<testCam>().inVestiaire = true;
 
         }
+
         if (ThePortraix)
         {
 
             Debug.Log("GoToPortrait");
             ScriptTestCam.gameObject.GetComponent<testCam>().inPortrait = true;
+
+        }
+
+        if (ToBibli)
+        {
+
+            Debug.Log("GoToVestiaire");
+            ScriptTestCam.gameObject.GetComponent<testCam>().inBibli = true;
 
         }
 
@@ -69,9 +79,12 @@ public class detectPorteHallPortrait : MonoBehaviour
             Debug.Log("GoToHall");
             ScriptTestCam.gameObject.GetComponent<testCam>().inPortrait = false;
             ScriptTestCam.gameObject.GetComponent<testCam>().inVestiaire = false;
+            ScriptTestCam.gameObject.GetComponent<testCam>().inBibli = false;
 
         }
-     
+
+        
+
     }
 
     private void OnTriggerExit(Collider other)

@@ -17,6 +17,7 @@ public class testCam : MonoBehaviour
     [SerializeField] Image BlurDialogueHippo;
     [SerializeField] Image HippocrateDialogue;
     [SerializeField] Button QuitBtn;
+    [SerializeField] Button BoutonToBibli;
     [SerializeField] Image ObjectCollected;
     [SerializeField] Text HippocrateSentence;
     [SerializeField] Button InspectButton;
@@ -120,6 +121,8 @@ public class testCam : MonoBehaviour
 
             Collect();
             ShootTP();
+            ShootTableaux();
+            Debug.Log("Shoot");
 
         }
 
@@ -395,10 +398,12 @@ public class testCam : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
 
-            if (hit.transform.gameObject.CompareTag("TP") && !hasTP)
+            if (hit.transform.gameObject.CompareTag("TP") )
             {
-                TargetForTp = hit.transform.gameObject.GetComponent<TP>().TargetZone.transform;
-                Player.transform.position = TargetForTp.position;
+                Debug.Log("GoTiLib");
+                BoutonToBibli.gameObject.SetActive(true);
+                //TargetForTp = hit.transform.gameObject.GetComponent<TP>().TargetZone.transform;
+                //Player.transform.position = TargetForTp.position;
 
             }
 
@@ -407,6 +412,31 @@ public class testCam : MonoBehaviour
     }
 
     //  --------------------------- FONCTION SHOOT TP -------------------
+
+    //  --------------------------- FONCTION SHOOT Tableaux -------------------
+
+    public void ShootTableaux()
+    {
+
+        Touch touch = Input.GetTouch(0);
+        RaycastHit hit;
+        Ray ray = mainCam.ScreenPointToRay(touch.position);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+
+            if (hit.transform.gameObject.CompareTag("TableauLapeyronie"))
+            {
+                Debug.Log("ItsLapey");
+                
+            }
+
+        }
+
+
+    }
+
+    //  --------------------------- FONCTION SHOOT Tableaux -------------------
 
     // ---------------------------- LOOK AT ------------------------
 

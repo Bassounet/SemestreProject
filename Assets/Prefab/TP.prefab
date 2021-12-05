@@ -298,6 +298,9 @@ GameObject:
   m_Component:
   - component: {fileID: 9084905110401268940}
   - component: {fileID: 3843568654562169795}
+  - component: {fileID: 9028283923491037294}
+  - component: {fileID: 922739064502516224}
+  - component: {fileID: 9013471887297038044}
   m_Layer: 0
   m_Name: TP
   m_TagString: Untagged
@@ -341,3 +344,51 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &9028283923491037294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6087069060553637671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee5791ecef3336145b6ff5824b58d5d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player: {fileID: 0}
+  TargetZone: {fileID: 0}
+--- !u!114 &922739064502516224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6087069060553637671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d4357c0e0118b2419a405d98ad39054, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GoToPortrait: {fileID: 0}
+  CamToDisable: {fileID: 0}
+  CamToEnable: {fileID: 0}
+  ScriptTestCam: {fileID: 0}
+  TargetLookAt: {fileID: 0}
+  GoToVestiaire: 0
+  ThePortraix: 0
+  ToThehall: 0
+  ToBibli: 0
+--- !u!135 &9013471887297038044
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6087069060553637671}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
