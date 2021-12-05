@@ -14,6 +14,7 @@ TagManager:
   - PortePortrait
   - TableauLapeyronie
   - CLEF
+  - TableauPidoux
   layers:
   - Default
   - TransparentFX

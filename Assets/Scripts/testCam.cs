@@ -79,7 +79,18 @@ public class testCam : MonoBehaviour
     public bool AccessBibli;
     public bool AccessLabo;
 
-    public bool PremierInteract; 
+
+    [Header("INTERACT PORTRAIT")]
+    public bool GoneToLapeyronie; // hippocrate nous a dit d'aller voir lapeyronie
+    public bool LapeyronieSpoken; // si lapeyronie nous a parlé     
+    public bool HasVestiaire;
+    public bool CadenasSolved;
+    public bool LapeyronieEnd;
+    public bool hasBibli;
+    public bool hasBook;
+    public bool PidouxGaveClue; // si pidoux nous a déjà filé son indice pour la clef 
+    public bool PidouxEnd;
+
 
     private CinemachineVirtualCamera actualCam;
 
@@ -88,7 +99,7 @@ public class testCam : MonoBehaviour
 
         camMoving = false;
         inHall = true;
-        PremierInteract = true;
+        GoneToLapeyronie = false;
         
     }
 
@@ -100,7 +111,7 @@ public class testCam : MonoBehaviour
 
         // ------------------------------ DEBUG ----------------------- // 
 
-        whatIsItAgain();
+        GiveToHippocrateTheClue();
 
 
         if (ObjectCollected.GetComponent<displaceTheItem>().HoldingItem)
@@ -125,6 +136,7 @@ public class testCam : MonoBehaviour
             ShootTP();
             ShootTableaux();
             ShootClefs();
+            TalkToHippo();
             Debug.Log("Shoot");
 
         }
@@ -245,7 +257,7 @@ public class testCam : MonoBehaviour
     // ---------------------------- FONCTION DE KECECE ?  ----------------------rf
 
 
-    public void whatIsItAgain()
+    public void GiveToHippocrateTheClue()
     {
 
 
@@ -256,7 +268,7 @@ public class testCam : MonoBehaviour
         {
             if (hit.transform.gameObject.CompareTag("Hippocrate") && ObjectCollected.GetComponent<displaceTheItem>().HoldingItem)
             {
-                //camMoving = false;
+                
                 ObjectCollected.GetComponent<Image>().sprite = null;
                 Debug.Log("La tu gives et c bon enfait ");
                 if (ObjectCollected.GetComponent<displaceTheItem>().itemIndex == 0)
@@ -291,14 +303,52 @@ public class testCam : MonoBehaviour
                 InspectButton.gameObject.SetActive(true);
 
             }
-
-
         }
-
     }
 
 
     // ---------------------------- FONCTION DE KECECE ? FIN  ----------------------
+
+    // ---------------------------- Talk To HIPPO  ----------------------
+
+    public void TalkToHippo()
+    {
+
+        RaycastHit hit;
+        Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.transform.gameObject.CompareTag("Hippocrate"))
+            {
+
+                Debug.Log("On essaye de parler à Hippo");
+
+                if (GoneToLapeyronie && !LapeyronieSpoken)
+                {
+
+                    // ici on a parlé à hippocrate pour voir lapeyronie mais pas encore à lapeyronie
+                    Debug.Log("Je n'ai plus rien à dire");
+
+                }
+
+                if (!GoneToLapeyronie && !LapeyronieSpoken)
+                {
+                    
+                    // ici on a pas parlé à hippocrate ni à lapeyronie
+                    Debug.Log("BlaBlaBla Va voir Lapyrouze");
+                    GoneToLapeyronie = true;
+
+                }
+
+               
+
+            }
+        }
+    }
+
+
+    // ---------------------------- Talk To HIPPO  ----------------------
 
     // ---------------------------- FONCTION APPEL HIPPOCRATE  ----------------------
 
@@ -483,15 +533,175 @@ public class testCam : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
-
+            #region LAPEYRONIE 
             if (hit.transform.gameObject.CompareTag("TableauLapeyronie"))
             {
-                Debug.Log("ItsLapey");
-                
+                if (!LapeyronieEnd)
+                {
+
+                    if (!GoneToLapeyronie)
+                    {
+
+                       Debug.Log("Va parler à Hippo");
+
+                    }
+
+                    else
+                    {
+
+                        // ici hippocrate nous a dit d'aller voir lapeyronie mais on a pas encore parlé à lapeyronie                        
+
+                        if (LapeyronieSpoken)
+                        {
+
+                            // ici hippocrate nous a dit d'aller voir lapeyronie, et on a déjà parlé à lapeyronie
+                            if ( !AccesVestiaire && LapeyronieSpoken)
+                            {
+
+                                // ici hippocrate nous a dit d'aller voir lapeyronie, et on a déjà parlé à lapeyronie et on a PAS récup la clef
+                                Debug.Log("Faudrait ptet récup la clef");
+
+                            }
+                            if (AccesVestiaire)
+                            {
+
+                                // ici hippocrate nous a dit d'aller voir lapeyronie, et on a déjà parlé à lapeyronie et on a récup la clef
+                                Debug.Log("Tu ferai bien d'aller aux vestiaires");
+                                if (HasVestiaire)
+                                {
+
+                                    // ici hippocrate nous a dit d'aller voir lapeyronie, et on a déjà parlé à lapeyronie et on a récup la clef et on est entrés dans les vestiaires
+
+                                    if (CadenasSolved)
+                                    {
+
+                                        Debug.Log("Le cadenas a bien été déverouillé, voilà le prochain indice");
+                                        LapeyronieEnd = true;
+
+                                    }
+                                    else
+                                    {
+
+                                        // ici hippocrate nous a dit d'aller voir lapeyronie, et on a déjà parlé à lapeyronie et on a récup la clef et on est entrés dans les vestiaires, et on a pas déverouillé la cadenas
+                                        Debug.Log("Faut déverouiller le cadenas mtn");
+
+                                    }
+
+
+                                }
+
+
+                            }                            
+
+                        }
+
+                        if (!LapeyronieSpoken)
+                        {
+
+                            // ici on a hippocrate nous a dit d'aller voir lapeyronie et nous n'avons pas parlé à lapeyronie
+                            LapeyronieSpoken = true;
+                            Debug.Log("BLa Bla Bla voici la première Clef");
+
+
+                        }
+
+                    }
+                }
+                else
+                {
+                    
+                    Debug.Log("Ho mon beau scalpel, grave refait wola");
+
+                }
+
             }
 
-        }
+            #endregion
 
+            #region PIDOUX
+
+            if (hit.transform.gameObject.CompareTag("TableauPidoux"))
+            {
+                Debug.Log("Vous tentez de parler à pidoux");
+
+                if (LapeyronieEnd)
+                {
+                    if (PidouxEnd)
+                    {
+
+                        // ici on a fini avec pidoux et on lui parle
+                        Debug.Log("Je suis si fier de mon ptit fils");
+
+                    }
+                    else
+                    {
+
+
+                        if (!PidouxGaveClue)
+                        {
+
+                            // ici lapeyronie nous a filé l'indice pour pidoux et on ne lui a pas encore parlé
+                            Debug.Log("Comment va ton ami ? Ok voici ce que tu dois faire ");
+                            PidouxGaveClue = true;
+                        }
+                        else
+                        {
+                            // ici pidoux nous a filé son indice pour la clef mais on a pas la clef
+                            if (AccessBibli)
+                            {
+                                if (!hasBibli)
+                                {
+
+                                    // ici on a la clef mais on a pas été à la bibliothèque
+                                    Debug.Log("Faut Aller à la bibli mtn");
+
+                                }
+                                else
+                                {
+                                    if (!hasBook)
+                                    {
+
+                                        // ici on a récup la clef et on a été à la bibli mais on a pas récup les bouquins.
+                                        Debug.Log("Faudrait récup les bouquins/ regarder");
+
+                                    }
+                                    else
+                                    {
+
+                                        // ici on a récup le bouquin 
+                                        Debug.Log("Merci pour le book voici le prochain indice");
+                                        PidouxEnd = true;
+
+                                    }
+
+
+                                }
+
+                            }
+                            else
+                            {
+
+                                // ici on a reçu l'indice mais nous ne sommes pas allés chercher la clef
+                                Debug.Log("Et si t'allais chercher la clef");
+
+                            }
+
+                        }
+                    }                 
+
+                }
+                else
+                {
+
+                    Debug.Log("Azy laissez moi dormir à zeubi");
+
+                }
+
+            }
+
+            #endregion
+
+        }
 
     }
 
