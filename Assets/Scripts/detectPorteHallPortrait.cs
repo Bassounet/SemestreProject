@@ -10,6 +10,8 @@ public class detectPorteHallPortrait : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera CamToDisable;
     [SerializeField] CinemachineVirtualCamera CamToEnable;
     [SerializeField] GameObject ScriptTestCam;
+    [SerializeField] GameObject TargetLookAt;
+
 
     bool inActualHall;
 
@@ -20,7 +22,7 @@ public class detectPorteHallPortrait : MonoBehaviour
     private void Start()
     {
 
-        //inActualHall = ScriptTestCam.gameObject.GetComponent<testCam>().inHall;
+        
 
     }
 
@@ -40,9 +42,10 @@ public class detectPorteHallPortrait : MonoBehaviour
     {
 
         CamToEnable.gameObject.SetActive(true);
+        CamToEnable.LookAt.SetPositionAndRotation(TargetLookAt.transform.position, Quaternion.identity);
         CamToDisable.gameObject.SetActive(false);
         GoToPortrait.gameObject.SetActive(false);        
-        ScriptTestCam.gameObject.GetComponent<testCam>().inHall =! ScriptTestCam.gameObject.GetComponent<testCam>().inHall;
+        ScriptTestCam.gameObject.GetComponent<testCam>().inHall =! ScriptTestCam.gameObject.GetComponent<testCam>().inHall; 
         
 
         if (GoToVestiaire)
@@ -55,6 +58,7 @@ public class detectPorteHallPortrait : MonoBehaviour
         if (ThePortraix)
         {
 
+            Debug.Log("GoToPortrait");
             ScriptTestCam.gameObject.GetComponent<testCam>().inPortrait = true;
 
         }
@@ -62,11 +66,11 @@ public class detectPorteHallPortrait : MonoBehaviour
         if (ToThehall)
         {
 
+            Debug.Log("GoToHall");
             ScriptTestCam.gameObject.GetComponent<testCam>().inPortrait = false;
             ScriptTestCam.gameObject.GetComponent<testCam>().inVestiaire = false;
 
         }
-
      
     }
 
