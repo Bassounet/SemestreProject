@@ -81,6 +81,10 @@ public class testCam : MonoBehaviour
     public bool AccesVestiaire;
     public bool AccessBibli;
     public bool AccessLabo;
+    [SerializeField] GameObject ClefVestiaire;
+    [SerializeField] GameObject ClefBibli;
+    [SerializeField] GameObject ClefLabo;
+    
 
 
     [Header("INTERACT PORTRAIT")]
@@ -520,6 +524,7 @@ public class testCam : MonoBehaviour
                     Debug.Log("Its a Key Vestiaire");
                     WhatUGot.text = textUI;
                     WhatUGot.gameObject.SetActive(true);
+                    ClefVestiaire.SetActive(false);
 
                 }
 
@@ -531,6 +536,7 @@ public class testCam : MonoBehaviour
                     Debug.Log("Its a Key Bibli");
                     WhatUGot.text = textUI;
                     WhatUGot.gameObject.SetActive(true);
+                    ClefBibli.SetActive(false);
 
                 }
 
@@ -542,6 +548,7 @@ public class testCam : MonoBehaviour
                     Debug.Log("Its a Key Bibli");
                     WhatUGot.text = textUI;
                     WhatUGot.gameObject.SetActive(true);
+                    ClefLabo.SetActive(false);
 
                 }
             }
@@ -571,7 +578,8 @@ public class testCam : MonoBehaviour
                     if (!GoneToLapeyronie)
                     {
 
-                       Debug.Log("Va parler à Hippo");
+                       Debug.Log("Ronpiche");
+                        HippocrateDialogue.gameObject.SetActive(true);
 
                     }
 
@@ -579,11 +587,14 @@ public class testCam : MonoBehaviour
                     {
 
                         // ici hippocrate nous a dit d'aller voir lapeyronie mais on a pas encore parlé à lapeyronie                        
+                        ClefVestiaire.gameObject.SetActive(true);
 
                         if (LapeyronieSpoken)
                         {
 
                             // ici hippocrate nous a dit d'aller voir lapeyronie, et on a déjà parlé à lapeyronie
+                            
+
                             if ( !AccesVestiaire && LapeyronieSpoken)
                             {
 
@@ -664,6 +675,8 @@ public class testCam : MonoBehaviour
                             // ici lapeyronie nous a filé l'indice pour pidoux et on ne lui a pas encore parlé
                             Debug.Log("Comment va ton ami ? Ok voici ce que tu dois faire ");
                             PidouxGaveClue = true;
+                            ClefBibli.gameObject.SetActive(true);
+
                         }
                         else
                         {
@@ -744,6 +757,7 @@ public class testCam : MonoBehaviour
                             // ici nous parlons à chaptal il nous a pas donné l'indice
                             Debug.Log("Hello mon ptit pote, voici ton indice pour la prochaine salle");
                             ChaptalGaveClue = true;
+                            ClefLabo.gameObject.SetActive(true);
 
                         }
                         else

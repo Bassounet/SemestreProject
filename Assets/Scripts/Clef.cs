@@ -28,7 +28,7 @@ public class Clef : MonoBehaviour
         if (KeyVestaire && Collected)
         {
 
-            ScriptForAccess.GetComponent<testCam>().AccesVestiaire = true;
+            ScriptForAccess.GetComponent<testCam>().AccesVestiaire = true;            
 
         }
 
