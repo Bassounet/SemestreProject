@@ -19,6 +19,13 @@ public class testCam : MonoBehaviour
     [SerializeField] Button QuitBtn;
     [SerializeField] Button BoutonToBibli;
     [SerializeField] Button BoutonToLabo;
+    //VINEK VVVV
+    [SerializeField] GameObject TPBIBLI;
+    [SerializeField] GameObject TPLABO;
+
+
+
+    //FIN VINEK
     [SerializeField] Image ObjectCollected;
     [SerializeField] Text HippocrateSentence;
     [SerializeField] Button InspectButton;
@@ -75,6 +82,8 @@ public class testCam : MonoBehaviour
     public bool inVestiaire;
     public bool inPortrait ;
     public bool inBibli;
+    public bool holdBib;
+    public bool holdLab;
 
 
     [Header("KEY ACCESS")]
@@ -108,6 +117,16 @@ public class testCam : MonoBehaviour
 
     private CinemachineVirtualCamera actualCam;
 
+
+
+    //VINEKTP VAR
+    Touch touch;
+    RaycastHit hit;
+    Ray ray;
+
+    Touch permatouch;
+    RaycastHit permahit;
+    Ray permaray;
     void Start()
     {
 
@@ -139,7 +158,7 @@ public class testCam : MonoBehaviour
         {
 
             shoot = 0;
-
+            ShootTPout();
         }
 
         if (Input.touchCount > 0 && shoot == 0) // fonction lancment de collect quand on appuie 
@@ -147,13 +166,19 @@ public class testCam : MonoBehaviour
         {
 
             Collect();
-            ShootTP();
+            ShootTPin();
             ShootTableaux();
             ShootClefs();
             TalkToHippo();
             Debug.Log("Shoot");
 
         }
+        if (Input.touchCount > 0)
+        {
+            permatouch = Input.GetTouch(0);
+            permaray = mainCam.ScreenPointToRay(touch.position);
+        }
+
 
 
         #region ControlCam       
@@ -468,33 +493,86 @@ public class testCam : MonoBehaviour
 
     //  --------------------------- FONCTION SHOOT TP -------------------
 
-    public void ShootTP()
+    public void ShootTPin()
     {
-
-        Touch touch = Input.GetTouch(0);
-        RaycastHit hit;
-        Ray ray = mainCam.ScreenPointToRay(touch.position);
-
+     
+        touch = Input.GetTouch(0);
+        
+        ray = mainCam.ScreenPointToRay(touch.position);
+       
 
         if (Physics.Raycast(ray, out hit))
         {
 
             if (hit.transform.gameObject.CompareTag("TP") && hit.transform.GetComponent<detectPorteHallPortrait>().ToBibli)
             {
-                
-                Debug.Log("GoTiLib");
-                BoutonToBibli.gameObject.SetActive(!ButtonBibliisActive);
-                ButtonBibliisActive = !ButtonBibliisActive;
-                                
+               
+                    holdBib = true;
+                Debug.Log("tu appuyes et c'est sur la bibli");
+
             }
 
             if (hit.transform.gameObject.CompareTag("TP") && hit.transform.GetComponent<detectPorteHallPortrait>().ToLabo)
             {
+                holdLab = true;
+                Debug.Log("tu appuyes et c'est sur le labo");
+            }
 
-                Debug.Log("Go To Labo");
-                BoutonToLabo.gameObject.SetActive(!ButtonLaboisActive);
-                ButtonLaboisActive = !ButtonLaboisActive;
+        }
 
+    }
+    
+    public void ShootTPout()
+    {
+
+        if (Physics.Raycast(permaray, out permahit))
+        {
+
+            if (permahit.transform.gameObject.CompareTag("TP") && permahit.transform.GetComponent<detectPorteHallPortrait>().ToBibli)
+            {
+                if (holdBib)
+                {
+                    if (AccessBibli)
+                    {
+                        Debug.Log("GoTiLib");
+                        TPBIBLI.gameObject.GetComponent<detectPorteHallPortrait>().
+                           SendMeToNextWay(
+                           TPBIBLI.GetComponent<detectPorteHallPortrait>().ScriptTestCam,
+                           TPBIBLI.GetComponent<detectPorteHallPortrait>().CamToEnable,
+                           TPBIBLI.GetComponent<detectPorteHallPortrait>().CamToDisable,
+                           TPBIBLI.GetComponent<detectPorteHallPortrait>().GoToPortrait);
+                        Debug.Log("Go To Bib");
+                        TPBIBLI.GetComponent<detectPorteHallPortrait>().ScriptTestCam.gameObject.GetComponent<testCam>().hasBibli = true;
+                        TPBIBLI.GetComponent<detectPorteHallPortrait>().ScriptTestCam.gameObject.GetComponent<testCam>().inBibli = true;
+                        //ButtonLaboisActive = !ButtonLaboisActive;
+                        holdBib = false;
+                    }
+                    else { Debug.Log("pas la clé poiru la bilbi"); holdBib = false; }
+                }
+            }
+
+            if (permahit.transform.gameObject.CompareTag("TP") && permahit.transform.GetComponent<detectPorteHallPortrait>().ToLabo)
+            {
+                if (holdLab)
+                {
+                    if (AccessLabo)
+                    {
+                        Debug.Log("Go To Labo");
+                        TPLABO.gameObject.GetComponent<detectPorteHallPortrait>().
+                           SendMeToNextWay(
+                           TPLABO.GetComponent<detectPorteHallPortrait>().ScriptTestCam,
+                           TPLABO.GetComponent<detectPorteHallPortrait>().CamToEnable,
+                           TPLABO.GetComponent<detectPorteHallPortrait>().CamToDisable,
+                           TPLABO.GetComponent<detectPorteHallPortrait>().GoToPortrait);
+                        Debug.Log("Go To Lab");
+                        TPBIBLI.GetComponent<detectPorteHallPortrait>().ScriptTestCam.gameObject.GetComponent<testCam>().hasLabo = true;
+                        TPBIBLI.GetComponent<detectPorteHallPortrait>().ScriptTestCam.gameObject.GetComponent<testCam>().inLabo = true;
+                        //ButtonLaboisActive = !ButtonLaboisActive;
+                        holdLab = false;
+                    }
+                    else { Debug.Log("yolopasdeclédulabo"); holdLab = false; }
+
+                }
             }
 
         }

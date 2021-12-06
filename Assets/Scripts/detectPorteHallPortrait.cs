@@ -6,11 +6,11 @@ using Cinemachine;
 
 public class detectPorteHallPortrait : MonoBehaviour
 {
-    [SerializeField] Button GoToPortrait;
-    [SerializeField] CinemachineVirtualCamera CamToDisable;
-    [SerializeField] CinemachineVirtualCamera CamToEnable;
-    [SerializeField] GameObject ScriptTestCam;
-    [SerializeField] GameObject TargetLookAt;
+    [SerializeField] public Button GoToPortrait;
+    [SerializeField] public CinemachineVirtualCamera CamToDisable;
+    [SerializeField] public CinemachineVirtualCamera CamToEnable;
+    [SerializeField] public GameObject ScriptTestCam;
+    [SerializeField] public GameObject TargetLookAt;
     [SerializeField] GameObject Player;
 
 
