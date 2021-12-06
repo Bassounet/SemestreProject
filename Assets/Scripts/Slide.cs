@@ -157,12 +157,12 @@ public class Slide : MonoBehaviour
                     if (gameObject.transform.localPosition.x < collision.transform.localPosition.x)
                     {
                         BlockRight = collision.transform.localPosition.x - 1.5f;
-                        Debug.Log("from gauche");
+                       // Debug.Log("from gauche");
                     }
                     if (gameObject.transform.localPosition.x > collision.transform.localPosition.x)
                     {
                         BlockLeft = collision.transform.localPosition.x + 1.5f;
-                        Debug.Log("from droite");
+                        //Debug.Log("from droite");
                     }
                 }
                 if(collision.gameObject.GetComponent<Slide>().pos == "X")
@@ -170,12 +170,12 @@ public class Slide : MonoBehaviour
                     if (gameObject.transform.localPosition.x < collision.transform.localPosition.x)
                     {
                         BlockRight = collision.transform.localPosition.x - 2f;
-                        Debug.Log("from gauche");
+                        //Debug.Log("from gauche");
                     }
                     if (gameObject.transform.localPosition.x > collision.transform.localPosition.x)
                     {
                         BlockLeft = collision.transform.localPosition.x + 2f;
-                        Debug.Log("from droite");
+                        //Debug.Log("from droite");
                     }
                 }
             }
@@ -186,12 +186,12 @@ public class Slide : MonoBehaviour
                     if (gameObject.transform.localPosition.y < collision.transform.localPosition.y)
                     {
                         BlockUp = collision.transform.localPosition.y - 1.5f;
-                        Debug.Log("from down");
+                        //Debug.Log("from down");
                     }
                     if (gameObject.transform.localPosition.y > collision.transform.localPosition.y)
                     {
                         BlockDown = collision.transform.localPosition.y + 1.5f;
-                        Debug.Log("from up");
+                        //Debug.Log("from up");
                     }
                 }
 
@@ -200,12 +200,12 @@ public class Slide : MonoBehaviour
                     if (gameObject.transform.localPosition.y < collision.transform.localPosition.y)
                     {
                         BlockUp = collision.transform.localPosition.y - 2f;
-                        Debug.Log("from down");
+                        //Debug.Log("from down");
                     }
                     if (gameObject.transform.localPosition.y > collision.transform.localPosition.y)
                     {
                         BlockDown = collision.transform.localPosition.y + 2f;
-                        Debug.Log("from up");
+                        //Debug.Log("from up");
                     }
                 }
             }
