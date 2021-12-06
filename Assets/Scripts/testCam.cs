@@ -19,6 +19,7 @@ public class testCam : MonoBehaviour
     [SerializeField] Button QuitBtn;
     [SerializeField] Button BoutonToBibli;
     [SerializeField] Button BoutonToLabo;
+    [SerializeField] Canvas UiCadenas;
     //VINEK VVVV
     [SerializeField] GameObject TPBIBLI;
     [SerializeField] GameObject TPLABO;
@@ -37,11 +38,13 @@ public class testCam : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera VirtualCamVestiaire;
     [SerializeField] CinemachineVirtualCamera VirtualCamBibli;
     [SerializeField] CinemachineVirtualCamera VirtualCamLabo;
+    [SerializeField] CinemachineVirtualCamera VirtualCamCadenas;
     [SerializeField] GameObject dollyHall;
     [SerializeField] GameObject dollyPortrait;
     [SerializeField] GameObject dollyVestiaire;
     [SerializeField] GameObject dollyBibli;
     [SerializeField] GameObject dollyLabo;
+    [SerializeField] GameObject dollyCadenas;
 
     [Header(" LOOK AT ")]
     [SerializeField] GameObject targetvestiaire;
@@ -51,6 +54,8 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject Hippocrate;
     [SerializeField] GameObject TargetPortrait;
     [SerializeField] GameObject TargetPortraitRest;
+    [SerializeField] GameObject TargetCadenasRest;
+    [SerializeField] GameObject TargetCadenas;
 
     [Header("This IsGame Object")]
     [Tooltip(" ** DEV_ZONE ** Rentrez ici les games Objects dont vous avez besoins")]
@@ -62,7 +67,8 @@ public class testCam : MonoBehaviour
     [Tooltip(" ** ALL_ZONE ** Ici réglez tous les éléments d'interaction ")]
     public float distanceMaxForGrab;
     public float dragSpeed = 2;
-   
+    public bool hasSolvedCadenas;
+
 
     public bool itsH;
     bool camMoving;
@@ -82,6 +88,7 @@ public class testCam : MonoBehaviour
     public bool inVestiaire;
     public bool inPortrait ;
     public bool inBibli;
+    public bool inCadenas;
     public bool holdBib;
     public bool holdLab;
 
@@ -146,6 +153,20 @@ public class testCam : MonoBehaviour
 
         GiveToHippocrateTheClue();
 
+        if (inCadenas)
+        {
+
+            inVestiaire = false;
+            UiCadenas.gameObject.SetActive(true);
+
+        }
+        else
+        {
+
+            UiCadenas.gameObject.SetActive(false);
+
+        }
+
 
         if (ObjectCollected.GetComponent<displaceTheItem>().HoldingItem)
         {
@@ -170,6 +191,7 @@ public class testCam : MonoBehaviour
             ShootTableaux();
             ShootClefs();
             TalkToHippo();
+            ShootCadenas();
             Debug.Log("Shoot");
 
         }
@@ -229,6 +251,7 @@ public class testCam : MonoBehaviour
             else if (inVestiaire)
             {
 
+                inCadenas = false;
                 actualCam = VirtualCamVestiaire;
                 MakePositionCam(VirtualCamVestiaire, pos);
                 DontPathOverTheMax(VirtualCamVestiaire, dollyVestiaire);                
@@ -251,6 +274,15 @@ public class testCam : MonoBehaviour
                 DontPathOverTheMax(VirtualCamLabo, dollyLabo);
 
             }
+            //else if (inCadenas)
+            //{
+
+            //    actualCam = VirtualCamCadenas;
+            //    inVestiaire = false;
+            //    MakePositionCam(VirtualCamLabo, pos);
+            //    DontPathOverTheMax(VirtualCamLabo, dollyLabo);
+
+            //}
 
         }
 
@@ -341,15 +373,7 @@ public class testCam : MonoBehaviour
                     HippocrateGiveAClue();
 
                 }
-
-            }
-
-            if (hit.transform.gameObject.CompareTag("CADENAS"))
-            {
-
-                InspectButton.gameObject.SetActive(true);
-
-            }
+            }            
         }
     }
 
@@ -473,19 +497,31 @@ public class testCam : MonoBehaviour
 
     //  --------------------------- FONCTION DE CADENAS APPEAR-------------------
 
-    public void Cadenas()
+    public void ShootCadenas()
     {
 
-        InspectButton.gameObject.SetActive(false);
-        StartCoroutine("WaitBeforeCadenas");              
+        Touch touch = Input.GetTouch(0);
+        RaycastHit hit;
+        Ray ray = mainCam.ScreenPointToRay(touch.position);
 
+        if (Physics.Raycast(ray, out hit))
+        {
+
+            if (hit.transform.gameObject.CompareTag("CADENAS"))
+            {
+
+                Debug.Log("C'est le cadenas");
+
+
+            }
+        }
     }
 
     IEnumerator WaitBeforeCadenas()
     {
 
         yield return new WaitForSeconds(3f);
-        SceneManager.LoadScene("Cadenas");
+        //SceneManager.LoadScene("Cadenas");
 
     }
 
@@ -980,6 +1016,44 @@ public class testCam : MonoBehaviour
     }
 
     // ---------------------------- MOVE THE CAM -------------------------
+
+    // ---------------------------- BACK FROM CADENAS ---------------------------
+
+    public void backFromCadenas()
+    {
+
+        VirtualCamCadenas.gameObject.SetActive(false);
+        VirtualCamVestiaire.gameObject.SetActive(true);
+        inVestiaire = true;
+        inCadenas = false;
+        inHall = false;
+        UiCadenas.gameObject.SetActive(false);
+
+    }
+
+    // ---------------------------- BACK FROM CADENAS ---------------------------
+
+    // ---------------------------- CADENAS SOLVED ---------------------------
+
+    public void CadenasSolevd()
+    {
+        if (!hasSolvedCadenas)
+        {
+            Debug.Log("le cadenas a été résolu");
+
+            hasSolvedCadenas = true;
+        }
+        else
+        {
+
+            Debug.Log("le cadenas a déjà été résolu");
+
+        }
+
+        
+    }
+
+    // ---------------------------- CADENAS SOLVED ---------------------------
 
 }
 

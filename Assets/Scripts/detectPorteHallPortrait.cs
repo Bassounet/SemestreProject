@@ -21,6 +21,7 @@ public class detectPorteHallPortrait : MonoBehaviour
     public bool ToThehall;
     public bool ToBibli;
     public bool ToLabo;
+    public bool ToCadenas;
 
     private void Start()
     {
@@ -82,7 +83,16 @@ public class detectPorteHallPortrait : MonoBehaviour
             ScriptTestCam.gameObject.GetComponent<testCam>().inBibli = true;
             Player.GetComponent<testCam>().hasBibli = true;
 
-        }        
+        }
+        
+        if (ToCadenas)
+        {
+
+            SendMeToNextWay(ScriptTestCam, CamToEnable, CamToDisable, GoToPortrait);
+            Debug.Log("Go To Cadenas");
+            ScriptTestCam.gameObject.GetComponent<testCam>().inCadenas = true;
+
+        }
 
         if (ToThehall)
         {

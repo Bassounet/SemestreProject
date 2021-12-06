@@ -11,6 +11,9 @@ public class cadenas : MonoBehaviour
 
     public int startingIndex =0;
     public string currentCode, MDP;
+    private bool winned;
+
+    [SerializeField] GameObject Player;
   
     void Update()
     {
@@ -76,6 +79,13 @@ public class cadenas : MonoBehaviour
         #endregion
 
         currentCode = currentIndexC1.ToString() + currentIndexC2.ToString() + currentIndexC3.ToString() + currentIndexC4.ToString();
+
+        if (winned)
+        {
+
+            Player.GetComponent<testCam>().CadenasSolved = true;
+
+        }
 
     }
 
@@ -193,6 +203,8 @@ public class cadenas : MonoBehaviour
     {
 
         Debug.Log("Win");
+        winned = true;
+        Player.GetComponent<testCam>().CadenasSolevd();
 
     }
     
