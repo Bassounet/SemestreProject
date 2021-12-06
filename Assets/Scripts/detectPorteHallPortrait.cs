@@ -20,6 +20,7 @@ public class detectPorteHallPortrait : MonoBehaviour
     public bool ThePortraix;
     public bool ToThehall;
     public bool ToBibli;
+    public bool ToLabo;
 
     private void Start()
     {
@@ -42,8 +43,17 @@ public class detectPorteHallPortrait : MonoBehaviour
 
     public void f_GoTo()
     {       
+        
+        if (ThePortraix )
+        {
 
-        if (GoToVestiaire && Player.GetComponent<testCam>().AccesVestiaire )
+            SendMeToNextWay(ScriptTestCam, CamToEnable, CamToDisable, GoToPortrait);
+            Debug.Log("GoToPortrait");
+            ScriptTestCam.gameObject.GetComponent<testCam>().inPortrait = true;
+            
+        }
+
+        if (GoToVestiaire && Player.GetComponent<testCam>().AccesVestiaire)
         {
 
             SendMeToNextWay(ScriptTestCam, CamToEnable, CamToDisable, GoToPortrait);
@@ -54,13 +64,14 @@ public class detectPorteHallPortrait : MonoBehaviour
 
         }
 
-        if (ThePortraix )
+        if (ToLabo && Player.GetComponent<testCam>().AccessLabo)
         {
 
             SendMeToNextWay(ScriptTestCam, CamToEnable, CamToDisable, GoToPortrait);
-            Debug.Log("GoToPortrait");
-            ScriptTestCam.gameObject.GetComponent<testCam>().inPortrait = true;
-            
+            Debug.Log("Go To Labo");
+            ScriptTestCam.gameObject.GetComponent<testCam>().hasLabo = true;
+            ScriptTestCam.gameObject.GetComponent<testCam>().inLabo = true;
+
         }
 
         if (ToBibli && Player.GetComponent<testCam>().AccessBibli )
@@ -71,7 +82,7 @@ public class detectPorteHallPortrait : MonoBehaviour
             ScriptTestCam.gameObject.GetComponent<testCam>().inBibli = true;
             Player.GetComponent<testCam>().hasBibli = true;
 
-        }
+        }        
 
         if (ToThehall)
         {
@@ -82,7 +93,7 @@ public class detectPorteHallPortrait : MonoBehaviour
             ScriptTestCam.gameObject.GetComponent<testCam>().inVestiaire = false;
             ScriptTestCam.gameObject.GetComponent<testCam>().inBibli = false;            
 
-        }       
+        }
 
     }
 

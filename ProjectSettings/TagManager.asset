@@ -15,6 +15,7 @@ TagManager:
   - TableauLapeyronie
   - CLEF
   - TableauPidoux
+  - TableauChaptal
   layers:
   - Default
   - TransparentFX

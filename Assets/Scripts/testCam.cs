@@ -90,6 +90,12 @@ public class testCam : MonoBehaviour
     public bool hasBook;
     public bool PidouxGaveClue; // si pidoux nous a déjà filé son indice pour la clef 
     public bool PidouxEnd;
+    public bool ChaptalEnd;
+    public bool ChaptalGaveClue;
+    public bool hasLabo;
+    public bool hasPotion;
+
+    bool ButtonLaboisActive = false;
 
 
     private CinemachineVirtualCamera actualCam;
@@ -459,10 +465,11 @@ public class testCam : MonoBehaviour
 
             if (hit.transform.gameObject.CompareTag("TP") )
             {
-
-                Debug.Log("GoTiLib");
-                BoutonToBibli.gameObject.SetActive(true);
                 
+                Debug.Log("GoTiLib");
+                BoutonToBibli.gameObject.SetActive(!ButtonLaboisActive);
+                ButtonLaboisActive = !ButtonLaboisActive;
+                                
             }
 
         }
@@ -533,6 +540,7 @@ public class testCam : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
+
             #region LAPEYRONIE 
             if (hit.transform.gameObject.CompareTag("TableauLapeyronie"))
             {
@@ -564,14 +572,9 @@ public class testCam : MonoBehaviour
                             }
                             if (AccesVestiaire)
                             {
-
-                                // ici hippocrate nous a dit d'aller voir lapeyronie, et on a déjà parlé à lapeyronie et on a récup la clef
-                                Debug.Log("Tu ferai bien d'aller aux vestiaires");
+                                
                                 if (HasVestiaire)
                                 {
-
-                                    // ici hippocrate nous a dit d'aller voir lapeyronie, et on a déjà parlé à lapeyronie et on a récup la clef et on est entrés dans les vestiaires
-
                                     if (CadenasSolved)
                                     {
 
@@ -586,15 +589,16 @@ public class testCam : MonoBehaviour
                                         Debug.Log("Faut déverouiller le cadenas mtn");
 
                                     }
+                                }
+                                else
+                                {
 
+                                    // ici hippocrate nous a dit d'aller voir lapeyronie, et on a déjà parlé à lapeyronie et on a récup la clef
+                                    Debug.Log("Tu ferai bien d'aller aux vestiaires");
 
                                 }
-
-
-                            }                            
-
+                            }
                         }
-
                         if (!LapeyronieSpoken)
                         {
 
@@ -602,9 +606,7 @@ public class testCam : MonoBehaviour
                             LapeyronieSpoken = true;
                             Debug.Log("BLa Bla Bla voici la première Clef");
 
-
                         }
-
                     }
                 }
                 else
@@ -635,8 +637,6 @@ public class testCam : MonoBehaviour
                     }
                     else
                     {
-
-
                         if (!PidouxGaveClue)
                         {
 
@@ -685,10 +685,8 @@ public class testCam : MonoBehaviour
                                 Debug.Log("Et si t'allais chercher la clef");
 
                             }
-
                         }
-                    }                 
-
+                    }
                 }
                 else
                 {
@@ -696,13 +694,92 @@ public class testCam : MonoBehaviour
                     Debug.Log("Azy laissez moi dormir à zeubi");
 
                 }
+            }
 
+            #endregion
+
+            #region CHAPTAL
+
+            if (hit.transform.gameObject.CompareTag("TableauChaptal"))
+            {
+
+                Debug.Log(" vous tentez fde parler à CHAPTAL");
+
+                if (LapeyronieEnd)
+                {
+                    if (ChaptalEnd)
+                    {
+
+                        // ici nous parlons à chaptal et la quête est finie
+                        Debug.Log("Oh quel plaisir cette ptite potion d'amour ! ");
+
+                    }
+                    else
+                    {
+
+                        if (!ChaptalGaveClue)
+                        {
+
+                            // ici nous parlons à chaptal il nous a pas donné l'indice
+                            Debug.Log("Hello mon ptit pote, voici ton indice pour la prochaine salle");
+                            ChaptalGaveClue = true;
+
+                        }
+                        else
+                        {
+
+                            // ici on parle à chaptal et il nous a déjà donné un indice
+                            if (AccessLabo)
+                            {
+
+                                if (!hasLabo)
+                                {
+
+                                    // ici on la clef mais nous ne sommes pas allés au labo
+                                    Debug.Log("faudrait ptet aller au labo non ?");
+
+                                }
+                                else
+                                {
+
+                                    // ici nous avons la clef et nous sommes allés au Labo
+                                    if (hasPotion)
+                                    {
+
+                                        // ici on est allés au labo et nous avons la fiole/ potion 
+                                        Debug.Log("Tiens la potion file là à ton frerot");
+                                        ChaptalEnd = true;
+
+                                    }
+                                    else
+                                    {
+
+                                        // ici on est allés au labo mais on a pas récup la potion 
+                                        Debug.Log("Faudrait ptet récup la potion ");
+
+                                    }
+                                }
+                            }
+                            else
+                            {
+
+                                // ici on a parlé à chaptal mais nous n'avons pas choppé la clef
+                                Debug.Log("Faudrait ptet que tu récup la clef du labo");
+
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Debug.Log("Laisse moi dormir zeubi");
+
+                }
             }
 
             #endregion
 
         }
-
     }
 
     //  --------------------------- FONCTION SHOOT Tableaux -------------------
