@@ -18,6 +18,7 @@ public class testCam : MonoBehaviour
     [SerializeField] Image HippocrateDialogue;
     [SerializeField] Button QuitBtn;
     [SerializeField] Button BoutonToBibli;
+    [SerializeField] Button BoutonToLabo;
     [SerializeField] Image ObjectCollected;
     [SerializeField] Text HippocrateSentence;
     [SerializeField] Button InspectButton;
@@ -28,10 +29,12 @@ public class testCam : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera VirtualCamPortrait;
     [SerializeField] CinemachineVirtualCamera VirtualCamVestiaire;
     [SerializeField] CinemachineVirtualCamera VirtualCamBibli;
+    [SerializeField] CinemachineVirtualCamera VirtualCamLabo;
     [SerializeField] GameObject dollyHall;
     [SerializeField] GameObject dollyPortrait;
     [SerializeField] GameObject dollyVestiaire;
     [SerializeField] GameObject dollyBibli;
+    [SerializeField] GameObject dollyLabo;
 
     [Header(" LOOK AT ")]
     [SerializeField] GameObject targetvestiaire;
@@ -95,6 +98,7 @@ public class testCam : MonoBehaviour
     public bool hasLabo;
     public bool hasPotion;
 
+    bool ButtonBibliisActive = false;
     bool ButtonLaboisActive = false;
 
 
@@ -209,7 +213,15 @@ public class testCam : MonoBehaviour
                 MakePositionCam(VirtualCamBibli, pos);
                 DontPathOverTheMax(VirtualCamBibli, dollyBibli);                
 
-            }            
+            }
+            else if (inLabo)
+            {
+
+                actualCam = VirtualCamLabo;
+                MakePositionCam(VirtualCamLabo, pos);
+                DontPathOverTheMax(VirtualCamLabo, dollyLabo);
+
+            }
 
         }
 
@@ -463,13 +475,22 @@ public class testCam : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
 
-            if (hit.transform.gameObject.CompareTag("TP") )
+            if (hit.transform.gameObject.CompareTag("TP") && hit.transform.GetComponent<detectPorteHallPortrait>().ToBibli)
             {
                 
                 Debug.Log("GoTiLib");
-                BoutonToBibli.gameObject.SetActive(!ButtonLaboisActive);
-                ButtonLaboisActive = !ButtonLaboisActive;
+                BoutonToBibli.gameObject.SetActive(!ButtonBibliisActive);
+                ButtonBibliisActive = !ButtonBibliisActive;
                                 
+            }
+
+            if (hit.transform.gameObject.CompareTag("TP") && hit.transform.GetComponent<detectPorteHallPortrait>().ToLabo)
+            {
+
+                Debug.Log("Go To Labo");
+                BoutonToLabo.gameObject.SetActive(!ButtonLaboisActive);
+                ButtonLaboisActive = !ButtonLaboisActive;
+
             }
 
         }
