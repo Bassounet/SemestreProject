@@ -7,6 +7,6 @@ public class item : MonoBehaviour
     
     public int itemIndex;
     public Sprite picto;
-    public string SentenceH;
+    public string Sentence;
 
 }

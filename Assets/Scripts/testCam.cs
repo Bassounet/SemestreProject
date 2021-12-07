@@ -13,18 +13,23 @@ public class testCam : MonoBehaviour
 
 
     [Header("UI")]
-    [Tooltip(" ** ALL_ZONE ** Rentrez ici les éléments UI")]
-    [SerializeField] Image BlurDialogueHippo;
-    [SerializeField] Image HippocrateDialogue;
+    [SerializeField] Image BlurDialogue;
+    [SerializeField] Image Dialogue;
     [SerializeField] Button QuitBtn;
-    [SerializeField] Button BoutonToBibli;
-    [SerializeField] Button BoutonToLabo;
     [SerializeField] Canvas UiCadenas;
+    [SerializeField] Text TxtDialogue;
+    [SerializeField] GameObject DisplaceItem;
     //VINEK VVVV
     [SerializeField] GameObject TPBIBLI;
     [SerializeField] GameObject TPLABO;
 
-
+    [Header("Dialogue UI")]
+    [SerializeField] Sprite LapeyronieFace;
+    [SerializeField] Sprite HippoFace;
+    [SerializeField] Sprite Pidouxface;
+    [SerializeField] Sprite ChaptalFace;
+    [SerializeField] string Dodo;
+    [SerializeField] string RecupeLaClefVestiaire;
 
     //FIN VINEK
     [SerializeField] Image ObjectCollected;
@@ -58,13 +63,11 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject TargetCadenas;
 
     [Header("This IsGame Object")]
-    [Tooltip(" ** DEV_ZONE ** Rentrez ici les games Objects dont vous avez besoins")]
     [SerializeField] Camera mainCam;
     [SerializeField] GameObject Player;
 
 
     [Header(" INTERACTABLE ZONE ")]
-    [Tooltip(" ** ALL_ZONE ** Ici réglez tous les éléments d'interaction ")]
     public float distanceMaxForGrab;
     public float dragSpeed = 2;
     public bool hasSolvedCadenas;
@@ -118,12 +121,11 @@ public class testCam : MonoBehaviour
     public bool hasLabo;
     public bool hasPotion;
 
-    bool ButtonBibliisActive = false;
-    bool ButtonLaboisActive = false;
+    //bool ButtonBibliisActive = false;
+    //bool ButtonLaboisActive = false;
 
 
     private CinemachineVirtualCamera actualCam;
-
 
 
     //VINEKTP VAR
@@ -151,7 +153,7 @@ public class testCam : MonoBehaviour
 
         // ------------------------------ DEBUG ----------------------- // 
 
-        GiveToHippocrateTheClue();
+        
 
         if (inCadenas)
         {
@@ -183,7 +185,6 @@ public class testCam : MonoBehaviour
         }
 
         if (Input.touchCount > 0 && shoot == 0) // fonction lancment de collect quand on appuie 
-
         {
 
             Collect();
@@ -191,14 +192,17 @@ public class testCam : MonoBehaviour
             ShootTableaux();
             ShootClefs();
             TalkToHippo();
-            ShootCadenas();
             Debug.Log("Shoot");
 
         }
+
         if (Input.touchCount > 0)
         {
+
+            GiveTheItem();
             permatouch = Input.GetTouch(0);
             permaray = mainCam.ScreenPointToRay(touch.position);
+
         }
 
 
@@ -320,66 +324,6 @@ public class testCam : MonoBehaviour
 
     #endregion
 
-    // ---------------------------- FONCTION DE SHOW OBJECT ----------------------
-
-    public void ShowTheObjectCollected()
-    {
-
-
-
-
-    }
-
-    // ---------------------------- FONCTION DE SHOW OBJECT FIN ----------------------
-
-
-    // ---------------------------- FONCTION DE KECECE ?  ----------------------rf
-
-
-    public void GiveToHippocrateTheClue()
-    {
-
-
-        RaycastHit hit;
-        Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray, out hit))
-        {
-            if (hit.transform.gameObject.CompareTag("Hippocrate") && ObjectCollected.GetComponent<displaceTheItem>().HoldingItem)
-            {
-                
-                ObjectCollected.GetComponent<Image>().sprite = null;
-                Debug.Log("La tu gives et c bon enfait ");
-                if (ObjectCollected.GetComponent<displaceTheItem>().itemIndex == 0)
-                {
-
-                    Debug.Log("ca c'est la popo");
-                    HippocrateGiveAClue();
-
-                }
-
-                if (ObjectCollected.GetComponent<displaceTheItem>().itemIndex == 1)
-                {
-
-                    Debug.Log("ca c'est la scalpel et tou");
-                    HippocrateGiveAClue();
-
-                }
-
-                if (ObjectCollected.GetComponent<displaceTheItem>().itemIndex == 2)
-                {
-
-                    Debug.Log("cadenas tu connais");
-                    HippocrateGiveAClue();
-
-                }
-            }            
-        }
-    }
-
-
-    // ---------------------------- FONCTION DE KECECE ? FIN  ----------------------
-
     // ---------------------------- Talk To HIPPO  ----------------------
 
     public void TalkToHippo()
@@ -400,6 +344,7 @@ public class testCam : MonoBehaviour
 
                     // ici on a parlé à hippocrate pour voir lapeyronie mais pas encore à lapeyronie
                     Debug.Log("Je n'ai plus rien à dire");
+                    UiDialogue(HippoFace, "Je n'ai plus rien à te dire");
 
                 }
 
@@ -408,6 +353,7 @@ public class testCam : MonoBehaviour
                     
                     // ici on a pas parlé à hippocrate ni à lapeyronie
                     Debug.Log("BlaBlaBla Va voir Lapyrouze");
+                    UiDialogue(HippoFace, "Tu ferai bien d'aller voir lapeyronie");
                     GoneToLapeyronie = true;
 
                 }
@@ -421,47 +367,93 @@ public class testCam : MonoBehaviour
 
     // ---------------------------- Talk To HIPPO  ----------------------
 
-    // ---------------------------- FONCTION APPEL HIPPOCRATE  ----------------------
+    // ---------------------------- GiveItem  ----------------------
 
-    public void HippocrateGiveAClue()
+    public void GiveTheItem()
     {
-        inMenu = true;
 
-        BlurDialogueHippo.gameObject.SetActive(true);
-        HippocrateDialogue.gameObject.SetActive(true);
-        StartCoroutine("WaitBeforeQuit");
+        Touch touch = Input.GetTouch(0);
+        RaycastHit hit;
+        Ray ray = mainCam.ScreenPointToRay(touch.position);
 
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (DisplaceItem.GetComponent<displaceTheItem>().HoldingItem)
+            {
+                #region Scalpel
+
+                if (DisplaceItem.GetComponent<displaceTheItem>().itemIndex == 1)
+                {
+
+                    Debug.Log("Tu le scalpel et tu essayes de le donner");
+                    if (hit.transform.gameObject.CompareTag("TableauLapeyronie"))
+                    {
+
+                        LapeyronieEnd = true;
+                        UiDialogue(LapeyronieFace, "Merci pour le scalpel ça met bien");
+                        ClearItem();
+
+                    }
+
+                }
+
+                #endregion
+
+                #region Book
+
+                if (DisplaceItem.GetComponent<displaceTheItem>().itemIndex == 2)
+                {
+                    
+                    Debug.Log("Tu le book et tu essayes de le donner");
+
+                    if (hit.transform.gameObject.CompareTag("TableauPidoux"))
+                    {
+
+                        PidouxEnd = true;
+                        UiDialogue(Pidouxface, "Merci pour le book ça fait plaiz");
+                        ClearItem();
+
+                    }
+
+
+                }
+
+                #endregion
+
+                #region Potion
+
+                if (DisplaceItem.GetComponent<displaceTheItem>().itemIndex == 3)
+                {
+
+                    Debug.Log("Tu as la potion et tu essayes de la donner");
+
+                    if (hit.transform.gameObject.CompareTag("TableauChaptal"))
+                    {
+
+                        ChaptalEnd = true;
+                        UiDialogue(Pidouxface, "Merci pour la potion ça fait plaiz");
+                        ClearItem();
+
+                    }
+
+
+                }
+
+                #endregion
+            }
+        }
+    }
+
+    public void ClearItem()
+    {
+
+        DisplaceItem.GetComponent<Image>().sprite = DisplaceItem.GetComponent<displaceTheItem>().SpriteNull;
+        DisplaceItem.GetComponent<displaceTheItem>().itemIndex = 0;
 
     }
 
-    IEnumerator WaitBeforeQuit()
-    {
-
-        yield return new WaitForSeconds(3f);
-        QuitBtn.gameObject.SetActive(true);
-
-
-    }
-
-    // ---------------------------- FONCTION APPEL HIPPOCRATE  ----------------------
-
-
-    //  --------------------------- Fonction du bouton quit du dialogue -------------------
-
-
-    public void QuitDialogue()
-    {
-
-        BlurDialogueHippo.gameObject.SetActive(false);
-        HippocrateDialogue.gameObject.SetActive(false);
-        QuitBtn.gameObject.SetActive(false);
-
-        inMenu = false;
-
-    }
-
-
-    //  --------------------------- Fontcion du bouton quit du dialogue -------------------
+    // ---------------------------- GiveItem  ----------------------
 
 
     //  --------------------------- FONCTION DE COLLECTE-------------------
@@ -485,47 +477,12 @@ public class testCam : MonoBehaviour
 
                 ObjectCollected.sprite = TargetItemScript.picto;
                 ObjectCollected.GetComponent<displaceTheItem>().itemIndex = TargetItemScript.itemIndex;
-                HippocrateSentence.text = TargetItemScript.SentenceH;
-
-
+                
             }
         }
     }
 
     //  --------------------------- FONCTION DE COLLECTE-------------------
-
-
-    //  --------------------------- FONCTION DE CADENAS APPEAR-------------------
-
-    public void ShootCadenas()
-    {
-
-        Touch touch = Input.GetTouch(0);
-        RaycastHit hit;
-        Ray ray = mainCam.ScreenPointToRay(touch.position);
-
-        if (Physics.Raycast(ray, out hit))
-        {
-
-            if (hit.transform.gameObject.CompareTag("CADENAS"))
-            {
-
-                Debug.Log("C'est le cadenas");
-
-
-            }
-        }
-    }
-
-    IEnumerator WaitBeforeCadenas()
-    {
-
-        yield return new WaitForSeconds(3f);
-        //SceneManager.LoadScene("Cadenas");
-
-    }
-
-    //  --------------------------- FONCTION DE CADENAS APPEAR-------------------
 
     //  --------------------------- FONCTION SHOOT TP -------------------
 
@@ -692,15 +649,16 @@ public class testCam : MonoBehaviour
                     if (!GoneToLapeyronie)
                     {
 
-                       Debug.Log("Ronpiche");
-                        HippocrateDialogue.gameObject.SetActive(true);
+                       //Debug.Log("Ronpiche");
+                       UiDialogue(LapeyronieFace,Dodo);
 
                     }
 
                     else
                     {
 
-                        // ici hippocrate nous a dit d'aller voir lapeyronie mais on a pas encore parlé à lapeyronie                        
+                        // ici hippocrate nous a dit d'aller voir lapeyronie mais on a pas encore parlé à lapeyronie
+                        
                         ClefVestiaire.gameObject.SetActive(true);
 
                         if (LapeyronieSpoken)
@@ -713,7 +671,8 @@ public class testCam : MonoBehaviour
                             {
 
                                 // ici hippocrate nous a dit d'aller voir lapeyronie, et on a déjà parlé à lapeyronie et on a PAS récup la clef
-                                Debug.Log("Faudrait ptet récup la clef");
+                                //Debug.Log("Faudrait ptet récup la clef");
+                                UiDialogue(LapeyronieFace, "et si tu récupérais la clef? ");
 
                             }
                             if (AccesVestiaire)
@@ -724,15 +683,16 @@ public class testCam : MonoBehaviour
                                     if (CadenasSolved)
                                     {
 
-                                        Debug.Log("Le cadenas a bien été déverouillé, voilà le prochain indice");
-                                        LapeyronieEnd = true;
+                                        //Debug.Log("Le cadenas a bien été déverouillé, mais où est mon scalpel? ");
+                                        UiDialogue(LapeyronieFace, "cool pour le cadenas mais mon scalpel ou est il ? ");
 
                                     }
                                     else
                                     {
 
                                         // ici hippocrate nous a dit d'aller voir lapeyronie, et on a déjà parlé à lapeyronie et on a récup la clef et on est entrés dans les vestiaires, et on a pas déverouillé la cadenas
-                                        Debug.Log("Faut déverouiller le cadenas mtn");
+                                        //Debug.Log("Faut déverouiller le cadenas mtn");
+                                        UiDialogue(LapeyronieFace, " il faudrait peu être déverouiller le cadenas maintenant ? ");
 
                                     }
                                 }
@@ -740,7 +700,8 @@ public class testCam : MonoBehaviour
                                 {
 
                                     // ici hippocrate nous a dit d'aller voir lapeyronie, et on a déjà parlé à lapeyronie et on a récup la clef
-                                    Debug.Log("Tu ferai bien d'aller aux vestiaires");
+                                    //Debug.Log("Tu ferai bien d'aller aux vestiaires");
+                                    UiDialogue(LapeyronieFace, " tu devrai aller aux vestiaires ");
 
                                 }
                             }
@@ -750,15 +711,17 @@ public class testCam : MonoBehaviour
 
                             // ici on a hippocrate nous a dit d'aller voir lapeyronie et nous n'avons pas parlé à lapeyronie
                             LapeyronieSpoken = true;
-                            Debug.Log("BLa Bla Bla voici la première Clef");
+                            //Debug.Log("BLa Bla Bla voici la première Clef");
+                            UiDialogue(LapeyronieFace, "Tu peux aller chercher la première clef !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
                         }
                     }
                 }
                 else
                 {
-                    
-                    Debug.Log("Ho mon beau scalpel, grave refait wola");
+
+                    //Debug.Log("Ho mon beau scalpel, grave refait wola");
+                    UiDialogue(LapeyronieFace, "Merci pour le scalpel ça met trop bien ! ");
 
                 }
 
@@ -1054,6 +1017,28 @@ public class testCam : MonoBehaviour
     }
 
     // ---------------------------- CADENAS SOLVED ---------------------------
+
+    // ---------------------------- DIALOGUE ---------------------------
+
+    public void UiDialogue(Sprite DialogueFace, string TextDialogue )
+    {
+
+        Dialogue.gameObject.SetActive(true);
+        Dialogue.sprite = DialogueFace;
+        TxtDialogue.text = TextDialogue;
+        StartCoroutine("DesAppear");
+
+    }
+
+    IEnumerator DesAppear()
+    {
+
+        yield return new WaitForSeconds(3f);
+        Dialogue.gameObject.SetActive(false);
+
+    }
+
+    // ---------------------------- DIALOGUE ---------------------------
 
 }
 

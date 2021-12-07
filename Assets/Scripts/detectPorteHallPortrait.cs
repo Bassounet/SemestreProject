@@ -49,7 +49,7 @@ public class detectPorteHallPortrait : MonoBehaviour
         {
 
             SendMeToNextWay(ScriptTestCam, CamToEnable, CamToDisable, GoToPortrait);
-            Debug.Log("GoToPortrait");
+            
             ScriptTestCam.gameObject.GetComponent<testCam>().inPortrait = true;
             
         }
@@ -58,7 +58,7 @@ public class detectPorteHallPortrait : MonoBehaviour
         {
 
             SendMeToNextWay(ScriptTestCam, CamToEnable, CamToDisable, GoToPortrait);
-            Debug.Log("GoToVestiaire");
+            
             ScriptTestCam.gameObject.GetComponent<testCam>().inVestiaire = true;
             Player.GetComponent<testCam>().HasVestiaire = true;
 
@@ -69,7 +69,7 @@ public class detectPorteHallPortrait : MonoBehaviour
         {
 
             SendMeToNextWay(ScriptTestCam, CamToEnable, CamToDisable, GoToPortrait);
-            Debug.Log("Go To Labo");
+            
             ScriptTestCam.gameObject.GetComponent<testCam>().hasLabo = true;
             ScriptTestCam.gameObject.GetComponent<testCam>().inLabo = true;
 
@@ -79,7 +79,7 @@ public class detectPorteHallPortrait : MonoBehaviour
         {
 
             SendMeToNextWay(ScriptTestCam, CamToEnable, CamToDisable, GoToPortrait);
-            Debug.Log("GoToVestiaire");
+            
             ScriptTestCam.gameObject.GetComponent<testCam>().inBibli = true;
             Player.GetComponent<testCam>().hasBibli = true;
 
@@ -89,7 +89,7 @@ public class detectPorteHallPortrait : MonoBehaviour
         {
 
             SendMeToNextWay(ScriptTestCam, CamToEnable, CamToDisable, GoToPortrait);
-            Debug.Log("Go To Cadenas");
+            
             ScriptTestCam.gameObject.GetComponent<testCam>().inCadenas = true;
 
         }

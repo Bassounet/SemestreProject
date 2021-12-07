@@ -10,6 +10,7 @@ public class displaceTheItem : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     Vector2 BasePos;
     public bool HoldingItem;
     public int itemIndex;
+    [SerializeField] public Sprite SpriteNull;
 
     private void Start()
     {
