@@ -410,8 +410,8 @@ public class testCam : MonoBehaviour
                     if (hit.transform.gameObject.CompareTag("TableauPidoux"))
                     {
 
-                        PidouxEnd = true;
-                        UiDialogue(Pidouxface, "Merci pour le book ça fait plaiz");
+                        UiDialogue(Pidouxface, "superbe ce bouquin merci ! Faudrait parler à chaptal Mtn ");
+                        PidouxEnd = true;                        
                         ClearItem();
 
                     }
@@ -436,8 +436,6 @@ public class testCam : MonoBehaviour
                         ClearItem();
 
                     }
-
-
                 }
 
                 #endregion
@@ -721,7 +719,7 @@ public class testCam : MonoBehaviour
                 {
 
                     //Debug.Log("Ho mon beau scalpel, grave refait wola");
-                    UiDialogue(LapeyronieFace, "Merci pour le scalpel ça met trop bien ! ");
+                    UiDialogue(LapeyronieFace, "Merci pour le scalpel, pense à aller voir chaptal, qu'il est bô ! ");
 
                 }
 
@@ -733,7 +731,7 @@ public class testCam : MonoBehaviour
 
             if (hit.transform.gameObject.CompareTag("TableauPidoux"))
             {
-                Debug.Log("Vous tentez de parler à pidoux");
+                //Debug.Log("Vous tentez de parler à pidoux");
 
                 if (LapeyronieEnd)
                 {
@@ -741,7 +739,8 @@ public class testCam : MonoBehaviour
                     {
 
                         // ici on a fini avec pidoux et on lui parle
-                        Debug.Log("Je suis si fier de mon ptit fils");
+                        //Debug.Log("Je suis si fier de mon ptit fils");
+                        UiDialogue(Pidouxface, "Si fier de mon ptit fils");
 
                     }
                     else
@@ -750,7 +749,8 @@ public class testCam : MonoBehaviour
                         {
 
                             // ici lapeyronie nous a filé l'indice pour pidoux et on ne lui a pas encore parlé
-                            Debug.Log("Comment va ton ami ? Ok voici ce que tu dois faire ");
+                            //Debug.Log("Comment va ton ami ? Ok voici ce que tu dois faire ");
+                            UiDialogue(Pidouxface, "va chercher la clef pour accéder à la bibliothèque");
                             PidouxGaveClue = true;
                             ClefBibli.gameObject.SetActive(true);
 
@@ -764,7 +764,8 @@ public class testCam : MonoBehaviour
                                 {
 
                                     // ici on a la clef mais on a pas été à la bibliothèque
-                                    Debug.Log("Faut Aller à la bibli mtn");
+                                    //Debug.Log("Faut Aller à la bibli mtn");
+                                    UiDialogue(Pidouxface, "faudrait ptet y aller à la bilbiothèque non ?");
 
                                 }
                                 else
@@ -773,27 +774,18 @@ public class testCam : MonoBehaviour
                                     {
 
                                         // ici on a récup la clef et on a été à la bibli mais on a pas récup les bouquins.
-                                        Debug.Log("Faudrait récup les bouquins/ regarder");
+                                        //Debug.Log("Faudrait récup les bouquins/ regarder");
+                                        UiDialogue(Pidouxface, "récupère les bouquins ça devrait aller ?");
 
                                     }
-                                    else
-                                    {
-
-                                        // ici on a récup le bouquin 
-                                        Debug.Log("Merci pour le book voici le prochain indice");
-                                        PidouxEnd = true;
-
-                                    }
-
-
                                 }
-
                             }
                             else
                             {
 
                                 // ici on a reçu l'indice mais nous ne sommes pas allés chercher la clef
-                                Debug.Log("Et si t'allais chercher la clef");
+                                //Debug.Log("Et si t'allais chercher la clef");
+                                UiDialogue(Pidouxface, "Faudrait que t'ailles chercher la clef pour la bilbi");
 
                             }
                         }
@@ -802,7 +794,8 @@ public class testCam : MonoBehaviour
                 else
                 {
 
-                    Debug.Log("Azy laissez moi dormir à zeubi");
+                    //Debug.Log("Azy laissez moi dormir à zeubi");
+                    UiDialogue(Pidouxface, "ronpiche");
 
                 }
             }
@@ -814,7 +807,7 @@ public class testCam : MonoBehaviour
             if (hit.transform.gameObject.CompareTag("TableauChaptal"))
             {
 
-                Debug.Log(" vous tentez fde parler à CHAPTAL");
+                //Debug.Log(" vous tentez fde parler à CHAPTAL");
 
                 if (LapeyronieEnd)
                 {
@@ -823,6 +816,7 @@ public class testCam : MonoBehaviour
 
                         // ici nous parlons à chaptal et la quête est finie
                         Debug.Log("Oh quel plaisir cette ptite potion d'amour ! ");
+                        UiDialogue(ChaptalFace, "Bien ouej pour la potion, tu vas pouvoir soigner ton ami");
 
                     }
                     else
@@ -832,7 +826,8 @@ public class testCam : MonoBehaviour
                         {
 
                             // ici nous parlons à chaptal il nous a pas donné l'indice
-                            Debug.Log("Hello mon ptit pote, voici ton indice pour la prochaine salle");
+                            //Debug.Log("Hello mon ptit pote, voici ton indice pour la prochaine salle");
+                            UiDialogue(ChaptalFace, "Salut toi alors ton ami est malade? Faudrait que tu aimmes au labo va chercher la clef");
                             ChaptalGaveClue = true;
                             ClefLabo.gameObject.SetActive(true);
 
@@ -848,35 +843,30 @@ public class testCam : MonoBehaviour
                                 {
 
                                     // ici on la clef mais nous ne sommes pas allés au labo
-                                    Debug.Log("faudrait ptet aller au labo non ?");
+                                    //Debug.Log("faudrait ptet aller au labo non ?");
+                                    UiDialogue(ChaptalFace, "tu devrai aller au labo now");
 
                                 }
                                 else
                                 {
 
                                     // ici nous avons la clef et nous sommes allés au Labo
-                                    if (hasPotion)
-                                    {
-
-                                        // ici on est allés au labo et nous avons la fiole/ potion 
-                                        Debug.Log("Tiens la potion file là à ton frerot");
-                                        ChaptalEnd = true;
-
-                                    }
-                                    else
+                                    if (!hasPotion)
                                     {
 
                                         // ici on est allés au labo mais on a pas récup la potion 
-                                        Debug.Log("Faudrait ptet récup la potion ");
+                                        //Debug.Log("Faudrait ptet récup la potion ");
+                                        UiDialogue(ChaptalFace, "va récupérer la potion");
 
-                                    }
+                                    }                                  
                                 }
                             }
                             else
                             {
 
                                 // ici on a parlé à chaptal mais nous n'avons pas choppé la clef
-                                Debug.Log("Faudrait ptet que tu récup la clef du labo");
+                                //Debug.Log("Faudrait ptet que tu récup la clef du labo");
+                                UiDialogue(ChaptalFace, "tu devrai récupérer la clef du labo");
 
                             }
                         }
@@ -885,6 +875,7 @@ public class testCam : MonoBehaviour
                 else
                 {
                     Debug.Log("Laisse moi dormir zeubi");
+                    UiDialogue(ChaptalFace, "ronpiche");
 
                 }
             }
