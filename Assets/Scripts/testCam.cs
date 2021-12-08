@@ -22,6 +22,7 @@ public class testCam : MonoBehaviour
     //VINEK VVVV
     [SerializeField] GameObject TPBIBLI;
     [SerializeField] GameObject TPLABO;
+    [SerializeField] GameObject BlackScreen;
 
     [Header("Dialogue UI")]
     [SerializeField] Sprite LapeyronieFace;
@@ -153,6 +154,11 @@ public class testCam : MonoBehaviour
 
         // ------------------------------ DEBUG ----------------------- // 
 
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+
+            actualCam.GetCinemachineComponent<CinemachineTrackedDolly>().
+        }
         
 
         if (inCadenas)
@@ -982,6 +988,7 @@ public class testCam : MonoBehaviour
         inCadenas = false;
         inHall = false;
         UiCadenas.gameObject.SetActive(false);
+        BlackScreen.SetActive(true);
 
     }
 

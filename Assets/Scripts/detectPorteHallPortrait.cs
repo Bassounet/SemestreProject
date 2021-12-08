@@ -12,6 +12,7 @@ public class detectPorteHallPortrait : MonoBehaviour
     [SerializeField] public GameObject ScriptTestCam;
     [SerializeField] public GameObject TargetLookAt;
     [SerializeField] GameObject Player;
+    [SerializeField] Image BlackScreen;
 
 
     bool inActualHall;
@@ -43,8 +44,9 @@ public class detectPorteHallPortrait : MonoBehaviour
     }
 
     public void f_GoTo()
-    {       
+    {
         
+
         if (ThePortraix )
         {
 
@@ -128,6 +130,7 @@ public class detectPorteHallPortrait : MonoBehaviour
         CamToDisable.gameObject.SetActive(false);
         GoToPortrait.gameObject.SetActive(false);
         ScriptTestCam.gameObject.GetComponent<testCam>().inHall = !ScriptTestCam.gameObject.GetComponent<testCam>().inHall;
+        BlackScreen.gameObject.SetActive(true); // fondu au noir
 
     }
 }
