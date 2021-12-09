@@ -12,14 +12,18 @@ public class WalkieSlide : MonoBehaviour
     private Vector3 offset;
     float Obj;
 
+    float frequVolume;
+
     int arrondi;
     // Start is called before the first frame update
     void Start()
     {
 
             Obj = Random.Range(-12.0f, 12.0f);
+        if (0 <= Obj && Obj < 4) { Obj = 4f; }
+        if (-4 < Obj && Obj < 0) { Obj = -4f; }
             Debug.Log("valeur:" + Obj.ToString());
-        NOISE.GetComponent<AudioSource>().volume = 0;
+       SAM.GetComponent<AudioSource>().volume = 0;
 
     }
 
@@ -65,15 +69,24 @@ public class WalkieSlide : MonoBehaviour
 
     void Son()
     {
-        if (gameObject.transform.localPosition.x != 0) {
-            if (Mathf.Abs(Obj) / Mathf.Abs(gameObject.transform.localPosition.x) < 1)
-            {
-                Debug.Log(Mathf.Abs(Obj) / Mathf.Round(Mathf.Abs(gameObject.transform.localPosition.x)));
-            }
-            if (Mathf.Abs(Obj) / Mathf.Abs(gameObject.transform.localPosition.x) > 1)
-            {
-                Debug.Log(Mathf.Abs((1 - Mathf.Abs(Obj)) / Mathf.Round(Mathf.Abs(gameObject.transform.localPosition.x))));
-            }
-         }
+        //if (gameObject.transform.localPosition.x != 0) {
+        //    if (Mathf.Abs(Obj) / Mathf.Abs(gameObject.transform.localPosition.x) < 1)
+        //    {
+        //Debug.Log(Mathf.Abs(Obj) / Mathf.Round((gameObject.transform.localPosition.x)));
+        //   }
+        //   if (Mathf.Abs(Obj) / Mathf.Abs(gameObject.transform.localPosition.x) > 1)
+        //   {
+        //       Debug.Log(Mathf.Abs((1 - Mathf.Abs(Obj)) / Mathf.Round(Mathf.Abs(gameObject.transform.localPosition.x))));
+        //   }
+        //}
+        if (frequVolume < 0)
+        {
+            frequVolume = 0;
+        }
+        frequVolume = (Mathf.Abs((Obj) - Mathf.Round((gameObject.transform.localPosition.x))) / (Mathf.Abs((Obj))));
+        SAM.GetComponent<AudioSource>().volume = 1-frequVolume;
+        NOISE.GetComponent<AudioSource>().volume = frequVolume;
+
+        Debug.Log(1-(Mathf.Abs((Obj) - Mathf.Round((gameObject.transform.localPosition.x))) / (Mathf.Abs((Obj)))));
     }
 }
