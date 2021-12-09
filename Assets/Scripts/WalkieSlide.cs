@@ -5,6 +5,9 @@ using UnityEngine.Assertions;
 
 public class WalkieSlide : MonoBehaviour
 {
+    [SerializeField] GameObject SAM;
+    [SerializeField] GameObject NOISE;
+
     private Vector3 screenPoint;
     private Vector3 offset;
     float Obj;
@@ -16,7 +19,7 @@ public class WalkieSlide : MonoBehaviour
 
             Obj = Random.Range(-12.0f, 12.0f);
             Debug.Log("valeur:" + Obj.ToString());
-
+        NOISE.GetComponent<AudioSource>().volume = 0;
 
     }
 
@@ -24,13 +27,9 @@ public class WalkieSlide : MonoBehaviour
     void Update()
     {
         Block();
-        //Debug.Log(Mathf.Round(gameObject.transform.localPosition.x));
-
-        //arrondi = (int)gameObject.transform.localPosition.x;
-        //if ((float)arrondi== gameObject.transform.localPosition.x)
-        //{Debug.Log(gameObject.transform.localPosition.x);}
         DetectWalk();
         Son();
+
     }
     void OnMouseDown()
     {
@@ -66,6 +65,15 @@ public class WalkieSlide : MonoBehaviour
 
     void Son()
     {
-
+        if (gameObject.transform.localPosition.x != 0) {
+            if (Mathf.Abs(Obj) / Mathf.Abs(gameObject.transform.localPosition.x) < 1)
+            {
+                Debug.Log(Mathf.Abs(Obj) / Mathf.Round(Mathf.Abs(gameObject.transform.localPosition.x)));
+            }
+            if (Mathf.Abs(Obj) / Mathf.Abs(gameObject.transform.localPosition.x) > 1)
+            {
+                Debug.Log(Mathf.Abs((1 - Mathf.Abs(Obj)) / Mathf.Round(Mathf.Abs(gameObject.transform.localPosition.x))));
+            }
+         }
     }
 }
