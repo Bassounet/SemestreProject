@@ -72,6 +72,9 @@ public class testCam : MonoBehaviour
     public float distanceMaxForGrab;
     public float dragSpeed = 2;
     public bool hasSolvedCadenas;
+    [Range(0, 10)] public float shakingForce;
+    [Range(0, 10)] public float TimeToShake;
+
 
 
     public bool itsH;
@@ -153,14 +156,6 @@ public class testCam : MonoBehaviour
         // ------------------------------ DEBUG ----------------------- // 
 
         // ------------------------------ DEBUG ----------------------- // 
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-
-            actualCam.GetCinemachineComponent<CinemachineTrackedDolly>().
-        }
-        
-
         if (inCadenas)
         {
 
@@ -199,6 +194,7 @@ public class testCam : MonoBehaviour
             ShootClefs();
             TalkToHippo();
             Debug.Log("Shoot");
+            //ShakeTheSam();
 
         }
 
@@ -544,7 +540,14 @@ public class testCam : MonoBehaviour
                         //ButtonLaboisActive = !ButtonLaboisActive;
                         holdBib = false;
                     }
-                    else { Debug.Log("pas la clé poiru la bilbi"); holdBib = false; }
+                    else 
+                    { 
+                        
+                        Debug.Log("pas la clé poiru la bilbi");
+                        ShakeTheSam();
+                        holdBib = false;
+                    
+                    }
                 }
             }
 
@@ -567,7 +570,14 @@ public class testCam : MonoBehaviour
                         //ButtonLaboisActive = !ButtonLaboisActive;
                         holdLab = false;
                     }
-                    else { Debug.Log("yolopasdeclédulabo"); holdLab = false; }
+                    else
+                    {
+
+                        ShakeTheSam();
+                        holdLab = false; 
+
+
+                    }
 
                 }
             }
@@ -1037,6 +1047,28 @@ public class testCam : MonoBehaviour
     }
 
     // ---------------------------- DIALOGUE ---------------------------
+
+    // ---------------------------- SHAKE ---------------------------
+
+    public void ShakeTheSam()
+    {
+
+        actualCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = shakingForce;
+        StartCoroutine("UnShake");
+
+    }
+
+    IEnumerator UnShake()
+    {
+
+        yield return new WaitForSeconds(TimeToShake);
+        actualCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 0f;
+
+    }
+
+    // ---------------------------- SHAKE ---------------------------
+
+
 
 }
 
