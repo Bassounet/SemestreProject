@@ -110,7 +110,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b03d0fc49e3a3324a90a39cc4053f747, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Fiole: {fileID: 2100000, guid: 2b9f5f935567da446a4ec1e1915513e8, type: 2}
+  Fiole: {fileID: 2100000, guid: b58fbf09bc1b1c94997a7b6a4786e130, type: 2}
+  videY: {fileID: 2100000, guid: e779940c24154a3478e1b948632a2972, type: 2}
+  videX: {fileID: 2100000, guid: 3531d1ba33cc95e419c05177eb5ec591, type: 2}
   pos: X
   fiole: 0
   defX: 0

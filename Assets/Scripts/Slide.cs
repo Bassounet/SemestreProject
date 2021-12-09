@@ -5,6 +5,8 @@ using UnityEngine;
 public class Slide : MonoBehaviour
 {
     [SerializeField] Material Fiole;
+    [SerializeField] Material videY;
+    [SerializeField] Material videX;
     public string pos;
     public bool fiole =false;
     bool Dragging = false;
@@ -31,21 +33,25 @@ public class Slide : MonoBehaviour
         defDown=BlockDown;
         defLeft=BlockLeft;
         defRight=BlockRight;
-        if (fiole)
-        {
-            //Texture verte
-            gameObject.GetComponent<MeshRenderer>().material= Fiole;
-            //Elle peut déborder en bas
-            BlockDown -= 2;
-            defDown -= 2;
-        }
+
         if (pos == "Y")
         {
             defX = gameObject.transform.localPosition.x;
+            gameObject.GetComponent<MeshRenderer>().material = videY;
+
         }
         if (pos == "X")
         {
             defY = gameObject.transform.localPosition.y;
+            gameObject.GetComponent<MeshRenderer>().material = videX;
+        }
+        if (fiole)
+        {
+            //Texture verte
+            gameObject.GetComponent<MeshRenderer>().material = Fiole;
+            //Elle peut déborder en bas
+            BlockDown -= 2;
+            defDown -= 2;
         }
     }
     
