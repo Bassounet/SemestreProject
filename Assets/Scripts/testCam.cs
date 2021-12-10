@@ -19,7 +19,7 @@ public class testCam : MonoBehaviour
     [SerializeField] Canvas UiCadenas;
     [SerializeField] Text TxtDialogue;
     [SerializeField] GameObject DisplaceItem;
-    [SerializeField] Button TalkieWalkieBtn;
+    [SerializeField] GameObject TalkieWalkieBtn;
     //VINEK VVVV
     [SerializeField] GameObject TPBIBLI;
     [SerializeField] GameObject TPLABO;
@@ -141,6 +141,8 @@ public class testCam : MonoBehaviour
 
     private CinemachineVirtualCamera actualCam;
 
+    public bool StopGame;
+
 
 
     //VINEKTP VAR
@@ -203,7 +205,7 @@ public class testCam : MonoBehaviour
             ShootTPout();
         }
 
-        if (Input.touchCount > 0 && shoot == 0) // fonction lancment de collect quand on appuie 
+        if (Input.touchCount > 0 && shoot == 0 && !StopGame) // fonction lancment de collect quand on appuie 
         {
 
             Collect();
@@ -215,7 +217,7 @@ public class testCam : MonoBehaviour
 
         }
 
-        if (Input.touchCount > 0)
+        if (Input.touchCount > 0 && !StopGame)
         {
 
             GiveTheItem();
@@ -229,7 +231,7 @@ public class testCam : MonoBehaviour
         #region ControlCam       
 
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !StopGame)
         {
 
             camMoving = true;
@@ -411,8 +413,8 @@ public class testCam : MonoBehaviour
 
                         LapeyronieEnd = true;
                         UiDialogue(LapeyronieFace, "AAAH ! Mon matériel ! Tu sais qu'il m'a servit à soigner Louis XV? Dans mon temps j'étais un grand chirurgien, j'ai même été président de l'académie royale de chirurgie ! Merci bien jeune homme Oh et pour ton ami, il devrait essayer de se mettre sur le dos, et de prendre une compresse chaude pour calmer la douleur. ");
-                        TalkieWalkieBtn.gameObject.SetActive(true);
-                        BlackScreen.gameObject.SetActive(true);
+                        StopGame = true;
+                        StartCoroutine("AppearTheTalkie");
                         ClearItem();
 
                     }
@@ -462,6 +464,14 @@ public class testCam : MonoBehaviour
                 #endregion
             }
         }
+    }
+
+    IEnumerator AppearTheTalkie()
+    {
+
+        yield return new WaitForSeconds(1f);
+        TalkieWalkieBtn.gameObject.SetActive(true);        
+
     }
 
     public void ClearItem()
@@ -1036,14 +1046,19 @@ public class testCam : MonoBehaviour
     {
         if ( inVestiaire || inLabo || inBibli || inPortrait)
         {
+            if ( !StopGame)
+            {
 
-            VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition += pos.x * dragSpeed;
+                VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition += pos.x * dragSpeed;
+
+            }
+            
 
         }
         else if (inHall)
         {
-
-            VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition += pos.x * -dragSpeed;
+            if (!StopGame)
+                VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition += pos.x * -dragSpeed;
 
         }
         
@@ -1133,7 +1148,7 @@ public class testCam : MonoBehaviour
 
     // ---------------------------- SHAKE ---------------------------
 
-    // ---------------------------- APPEAR TALKIE ---------------------------
+    // ---------------------------- TALKIE ---------------------------
 
     public void AppearTalkie()
     {
@@ -1143,11 +1158,26 @@ public class testCam : MonoBehaviour
         VirtualCamPortrait.gameObject.SetActive(false);
         VirtualCamTalkie.gameObject.SetActive(true);
         TalkieWalkieBtn.gameObject.SetActive(false);
-        
+        BlackScreen.gameObject.SetActive(true);
+        StopGame = false;
+
+
+    }
+    public void BackFromTalkie()
+    {
+
+        inTalkie = false;
+        WalkieTalkie.SetActive(false);
+        VirtualCamPortrait.gameObject.SetActive(true);
+        VirtualCamTalkie.gameObject.SetActive(false);
+        TalkieWalkieBtn.gameObject.SetActive(false);
+        BlackScreen.gameObject.SetActive(true);
+        StopGame = false;
+        inPortrait = true;
 
     }
 
-    // ---------------------------- APPEAR TALKIE ---------------------------
+    // ---------------------------- TALKIE ---------------------------
 
 
 
