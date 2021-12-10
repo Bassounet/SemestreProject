@@ -24,6 +24,10 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject TPLABO;
     [SerializeField] GameObject BlackScreen;
 
+    [SerializeField] GameObject flecheg;
+    [SerializeField] GameObject fleched;
+    //FIN VINEK
+
     [Header("Dialogue UI")]
     [SerializeField] Sprite LapeyronieFace;
     [SerializeField] Sprite HippoFace;
@@ -32,7 +36,6 @@ public class testCam : MonoBehaviour
     [SerializeField] string Dodo;
     [SerializeField] string RecupeLaClefVestiaire;
 
-    //FIN VINEK
     [SerializeField] Image ObjectCollected;
     [SerializeField] Text HippocrateSentence;
     [SerializeField] Button InspectButton;
@@ -153,6 +156,15 @@ public class testCam : MonoBehaviour
 
     void Update()
     {
+
+        // ------------------------------ VINEK ----------------------- // 
+
+
+
+        // ------------------------------ FIN VINEK ----------------------- // 
+
+
+
 
         // ------------------------------ DEBUG ----------------------- // 
 
@@ -981,7 +993,40 @@ public class testCam : MonoBehaviour
         currentPos = VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition;
 
         VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = Mathf.Clamp(currentPos,0, maxPos);
+        float treshold = 0.15f;
 
+        if (inVestiaire || inBibli)
+        {
+            if (Mathf.Abs(maxPos - currentPos) < treshold)
+            {
+                flecheg.gameObject.SetActive(false);
+            }
+            else if (currentPos < treshold)
+            {
+                fleched.gameObject.SetActive(false);
+            }
+            else
+            {
+                fleched.gameObject.SetActive(true);
+                flecheg.gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            if (Mathf.Abs(maxPos - currentPos) < treshold)
+            {
+                fleched.gameObject.SetActive(false);
+            }
+            else if (currentPos < treshold)
+            {
+                flecheg.gameObject.SetActive(false);
+            }
+            else
+            {
+                fleched.gameObject.SetActive(true);
+                flecheg.gameObject.SetActive(true);
+            }
+        }
     }
 
 
