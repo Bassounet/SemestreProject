@@ -19,6 +19,7 @@ public class testCam : MonoBehaviour
     [SerializeField] Canvas UiCadenas;
     [SerializeField] Text TxtDialogue;
     [SerializeField] GameObject DisplaceItem;
+    [SerializeField] Button TalkieWalkieBtn;
     //VINEK VVVV
     [SerializeField] GameObject TPBIBLI;
     [SerializeField] GameObject TPLABO;
@@ -409,7 +410,9 @@ public class testCam : MonoBehaviour
                     {
 
                         LapeyronieEnd = true;
-                        UiDialogue(LapeyronieFace, "Merci pour le scalpel ça met bien");
+                        UiDialogue(LapeyronieFace, "AAAH ! Mon matériel ! Tu sais qu'il m'a servit à soigner Louis XV? Dans mon temps j'étais un grand chirurgien, j'ai même été président de l'académie royale de chirurgie ! Merci bien jeune homme Oh et pour ton ami, il devrait essayer de se mettre sur le dos, et de prendre une compresse chaude pour calmer la douleur. ");
+                        TalkieWalkieBtn.gameObject.SetActive(true);
+                        BlackScreen.gameObject.SetActive(true);
                         ClearItem();
 
                     }
@@ -752,7 +755,7 @@ public class testCam : MonoBehaviour
 
                     //Debug.Log("Ho mon beau scalpel, grave refait wola");
                     UiDialogue(LapeyronieFace, "AAAH ! Mon matériel ! Tu sais qu'il m'a servit à soigner Louis XV? Dans mon temps j'étais un grand chirurgien, j'ai même été président de l'académie royale de chirurgie ! Merci bien jeune homme Oh et pour ton ami, il devrait essayer de se mettre sur le dos, et de prendre une compresse chaude pour calmer la douleur. ");
-                    AppearTalkie();
+                    
 
                 }
 
@@ -1139,6 +1142,8 @@ public class testCam : MonoBehaviour
         WalkieTalkie.SetActive(true);
         VirtualCamPortrait.gameObject.SetActive(false);
         VirtualCamTalkie.gameObject.SetActive(true);
+        TalkieWalkieBtn.gameObject.SetActive(false);
+        
 
     }
 
