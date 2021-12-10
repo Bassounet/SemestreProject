@@ -48,12 +48,14 @@ public class testCam : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera VirtualCamBibli;
     [SerializeField] CinemachineVirtualCamera VirtualCamLabo;
     [SerializeField] CinemachineVirtualCamera VirtualCamCadenas;
+    [SerializeField] CinemachineVirtualCamera VirtualCamTalkie;
     [SerializeField] GameObject dollyHall;
     [SerializeField] GameObject dollyPortrait;
     [SerializeField] GameObject dollyVestiaire;
     [SerializeField] GameObject dollyBibli;
     [SerializeField] GameObject dollyLabo;
     [SerializeField] GameObject dollyCadenas;
+    [SerializeField] GameObject dollyTalkie;
 
     [Header(" LOOK AT ")]
     [SerializeField] GameObject targetvestiaire;
@@ -65,12 +67,15 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject TargetPortraitRest;
     [SerializeField] GameObject TargetCadenasRest;
     [SerializeField] GameObject TargetCadenas;
+    [SerializeField] GameObject TargetTalkie;
+    [SerializeField] GameObject TargetTalkierest;
 
     [Header("This IsGame Object")]
     [SerializeField] Camera mainCam;
     [SerializeField] GameObject Player;
     [SerializeField] GameObject DoorClosed;
     [SerializeField] GameObject DoorOpen;
+    [SerializeField] GameObject WalkieTalkie;
 
 
     [Header(" INTERACTABLE ZONE ")]
@@ -99,6 +104,7 @@ public class testCam : MonoBehaviour
     [Header("POSITION > SPACEWORLD")]
     public bool inHall ;
     public bool inLabo ;
+    public bool inTalkie;
     public bool inVestiaire;
     public bool inPortrait ;
     public bool inBibli;
@@ -157,18 +163,6 @@ public class testCam : MonoBehaviour
     void Update()
     {
 
-        // ------------------------------ VINEK ----------------------- // 
-
-
-
-        // ------------------------------ FIN VINEK ----------------------- // 
-
-
-
-
-        // ------------------------------ DEBUG ----------------------- // 
-
-        // ------------------------------ DEBUG ----------------------- // 
 
         if (CadenasSolved)
         {
@@ -217,7 +211,6 @@ public class testCam : MonoBehaviour
             ShootClefs();
             TalkToHippo();
             Debug.Log("Shoot");
-            //ShakeTheSam();
 
         }
 
@@ -759,6 +752,7 @@ public class testCam : MonoBehaviour
 
                     //Debug.Log("Ho mon beau scalpel, grave refait wola");
                     UiDialogue(LapeyronieFace, "AAAH ! Mon matériel ! Tu sais qu'il m'a servit à soigner Louis XV? Dans mon temps j'étais un grand chirurgien, j'ai même été président de l'académie royale de chirurgie ! Merci bien jeune homme Oh et pour ton ami, il devrait essayer de se mettre sur le dos, et de prendre une compresse chaude pour calmer la douleur. ");
+                    AppearTalkie();
 
                 }
 
@@ -1135,6 +1129,20 @@ public class testCam : MonoBehaviour
     }
 
     // ---------------------------- SHAKE ---------------------------
+
+    // ---------------------------- APPEAR TALKIE ---------------------------
+
+    public void AppearTalkie()
+    {
+
+        inTalkie = true;
+        WalkieTalkie.SetActive(true);
+        VirtualCamPortrait.gameObject.SetActive(false);
+        VirtualCamTalkie.gameObject.SetActive(true);
+
+    }
+
+    // ---------------------------- APPEAR TALKIE ---------------------------
 
 
 

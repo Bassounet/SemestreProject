@@ -2,15 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Cinemachine;
 
 public class WalkieSlide : MonoBehaviour
 {
     [SerializeField] GameObject SAM;
     [SerializeField] GameObject NOISE;
+    [SerializeField] CinemachineVirtualCamera camTalkie;
 
     private Vector3 screenPoint;
     private Vector3 offset;
     float Obj;
+    float DefY;
+
+    Camera MaCam;
 
     float frequVolume;
 
@@ -24,6 +29,9 @@ public class WalkieSlide : MonoBehaviour
         if (-4 < Obj && Obj < 0) { Obj = -4f; }
             Debug.Log("valeur:" + Obj.ToString());
        SAM.GetComponent<AudioSource>().volume = 0;
+        MaCam = GameObject.FindObjectOfType<Camera>();
+
+        DefY=gameObject.transform.localPosition.y;
 
     }
 
@@ -37,15 +45,17 @@ public class WalkieSlide : MonoBehaviour
     }
     void OnMouseDown()
     {
-            screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
-            offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, 0, screenPoint.z));
+
+        
+            screenPoint = MaCam.WorldToScreenPoint(gameObject.transform.position);
+            offset = gameObject.transform.position - MaCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, 0, screenPoint.z));
         
     }
 
     void OnMouseDrag()
     {
             Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, 0, screenPoint.z);
-            Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
+            Vector3 curPosition = MaCam.ScreenToWorldPoint(curScreenPoint) + offset;
             transform.position = curPosition;  
     }
     void Block()
@@ -58,11 +68,16 @@ public class WalkieSlide : MonoBehaviour
         {
             gameObject.transform.localPosition = new Vector3(-12, gameObject.transform.localPosition.y, 0);
         }
+        gameObject.transform.localPosition = new Vector3(gameObject.transform.localPosition.x, DefY, 0);
     }
     void DetectWalk() {
         if (Obj - 0.2 < gameObject.transform.localPosition.x && gameObject.transform.localPosition.x < Obj + 0.2)
         {
+
+            // LA VICTOIRE 
             Debug.Log("YES");
+
+
         }
         else { Debug.Log(gameObject.transform.localPosition.x); }
     }
