@@ -66,14 +66,18 @@ public class testCam : MonoBehaviour
     [Header("This IsGame Object")]
     [SerializeField] Camera mainCam;
     [SerializeField] GameObject Player;
+    [SerializeField] GameObject DoorClosed;
+    [SerializeField] GameObject DoorOpen;
 
 
     [Header(" INTERACTABLE ZONE ")]
     public float distanceMaxForGrab;
-    public float dragSpeed = 2;
+    public float dragSpeed = -2;
+    public float dragSpeedInvert = 2;
     public bool hasSolvedCadenas;
     [Range(0, 10)] public float shakingForce;
     [Range(0, 10)] public float TimeToShake;
+    [SerializeField] GameObject Scalpel;
 
 
 
@@ -125,11 +129,8 @@ public class testCam : MonoBehaviour
     public bool hasLabo;
     public bool hasPotion;
 
-    //bool ButtonBibliisActive = false;
-    //bool ButtonLaboisActive = false;
-
-
     private CinemachineVirtualCamera actualCam;
+
 
 
     //VINEKTP VAR
@@ -146,7 +147,7 @@ public class testCam : MonoBehaviour
         camMoving = false;
         inHall = true;
         GoneToLapeyronie = false;
-        
+                
     }
 
 
@@ -156,6 +157,16 @@ public class testCam : MonoBehaviour
         // ------------------------------ DEBUG ----------------------- // 
 
         // ------------------------------ DEBUG ----------------------- // 
+
+        if (CadenasSolved)
+        {
+
+            Scalpel.SetActive(true);
+            DoorClosed.SetActive(false);
+            DoorOpen.SetActive(true);
+
+        }
+
         if (inCadenas)
         {
 
@@ -980,8 +991,19 @@ public class testCam : MonoBehaviour
 
     public void MakePositionCam(CinemachineVirtualCamera VirtualCam, Vector3 pos)
     {
+        if ( inVestiaire || inLabo || inBibli)
+        {
 
-        VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition += pos.x * -dragSpeed;
+            VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition += pos.x * dragSpeed;
+
+        }
+        else if (inHall)
+        {
+
+            VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition += pos.x * -dragSpeed;
+
+        }
+        
 
     }
 
@@ -999,7 +1021,7 @@ public class testCam : MonoBehaviour
         inHall = false;
         UiCadenas.gameObject.SetActive(false);
         BlackScreen.SetActive(true);
-
+        
     }
 
     // ---------------------------- BACK FROM CADENAS ---------------------------
