@@ -664,7 +664,7 @@ public class testCam : MonoBehaviour
                     {
 
                        //Debug.Log("Ronpiche");
-                       UiDialogue(LapeyronieFace,Dodo);
+                       UiDialogue(LapeyronieFace,"bonjour caca ");
 
                     }
 
