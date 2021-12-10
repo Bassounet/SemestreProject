@@ -16,6 +16,7 @@ TagManager:
   - CLEF
   - TableauPidoux
   - TableauChaptal
+  - REGISTER
   layers:
   - Default
   - TransparentFX

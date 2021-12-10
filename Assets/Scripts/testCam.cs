@@ -20,6 +20,7 @@ public class testCam : MonoBehaviour
     [SerializeField] Text TxtDialogue;
     [SerializeField] GameObject DisplaceItem;
     [SerializeField] GameObject TalkieWalkieBtn;
+    [SerializeField] GameObject Registre;
     //VINEK VVVV
     [SerializeField] GameObject TPBIBLI;
     [SerializeField] GameObject TPLABO;
@@ -39,7 +40,6 @@ public class testCam : MonoBehaviour
 
     [SerializeField] Image ObjectCollected;
     [SerializeField] Text HippocrateSentence;
-    [SerializeField] Button InspectButton;
     [SerializeField] Text WhatUGot;
     
     [Header("VIRTUAL_CAM")]
@@ -143,6 +143,8 @@ public class testCam : MonoBehaviour
 
     public bool StopGame;
 
+    private bool HascadenasSolved;
+
 
 
     //VINEKTP VAR
@@ -167,12 +169,13 @@ public class testCam : MonoBehaviour
     {
 
 
-        if (CadenasSolved)
+        if (CadenasSolved && !HascadenasSolved)
         {
 
             Scalpel.SetActive(true);
             DoorClosed.SetActive(false);
             DoorOpen.SetActive(true);
+            HascadenasSolved = true;
 
         }
 
@@ -213,6 +216,8 @@ public class testCam : MonoBehaviour
             ShootTableaux();
             ShootClefs();
             TalkToHippo();
+            ShootCadenas();
+            ShootRegister();
             Debug.Log("Shoot");
 
         }
@@ -506,6 +511,9 @@ public class testCam : MonoBehaviour
 
                 ObjectCollected.sprite = TargetItemScript.picto;
                 ObjectCollected.GetComponent<displaceTheItem>().itemIndex = TargetItemScript.itemIndex;
+
+                hit.transform.gameObject.SetActive(false);
+                
                 
             }
         }
@@ -1179,9 +1187,58 @@ public class testCam : MonoBehaviour
 
     // ---------------------------- TALKIE ---------------------------
 
+    // ---------------------------- ShootCadenas ---------------------------
+
+    public void ShootCadenas()
+    {
+
+        Touch touch = Input.GetTouch(0);
+        RaycastHit hit;
+        Ray ray = mainCam.ScreenPointToRay(touch.position);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+
+            if (hit.transform.gameObject.CompareTag("CADENAS"))
+            {
+
+                hit.transform.gameObject.GetComponent<detectPorteHallPortrait>().f_GoTo();
+
+            }
+
+        }
+
+    }
+
+    // ---------------------------- ShootCadenas ---------------------------
+
+    // ---------------------------- REGISTER ---------------------------
+
+    public void ShootRegister()
+    {
+
+        Touch touch = Input.GetTouch(0);
+        RaycastHit hit;
+        Ray ray = mainCam.ScreenPointToRay(touch.position);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+
+            if (hit.transform.gameObject.CompareTag("REGISTER"))
+            {
 
 
-}
+
+            }
+        }
+    }
+
+    // ---------------------------- REGISTER ---------------------------
+
+
+
+
+    }
 
 
 

@@ -205,6 +205,7 @@ public class cadenas : MonoBehaviour
         Debug.Log("Win");
         winned = true;
         Player.GetComponent<testCam>().CadenasSolevd();
+        Player.GetComponent<testCam>().backFromCadenas();
 
     }
     
