@@ -13,7 +13,10 @@ public class detectPorteHallPortrait : MonoBehaviour
     [SerializeField] public GameObject TargetLookAt;
     [SerializeField] GameObject Player;
     [SerializeField] Image BlackScreen;
-
+    [SerializeField] Material OpenMat;
+    [SerializeField] GameObject Cube1;
+    [SerializeField] GameObject Cube2;
+    [SerializeField] GameObject Cube3;
 
     bool inActualHall;
 
@@ -28,6 +31,16 @@ public class detectPorteHallPortrait : MonoBehaviour
     {
 
         
+
+    }
+    private void Update()
+    {
+        if ((ToLabo && Player.GetComponent<testCam>().AccessLabo)||(ToBibli && Player.GetComponent<testCam>().AccessBibli))
+        {
+            Cube1.GetComponent<MeshRenderer>().material=OpenMat;
+            Cube2.GetComponent<MeshRenderer>().material=OpenMat;
+            Cube3.GetComponent<MeshRenderer>().material=OpenMat;
+        }
 
     }
 
@@ -69,6 +82,7 @@ public class detectPorteHallPortrait : MonoBehaviour
 
         if (ToLabo && Player.GetComponent<testCam>().AccessLabo)
         {
+            
 
             SendMeToNextWay(ScriptTestCam, CamToEnable, CamToDisable, GoToPortrait);
             

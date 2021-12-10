@@ -355,11 +355,18 @@ MonoBehaviour:
   CamToEnable: {fileID: 0}
   ScriptTestCam: {fileID: 0}
   TargetLookAt: {fileID: 0}
-  Clefs: {fileID: 0}
+  Player: {fileID: 0}
+  BlackScreen: {fileID: 0}
+  OpenMat: {fileID: 2100000, guid: 4314a50ea1ae51c4c82abd55a349e41d, type: 2}
+  Cube1: {fileID: 553690398450629901}
+  Cube2: {fileID: 3990441425745711201}
+  Cube3: {fileID: 282999975439397281}
   GoToVestiaire: 0
   ThePortraix: 0
   ToThehall: 0
   ToBibli: 0
+  ToLabo: 0
+  ToCadenas: 0
 --- !u!135 &9013471887297038044
 SphereCollider:
   m_ObjectHideFlags: 0
