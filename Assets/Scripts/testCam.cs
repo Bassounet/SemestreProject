@@ -995,7 +995,7 @@ public class testCam : MonoBehaviour
         VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = Mathf.Clamp(currentPos,0, maxPos);
         float treshold = 0.15f;
 
-        if (inVestiaire || inBibli)
+        if (inVestiaire || inBibli /*|| inPortrait*/)
         {
             if (Mathf.Abs(maxPos - currentPos) < treshold)
             {
@@ -1036,7 +1036,7 @@ public class testCam : MonoBehaviour
 
     public void MakePositionCam(CinemachineVirtualCamera VirtualCam, Vector3 pos)
     {
-        if ( inVestiaire || inLabo || inBibli)
+        if ( inVestiaire || inLabo || inBibli || inPortrait)
         {
 
             VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition += pos.x * dragSpeed;
