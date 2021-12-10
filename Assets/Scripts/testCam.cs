@@ -378,7 +378,7 @@ public class testCam : MonoBehaviour
                     
                     // ici on a pas parlé à hippocrate ni à lapeyronie
                     Debug.Log("BlaBlaBla Va voir Lapyrouze");
-                    UiDialogue(HippoFace, "Tu ferai bien d'aller voir lapeyronie");
+                    UiDialogue(HippoFace, "Bonjour mon petit, qu'est-ce qui t'arrive? Oh ! Ton ami est malade et tu cherches des solutions dans la faculté de médecine pour essayer de l'aider? Et bien je sais peut - être comment tu peux faire!");
                     GoneToLapeyronie = true;
 
                 }
