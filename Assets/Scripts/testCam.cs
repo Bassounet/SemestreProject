@@ -37,6 +37,8 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject flecheg;
     [SerializeField] GameObject fleched;
 
+    [SerializeField] GameObject Cle;
+
     //FIN VINEK
 
     [Header("Dialogue UI")]
@@ -137,6 +139,7 @@ public class testCam : MonoBehaviour
     public bool inBibli;
     public bool inCadenas;
     public bool inSlideP;
+    public bool holdVes;
     public bool holdBib;
     public bool holdLab;
 
@@ -197,7 +200,9 @@ public class testCam : MonoBehaviour
     void Update()
     {
 
-        
+
+        if ((holdBib && AccessBibli) || (holdLab && AccessLabo) || (holdVes && AccesVestiaire)) { Cle.SetActive(true); }
+        else { Cle.SetActive(false); }
 
         if (CadenasSolved && !HascadenasSolved)
         {
@@ -433,7 +438,7 @@ public class testCam : MonoBehaviour
                     
                     // ici on a pas parlé à hippocrate ni à lapeyronie
                     Debug.Log("BlaBlaBla Va voir Lapyrouze");
-                    UiDialogue(HippoFace, "Bonjour mon petit, qu'est-ce qui t'arrive?\n\n-\n\nOh! Ton ami est malade et tu cherches des solutions dans la faculté de médecine pour essayer de l'aider?\n\n-\n\nEt bien je sais peut - être comment tu peux faire!\n\n-\n\nS'il a mal à l'abdomen, c'est un problème interne! Va voir ce tableau là - bas, Lapeyronie pourra sans doutes t'aider! C'est le premier chirurgien du roi Louis XV tu sais!");
+                    UiDialogue(HippoFace, "Bonjour mon petit, je suis Hippocrate, le père de la médecine moderne! Quel bon vent t'amènes?\n\n-\n\nOh! Ton ami est malade et tu cherches des solutions dans la faculté de médecine pour essayer de l'aider?\n\n-\n\nEt bien je sais peut - être comment tu peux faire!\n\n-\n\nS'il a mal à l'abdomen, c'est un problème interne! Va voir ce tableau là - bas, Lapeyronie pourra sans doutes t'aider! C'est le premier chirurgien du roi Louis XV tu sais!");
                     GoneToLapeyronie = true;
 
                 }
@@ -634,13 +639,13 @@ public class testCam : MonoBehaviour
                         //ButtonLaboisActive = !ButtonLaboisActive;
                         holdBib = false;
                     }
-                    else 
-                    { 
-                        
+                    else
+                    {
+
                         Debug.Log("pas la clé poiru la bilbi");
                         ShakeTheSam();
                         holdBib = false;
-                    
+
                     }
                 }
             }
@@ -668,13 +673,24 @@ public class testCam : MonoBehaviour
                     {
 
                         ShakeTheSam();
-                        holdLab = false; 
+                        holdLab = false;
 
                     }
 
                 }
             }
 
+
+            if (permahit.transform.GetComponent<detectPorteHallPortrait>().GoToVestiaire)
+            {
+                if (holdVes)
+                {
+                    if (AccesVestiaire)
+                    {
+                        holdVes = false;
+                    }
+                }
+            }
         }
 
     }
@@ -698,6 +714,7 @@ public class testCam : MonoBehaviour
                 {
 
                     AccesVestiaire = true;
+                    holdVes= true;
                     var textUI = hit.transform.GetComponent<Clef>().WhatUGat;
                     Debug.Log("Its a Key Vestiaire");
                     WhatUGot.text = textUI;
@@ -1081,6 +1098,11 @@ public class testCam : MonoBehaviour
 
         VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = Mathf.Clamp(currentPos,0, maxPos);
         float treshold = 0.15f;
+
+        if (inTalkie || inCadenas) {
+            fleched.gameObject.SetActive(false);
+            flecheg.gameObject.SetActive(false);
+        }
 
         if (inVestiaire || inBibli )
         {

@@ -10,6 +10,8 @@ public class WalkieSlide : MonoBehaviour
     [SerializeField] GameObject NOISE;
     [SerializeField] CinemachineVirtualCamera camTalkie;
     [SerializeField] GameObject Player;
+    [SerializeField] GameObject Fond;
+    [SerializeField] Material YES;
 
     private Vector3 screenPoint;
     private Vector3 offset;
@@ -20,7 +22,7 @@ public class WalkieSlide : MonoBehaviour
     public float marge=0.2f;
 
     Camera MaCam;
-
+    Material matDef;
     float frequVolume;
 
     int arrondi;
@@ -32,6 +34,7 @@ public class WalkieSlide : MonoBehaviour
 
     private void Awake()
     {
+        matDef = Fond.GetComponent<MeshRenderer>().material;
        Default = gameObject.transform.localPosition;
     }
     void Start()
@@ -89,14 +92,16 @@ public class WalkieSlide : MonoBehaviour
 
             // LA VICTOIRE 
             Debug.Log("YES");
+            Fond.GetComponent<MeshRenderer>().material = YES;
             Win = true;
             Invoke("Winning", TimeToStayForWin);
 
         }
         else 
         {
-
+            Fond.GetComponent<MeshRenderer>().material = matDef;
             Win = false;
+
             //Debug.Log(gameObject.transform.localPosition.x);
         
         }

@@ -11,6 +11,7 @@ public class displaceTheItem : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     public bool HoldingItem;
     public int itemIndex;
     [SerializeField] public Sprite SpriteNull;
+    [SerializeField] GameObject talkiecam;
 
     private void Start()
     {
@@ -53,7 +54,7 @@ public class displaceTheItem : MonoBehaviour, IPointerDownHandler, IBeginDragHan
 
     public void Update()
     {
-
+        if (talkiecam.activeSelf) { gameObject.transform.localPosition = Vector3.zero; }
         
     }
 
