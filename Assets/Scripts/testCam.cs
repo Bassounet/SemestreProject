@@ -23,14 +23,18 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject TheBlur;
     [SerializeField] GameObject BtnSkip;
     [SerializeField] GameObject facingDialogue;
-    GameObject CurrentDialogue;
+    [SerializeField] GameObject GuyNam;
+
+
     //VINEK VVVV
+
     [SerializeField] GameObject TPBIBLI;
     [SerializeField] GameObject TPLABO;
     [SerializeField] GameObject BlackScreen;
 
     [SerializeField] GameObject flecheg;
     [SerializeField] GameObject fleched;
+
     //FIN VINEK
 
     [Header("Dialogue UI")]
@@ -38,8 +42,10 @@ public class testCam : MonoBehaviour
     [SerializeField] Sprite HippoFace;
     [SerializeField] Sprite Pidouxface;
     [SerializeField] Sprite ChaptalFace;
-    [SerializeField] string Dodo;
-    [SerializeField] string RecupeLaClefVestiaire;
+    [SerializeField] Sprite NamePidoux;
+    [SerializeField] Sprite NameChaptal;
+    [SerializeField] Sprite NameHippocrate;
+    [SerializeField] Sprite NameLapeyronie;
 
     [SerializeField] Image ObjectCollected;
     [SerializeField] Text HippocrateSentence;
@@ -426,6 +432,7 @@ public class testCam : MonoBehaviour
                         UiDialogue(LapeyronieFace, "AAAH ! Mon matériel ! Tu sais qu'il m'a servit à soigner Louis XV? Dans mon temps j'étais un grand chirurgien, j'ai même été président de l'académie royale de chirurgie ! Merci bien jeune homme Oh et pour ton ami, il devrait essayer de se mettre sur le dos, et de prendre une compresse chaude pour calmer la douleur. ");
                         StopGame = true;
                         StartCoroutine("AppearTheTalkie");
+                        BtnSkip.SetActive(true);
                         ClearItem();
 
                     }
@@ -779,7 +786,7 @@ public class testCam : MonoBehaviour
                 {
 
                     //Debug.Log("Ho mon beau scalpel, grave refait wola");
-                    UiDialogue(LapeyronieFace, "AAAH ! Mon matériel ! Tu sais qu'il m'a servit à soigner Louis XV? Dans mon temps j'étais un grand chirurgien, j'ai même été président de l'académie royale de chirurgie ! Merci bien jeune homme Oh et pour ton ami, il devrait essayer de se mettre sur le dos, et de prendre une compresse chaude pour calmer la douleur. ");
+                    UiDialogue(LapeyronieFace, "/*AAAH ! Mon matériel ! Tu sais qu'il m'a servit à soigner Louis XV? Dans mon temps j'étais un grand chirurgien, j'ai même été président de l'académie royale de chirurgie ! Merci bien jeune homme Oh et pour ton ami, il devrait essayer de se mettre sur le dos, et de prendre une compresse chaude pour calmer la douleur.*/ ");
                     
 
                 }
@@ -868,9 +875,7 @@ public class testCam : MonoBehaviour
             if (hit.transform.gameObject.CompareTag("TableauChaptal"))
             {
 
-                //Debug.Log(" vous tentez fde parler à CHAPTAL");
-
-                if (LapeyronieEnd)
+                if (PidouxEnd)
                 {
                     if (ChaptalEnd)
                     {
@@ -1129,6 +1134,39 @@ public class testCam : MonoBehaviour
         Dialogue.gameObject.SetActive(true);
         facingDialogue.GetComponent<Image>().sprite = DialogueFace;
         TxtDialogue.text = TextDialogue;
+        GuyNam.gameObject.SetActive(true);
+
+        if ( DialogueFace == HippoFace)
+        {
+
+            GuyNam.gameObject.GetComponent<Image>().sprite = NameHippocrate;
+
+        }
+
+        if (DialogueFace == Pidouxface)
+        {
+
+            GuyNam.gameObject.GetComponent<Image>().sprite = NamePidoux;
+
+        }
+
+        if (DialogueFace == LapeyronieFace)
+        {
+
+            GuyNam.gameObject.GetComponent<Image>().sprite = NameLapeyronie;
+
+        }
+
+        if (DialogueFace == ChaptalFace)
+        {
+
+            GuyNam.gameObject.GetComponent<Image>().sprite = NameChaptal;
+
+        }
+
+        GuyNam.gameObject.SetActive(true);
+        
+        StopGame = true;
 
     }
 
@@ -1167,8 +1205,8 @@ public class testCam : MonoBehaviour
         TalkieWalkieBtn.gameObject.SetActive(false);
         BlackScreen.gameObject.SetActive(true);
         StopGame = false;
-
-
+        Dialogue.gameObject.SetActive(false);
+        
     }
     public void BackFromTalkie()
     {
@@ -1245,8 +1283,19 @@ public class testCam : MonoBehaviour
 
     // ---------------------------- REGISTER ---------------------------
 
+    // ---------------------------- OK FOR GAME ---------------------------
+
+    public void OkForTheGame()
+    {
+
+        StopGame = false;
 
     }
+
+    // ---------------------------- OK FOR GAME ---------------------------
+
+
+}
 
 
 
