@@ -17,6 +17,9 @@ TagManager:
   - TableauPidoux
   - TableauChaptal
   - REGISTER
+  - BookBibli1
+  - BookBibli3
+  - BookBibli2
   layers:
   - Default
   - TransparentFX

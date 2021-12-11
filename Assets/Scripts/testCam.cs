@@ -27,6 +27,7 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject RectScroll;
 
 
+
     //VINEK VVVV
 
     [SerializeField] GameObject TPBIBLI;
@@ -43,6 +44,7 @@ public class testCam : MonoBehaviour
     [SerializeField] Sprite HippoFace;
     [SerializeField] Sprite Pidouxface;
     [SerializeField] Sprite ChaptalFace;
+    [SerializeField] Sprite SameFace;
     [SerializeField] Sprite NamePidoux;
     [SerializeField] Sprite NameChaptal;
     [SerializeField] Sprite NameHippocrate;
@@ -51,7 +53,14 @@ public class testCam : MonoBehaviour
     [SerializeField] Image ObjectCollected;
     [SerializeField] Text HippocrateSentence;
     [SerializeField] Text WhatUGot;
-    
+
+
+    [Header("Bibli")]
+    [SerializeField] GameObject Livre;
+    [SerializeField] Sprite Genealogie;
+    [SerializeField] Sprite Fable;
+    [SerializeField] Sprite Random;
+
     [Header("VIRTUAL_CAM")]
     [SerializeField] CinemachineVirtualCamera VirtualCamHall;
     [SerializeField] CinemachineVirtualCamera VirtualCamPortrait;
@@ -231,6 +240,7 @@ public class testCam : MonoBehaviour
             TalkToHippo();
             ShootCadenas();
             ShootRegister();
+            ShootForBibli();
             Debug.Log("Shoot");
 
         }
@@ -1065,7 +1075,7 @@ public class testCam : MonoBehaviour
 
     public void MakePositionCam(CinemachineVirtualCamera VirtualCam, Vector3 pos)
     {
-        if ( inVestiaire || inLabo || inBibli || inPortrait)
+        if ( inVestiaire || inLabo || inBibli )
         {
             if ( !StopGame)
             {
@@ -1076,7 +1086,7 @@ public class testCam : MonoBehaviour
             
 
         }
-        else if (inHall)
+        else if (inHall || inPortrait)
         {
             if (!StopGame)
                 VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition += pos.x * -dragSpeed;
@@ -1136,6 +1146,7 @@ public class testCam : MonoBehaviour
         facingDialogue.GetComponent<Image>().sprite = DialogueFace;
         TxtDialogue.text = TextDialogue;
         GuyNam.gameObject.SetActive(true);
+        BtnSkip.SetActive(true);
 
         if ( DialogueFace == HippoFace)
         {
@@ -1223,6 +1234,9 @@ public class testCam : MonoBehaviour
         BlackScreen.gameObject.SetActive(true);
         StopGame = false;
         inPortrait = true;
+        BtnSkip.SetActive(true);
+        UiDialogue(SameFace, "Allô, C'est moi Sam! Merci encore d'être aller chercher de quoi me soigner. \n\n   J'ai vraiment mal au milieu du ventre si ça peut t'aider à trouver des solutions !");
+        Invoke("TurnUpSkip", 3f);
 
     }
 
@@ -1292,8 +1306,7 @@ public class testCam : MonoBehaviour
     public void OkForTheGame()
     {
 
-        StopGame = false;        
-        
+        StopGame = false;       
 
     }
 
@@ -1303,8 +1316,78 @@ public class testCam : MonoBehaviour
         RectScroll.GetComponent<ScrollRect>().movementType = ScrollRect.MovementType.Unrestricted;
 
     }
+
     // ---------------------------- OK FOR GAME ---------------------------
 
+    // ---------------------------- OK FOR GAME ---------------------------
+
+    public void TurnUpSkip()
+    {
+
+        BtnSkip.SetActive(true);
+
+    }
+
+    // ---------------------------- OK FOR GAME ---------------------------
+
+    // ---------------------------- ShootBook ---------------------------
+
+    public void ShootForBibli()
+    {
+
+        Touch touch = Input.GetTouch(0);
+        RaycastHit hit;
+        Ray ray = mainCam.ScreenPointToRay(touch.position);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            Debug.Log(hit.normal);
+
+            if (hit.transform.gameObject.CompareTag("BookBibli1"))
+            {
+
+                Debug.Log("its genealogie");
+                inMenu = true;
+                TheBlur.SetActive(true);
+                Livre.SetActive(true);
+                Livre.GetComponent<Image>().sprite = Genealogie; 
+
+            }
+
+            if (hit.transform.gameObject.CompareTag("BookBibli2"))
+            {
+
+                inMenu = true;
+                TheBlur.SetActive(true);
+                Livre.SetActive(true);
+                Livre.GetComponent<Image>().sprite = Fable;
+
+            }
+
+            if (hit.transform.gameObject.CompareTag("BookBibli3"))
+            {
+
+                inMenu = true;
+                TheBlur.SetActive(true);
+                Livre.SetActive(true);
+                Livre.GetComponent<Image>().sprite = Random;
+
+            }
+        }
+
+    }
+
+    public void DisableBook()
+    {
+
+        inMenu = false;
+        Livre.SetActive(false);
+        TheBlur.SetActive(false);
+
+    }
+    
+
+    // ---------------------------- ShootBook ---------------------------
 
 }
 
