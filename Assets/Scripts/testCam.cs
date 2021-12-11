@@ -24,6 +24,7 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject BtnSkip;
     [SerializeField] GameObject facingDialogue;
     [SerializeField] GameObject GuyNam;
+    [SerializeField] GameObject RectScroll;
 
 
     //VINEK VVVV
@@ -1165,7 +1166,9 @@ public class testCam : MonoBehaviour
         }
 
         GuyNam.gameObject.SetActive(true);
-        
+
+        RectScroll.GetComponent<ScrollRect>().movementType = ScrollRect.MovementType.Elastic;
+        Invoke("ResetPosition", 0.1f);
         StopGame = true;
 
     }
@@ -1187,6 +1190,7 @@ public class testCam : MonoBehaviour
     {
 
         yield return new WaitForSeconds(TimeToShake);
+
         actualCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 0f;
 
     }
@@ -1288,10 +1292,17 @@ public class testCam : MonoBehaviour
     public void OkForTheGame()
     {
 
-        StopGame = false;
+        StopGame = false;        
+        
 
     }
 
+    public void ResetPosition()
+    {
+                
+        RectScroll.GetComponent<ScrollRect>().movementType = ScrollRect.MovementType.Unrestricted;
+
+    }
     // ---------------------------- OK FOR GAME ---------------------------
 
 
