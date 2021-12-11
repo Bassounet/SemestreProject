@@ -23,6 +23,7 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject TheBlur;
     [SerializeField] GameObject BtnSkip;
     [SerializeField] GameObject facingDialogue;
+    GameObject CurrentDialogue;
     //VINEK VVVV
     [SerializeField] GameObject TPBIBLI;
     [SerializeField] GameObject TPLABO;
@@ -171,6 +172,7 @@ public class testCam : MonoBehaviour
     void Update()
     {
 
+        
 
         if (CadenasSolved && !HascadenasSolved)
         {
@@ -209,6 +211,7 @@ public class testCam : MonoBehaviour
 
             shoot = 0;
             ShootTPout();
+
         }
 
         if (Input.touchCount > 0 && shoot == 0 && !StopGame) // fonction lancment de collect quand on appuie 
@@ -1125,17 +1128,9 @@ public class testCam : MonoBehaviour
         Dialogue.gameObject.SetActive(true);
         facingDialogue.GetComponent<Image>().sprite = DialogueFace;
         TxtDialogue.text = TextDialogue;
-        StartCoroutine("DesAppear");
 
     }
 
-    IEnumerator DesAppear()
-    {
-
-        yield return new WaitForSeconds(3f);
-        Dialogue.gameObject.SetActive(false);
-
-    }
 
     // ---------------------------- DIALOGUE ---------------------------
 
