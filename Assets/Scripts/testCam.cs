@@ -39,6 +39,7 @@ public class testCam : MonoBehaviour
 
     [SerializeField] GameObject Cle;
 
+
     //FIN VINEK
 
     [Header("Dialogue UI")]
@@ -170,6 +171,10 @@ public class testCam : MonoBehaviour
     public bool ChaptalGaveClue;
     public bool hasLabo;
     public bool hasPotion;
+
+    public bool cleVespopped;
+    public bool cleLabpopped;
+    public bool cleBibpopped;
 
     private CinemachineVirtualCamera actualCam;
 
@@ -687,6 +692,7 @@ public class testCam : MonoBehaviour
                 {
                     if (AccesVestiaire)
                     {
+
                         holdVes = false;
                     }
                 }
@@ -719,7 +725,11 @@ public class testCam : MonoBehaviour
                     Debug.Log("Its a Key Vestiaire");
                     WhatUGot.text = textUI;
                     WhatUGot.gameObject.SetActive(true);
-                    ClefVestiaire.SetActive(false);
+                    if (!cleVespopped)
+                    {
+                        ClefVestiaire.SetActive(false);
+                        cleVespopped = true;
+                    }
 
                 }
 
@@ -731,8 +741,11 @@ public class testCam : MonoBehaviour
                     Debug.Log("Its a Key Bibli");
                     WhatUGot.text = textUI;
                     WhatUGot.gameObject.SetActive(true);
-                    ClefBibli.SetActive(false);
-
+                    if (!cleBibpopped)
+                    {
+                        ClefBibli.SetActive(false);
+                        cleBibpopped = true;
+                    }
                 }
 
                 if (hit.transform.GetComponent<Clef>().KeyLabo)
@@ -743,7 +756,11 @@ public class testCam : MonoBehaviour
                     Debug.Log("Its a Key Bibli");
                     WhatUGot.text = textUI;
                     WhatUGot.gameObject.SetActive(true);
-                    ClefLabo.SetActive(false);
+                    if (!cleLabpopped)
+                    {
+                        ClefLabo.SetActive(false);
+                        cleLabpopped = true;
+                    }
 
                 }
             }
