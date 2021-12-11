@@ -91,6 +91,7 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject TargetCadenas;
     [SerializeField] GameObject TargetTalkie;
     [SerializeField] GameObject TargetTalkierest;
+    [SerializeField] GameObject Coffr;
 
     [Header("This IsGame Object")]
     [SerializeField] Camera mainCam;
@@ -259,6 +260,7 @@ public class testCam : MonoBehaviour
             ShootCadenas();
             ShootRegister();
             ShootForBibli();
+            ShootForCoffr();
             Debug.Log("Shoot");
 
         }
@@ -1400,6 +1402,27 @@ public class testCam : MonoBehaviour
                 Livre.GetComponent<Image>().sprite = Random;
 
             }
+        }
+
+    }
+    public void ShootForCoffr()
+    {
+
+        Touch touch = Input.GetTouch(0);
+        RaycastHit hit;
+        Ray ray = mainCam.ScreenPointToRay(touch.position);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            Debug.Log(hit.normal);
+
+            if (hit.transform.gameObject.CompareTag("COFFRE"))
+            {
+
+                SceneManager.LoadScene("PuzzleSlide"); 
+
+            }
+
         }
 
     }

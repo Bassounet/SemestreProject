@@ -20,6 +20,7 @@ TagManager:
   - BookBibli1
   - BookBibli3
   - BookBibli2
+  - COFFRE
   layers:
   - Default
   - TransparentFX
