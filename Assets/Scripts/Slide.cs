@@ -7,6 +7,7 @@ public class Slide : MonoBehaviour
     [SerializeField] Material Fiole;
     [SerializeField] Material videY;
     [SerializeField] Material videX;
+
     public string pos;
     public bool fiole =false;
     bool Dragging = false;
@@ -20,6 +21,8 @@ public class Slide : MonoBehaviour
     float defDown;
     float defLeft;
     float defRight;
+
+    Camera MaCam;
 
     public float defX;
     public float defY;
@@ -58,7 +61,7 @@ public class Slide : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        MaCam = GameObject.FindObjectOfType<Camera>();
     }
 
     // Update is called once per frame
@@ -106,15 +109,15 @@ public class Slide : MonoBehaviour
     {
         if (pos == "Y")
         {
-            screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
+            screenPoint = MaCam.WorldToScreenPoint(gameObject.transform.position);
 
-            offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(0, Input.mousePosition.y, screenPoint.z));
+            offset = gameObject.transform.position - MaCam.ScreenToWorldPoint(new Vector3(0, Input.mousePosition.y, screenPoint.z));
         }
         if (pos == "X")
         {
-            screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
+            screenPoint = MaCam.WorldToScreenPoint(gameObject.transform.position);
 
-            offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, 0, screenPoint.z));
+            offset = gameObject.transform.position - MaCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, 0, screenPoint.z));
         }
     }
 
@@ -123,14 +126,15 @@ public class Slide : MonoBehaviour
         Dragging = true;
         if (pos == "Y")
         {
+            Debug.Log(Input.mousePosition.y);
             Vector3 curScreenPoint = new Vector3(defX, Input.mousePosition.y, screenPoint.z);
-            Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
+            Vector3 curPosition = MaCam.ScreenToWorldPoint(curScreenPoint) + offset;
             transform.position = curPosition;
         }
         if (pos == "X")
         {
             Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, defY, screenPoint.z);
-            Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
+            Vector3 curPosition = MaCam.ScreenToWorldPoint(curScreenPoint) + offset;
             transform.position = curPosition;
         }
     }

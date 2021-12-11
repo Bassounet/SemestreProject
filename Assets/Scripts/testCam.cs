@@ -69,6 +69,7 @@ public class testCam : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera VirtualCamLabo;
     [SerializeField] CinemachineVirtualCamera VirtualCamCadenas;
     [SerializeField] CinemachineVirtualCamera VirtualCamTalkie;
+    [SerializeField] CinemachineVirtualCamera VirtualCamSlideP;
     [SerializeField] GameObject dollyHall;
     [SerializeField] GameObject dollyPortrait;
     [SerializeField] GameObject dollyVestiaire;
@@ -76,6 +77,7 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject dollyLabo;
     [SerializeField] GameObject dollyCadenas;
     [SerializeField] GameObject dollyTalkie;
+    [SerializeField] GameObject dollySlideP;
 
     [Header(" LOOK AT ")]
     [SerializeField] GameObject targetvestiaire;
@@ -132,6 +134,7 @@ public class testCam : MonoBehaviour
     public bool inPortrait ;
     public bool inBibli;
     public bool inCadenas;
+    public bool inSlideP;
     public bool holdBib;
     public bool holdLab;
 
@@ -213,6 +216,19 @@ public class testCam : MonoBehaviour
         {
 
             UiCadenas.gameObject.SetActive(false);
+
+        }
+        if (inSlideP)
+        {
+
+            inLabo = false;
+            //UiCadenas.gameObject.SetActive(true);
+
+        }
+        else
+        {
+
+            //iCadenas.gameObject.SetActive(false);
 
         }
 
@@ -323,12 +339,20 @@ public class testCam : MonoBehaviour
             }
             else if (inLabo)
             {
-
+                inSlideP = false;
                 actualCam = VirtualCamLabo;
                 MakePositionCam(VirtualCamLabo, pos);
                 DontPathOverTheMax(VirtualCamLabo, dollyLabo);
 
             }
+            //else if (inSlideP)
+            //{
+            //    inLabo = false;
+            //    actualCam = VirtualCamSlideP;
+            //    MakePositionCam(VirtualCamSlideP, pos);
+            //    DontPathOverTheMax(VirtualCamSlideP, dollySlideP);
+
+            //}
             //else if (inCadenas)
             //{
 
