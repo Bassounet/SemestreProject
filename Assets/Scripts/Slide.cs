@@ -24,14 +24,21 @@ public class Slide : MonoBehaviour
 
     Camera MaCam;
 
+    Vector3 drop;
+
     public float defX;
     public float defY;
 
     private Vector3 screenPoint;
     private Vector3 offset;
 
+    RaycastHit hit;
+    Touch touch;
+    Ray ray;
+
     private void Awake()
     {
+        drop = gameObject.transform.localPosition;
         defUp=BlockUp;  
         defDown=BlockDown;
         defLeft=BlockLeft;
@@ -67,11 +74,17 @@ public class Slide : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.touchCount > 0) {
+             touch = Input.GetTouch(0);
+              ray = MaCam.ScreenPointToRay(touch.position);}
         Block();
         if (fiole && gameObject.transform.localPosition.y < -5 && !Dragging)
         {
             Debug.Log("win!");
+        }
+        if (!Dragging)
+        {
+            gameObject.transform.localPosition = drop;
         }
     }
     void Block()
@@ -142,6 +155,7 @@ public class Slide : MonoBehaviour
     {
         // If your mouse hovers over the GameObject with the script attached, output this message
         Debug.Log("Drag ended!");
+        drop = gameObject.transform.localPosition;
         Dragging = false;
         if (pos == "Y")
         {
