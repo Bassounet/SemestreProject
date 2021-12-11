@@ -49,6 +49,7 @@ public class testCam : MonoBehaviour
     [SerializeField] Sprite NameChaptal;
     [SerializeField] Sprite NameHippocrate;
     [SerializeField] Sprite NameLapeyronie;
+    [SerializeField] Button TalkieDialogue;
 
     [SerializeField] Image ObjectCollected;
     [SerializeField] Text HippocrateSentence;
@@ -155,10 +156,12 @@ public class testCam : MonoBehaviour
     public bool LapeyronieSpoken; // si lapeyronie nous a parlé     
     public bool HasVestiaire;
     public bool CadenasSolved;
+    public bool RdyForLastDIalogue;
     public bool LapeyronieEnd;
     public bool hasBibli;
     public bool hasBook;
-    public bool PidouxGaveClue; // si pidoux nous a déjà filé son indice pour la clef 
+    public bool PidouxGaveClue;// si pidoux nous a déjà filé son indice pour la clef 
+    public bool RdyForLastDialoguePid;
     public bool PidouxEnd;
     public bool ChaptalEnd;
     public bool ChaptalGaveClue;
@@ -467,11 +470,10 @@ public class testCam : MonoBehaviour
                     if (hit.transform.gameObject.CompareTag("TableauLapeyronie"))
                     {
 
-                        LapeyronieEnd = true;
+                        RdyForLastDIalogue = true;
                         UiDialogue(LapeyronieFace, "AAAH ! Mon matériel ! Tu sais qu'il m'a servit à soigner Louis XV? Dans mon temps j'étais un grand chirurgien, j'ai même été président de l'académie royale de chirurgie ! \n\n-\n\nMerci bien jeune homme.\n\n-\n\nOh et pour ton ami, il devrait essayer de se mettre sur le dos, et de prendre une compresse chaude pour calmer la douleur. ");
                         StopGame = true;
-                        StartCoroutine("AppearTheTalkie");
-                        BtnSkip.SetActive(true);
+                        TalkieDialogue.gameObject.SetActive(true);                        
                         ClearItem();
 
                     }
@@ -491,9 +493,10 @@ public class testCam : MonoBehaviour
                     {
 
                         UiDialogue(Pidouxface, "Oh ! Mon arrière petit-fils est devenu un célèbre fabuliste? Il a même écrit pour des Rois? Mais c'est merveilleux! Merci beaucoup, me voilà soulagé.. Merci du fond du cœur!\n\n-\n\n Pendant que tu cherchais j'ai réfléchit et il me semble que pour ton ami, un bandage autour de la plaie, désinfectée au préalable serait le plus adaptée à sa blessure.");
-                        PidouxEnd = true;                        
+                        TalkieDialogue.gameObject.SetActive(true);
+                        RdyForLastDialoguePid = true;                        
                         ClearItem();
-
+                        
                     }
 
 
@@ -790,6 +793,14 @@ public class testCam : MonoBehaviour
                                         //Debug.Log("Le cadenas a bien été déverouillé, mais où est mon scalpel? ");
                                         UiDialogue(LapeyronieFace, "Ramène-moi mes outils bon sang!");
 
+                                        if (RdyForLastDIalogue)
+                                        {
+
+                                            UiDialogue(LapeyronieFace, "Va Voir Pidouxxxx");
+                                            LapeyronieEnd = true;
+
+                                        }
+
                                     }
                                     else
                                     {
@@ -825,7 +836,7 @@ public class testCam : MonoBehaviour
                 {
 
                     //Debug.Log("Ho mon beau scalpel, grave refait wola");
-                    UiDialogue(LapeyronieFace, "/*AAAH ! Mon matériel ! Tu sais qu'il m'a servit à soigner Louis XV? Dans mon temps j'étais un grand chirurgien, j'ai même été président de l'académie royale de chirurgie ! \n\n-\n\nMerci bien jeune homme Oh et pour ton ami, il devrait essayer de se mettre sur le dos, et de prendre une compresse chaude pour calmer la douleur.*/ ");
+                    UiDialogue(LapeyronieFace, "/*AAAH ! Mon matériel ! Tu sais qu'il m'a servit à soigner Louis XV? Dans mon temps j'étais un grand chirurgien, j'ai même été président de l'académie royale de chirurgie ! \n\n-\n\nMerci bien jeune homme Oh et pour ton ami, il devrait essayer de se mettre sur le dos, et de prendre une compresse chaude pour calmer la douleur.\n\n - \n Ah, alors la cuisse c'est quelque peu délicat, je préfère ne pas dire de bêtises qui risquerait d'aggraver son cas. \n \n - \n Va plutôt voir François Pidoux, il saura être plus juste.Il a été le médecin de trois rois consécutifs, à commencer par Henri II! \n Bonne chance jeune homme et merci encore pour mon scalpel!");
                     
 
                 }
@@ -883,6 +894,14 @@ public class testCam : MonoBehaviour
                                         // ici on a récup la clef et on a été à la bibli mais on a pas récup les bouquins.
                                         //Debug.Log("Faudrait récup les bouquins/ regarder");
                                         UiDialogue(Pidouxface, "As-tu bien cherché dans les livres à la bibliothèque?");
+
+                                        if (RdyForLastDialoguePid)
+                                        {
+
+                                            UiDialogue(Pidouxface, "Va voir Chaptal");
+                                            PidouxEnd = true;
+
+                                        }
 
                                     }
                                 }
@@ -1264,8 +1283,16 @@ public class testCam : MonoBehaviour
         StopGame = false;
         inPortrait = true;
         BtnSkip.SetActive(true);
-        UiDialogue(SameFace, "Allô, C'est moi Sam! Merci encore d'être aller chercher de quoi me soigner. \n\n   J'ai vraiment mal au milieu du ventre si ça peut t'aider à trouver des solutions !");
+        UiDialogue(SameFace, "Ca y est tu m'entends? Tu as trouvé un moyen de m'aider? \n \n - \n Ah merci, je vais essayer ça tout de suite \n \n - \n Ca fait du bien, ça me soulage un peu.Merci beaucoup!\n \n Mais là je viens de m'ouvrir la cuisse en tombant, ça fait super mal et ça saigne pas mal, comment je fais?");
+        if (RdyForLastDialoguePid)
+        {
+
+            UiDialogue(SameFace, "Hello, c'est bon tu m'entends? \n \n - \n Ok cool, c'est super que tu arrives à m'aider, merci mon pote! \n \n Je vais chercher dans mon placard et me bander la jambe!\n \n - \n Ok, ça piquait un peu mais là ça fait du bien, c'est super! \n \n - \nPar contre qu'est-ce que ma tête me fait mal!!\n \n J'ai des nausées c'est horrible..t'as pas une solution sous la main?\n \n j'ai l'impression que je vais tomber dans les pommes");
+
+        }
         Invoke("TurnUpSkip", 3f);
+        TalkieDialogue.gameObject.SetActive(false);
+        VirtualCamPortrait.LookAt.SetPositionAndRotation(TargetPortraitRest.transform.position, Quaternion.identity);
 
     }
 
