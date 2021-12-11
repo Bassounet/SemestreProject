@@ -391,7 +391,7 @@ public class testCam : MonoBehaviour
                     
                     // ici on a pas parlé à hippocrate ni à lapeyronie
                     Debug.Log("BlaBlaBla Va voir Lapyrouze");
-                    UiDialogue(HippoFace, "Bonjour mon petit, qu'est-ce qui t'arrive? Oh ! Ton ami est malade et tu cherches des solutions dans la faculté de médecine pour essayer de l'aider? Et bien je sais peut - être comment tu peux faire!");
+                    UiDialogue(HippoFace, "Bonjour mon petit, qu'est-ce qui t'arrive?\n\n-\n\nOh! Ton ami est malade et tu cherches des solutions dans la faculté de médecine pour essayer de l'aider?\n\n-\n\nEt bien je sais peut - être comment tu peux faire!\n\n-\n\nS'il a mal à l'abdomen, c'est un problème interne! Va voir ce tableau là - bas, Lapeyronie pourra sans doutes t'aider! C'est le premier chirurgien du roi Louis XV tu sais!");
                     GoneToLapeyronie = true;
 
                 }
@@ -429,7 +429,7 @@ public class testCam : MonoBehaviour
                     {
 
                         LapeyronieEnd = true;
-                        UiDialogue(LapeyronieFace, "AAAH ! Mon matériel ! Tu sais qu'il m'a servit à soigner Louis XV? Dans mon temps j'étais un grand chirurgien, j'ai même été président de l'académie royale de chirurgie ! Merci bien jeune homme Oh et pour ton ami, il devrait essayer de se mettre sur le dos, et de prendre une compresse chaude pour calmer la douleur. ");
+                        UiDialogue(LapeyronieFace, "AAAH ! Mon matériel ! Tu sais qu'il m'a servit à soigner Louis XV? Dans mon temps j'étais un grand chirurgien, j'ai même été président de l'académie royale de chirurgie ! \n\n-\n\nMerci bien jeune homme.\n\n-\n\nOh et pour ton ami, il devrait essayer de se mettre sur le dos, et de prendre une compresse chaude pour calmer la douleur. ");
                         StopGame = true;
                         StartCoroutine("AppearTheTalkie");
                         BtnSkip.SetActive(true);
@@ -451,7 +451,7 @@ public class testCam : MonoBehaviour
                     if (hit.transform.gameObject.CompareTag("TableauPidoux"))
                     {
 
-                        UiDialogue(Pidouxface, "superbe ce bouquin merci ! Faudrait parler à chaptal Mtn ");
+                        UiDialogue(Pidouxface, "Oh ! Mon arrière petit-fils est devenu un célèbre fabuliste? Il a même écrit pour des Rois? Mais c'est merveilleux! Merci beaucoup, me voilà soulagé.. Merci du fond du cœur!\n\n-\n\n Pendant que tu cherchais j'ai réfléchit et il me semble que pour ton ami, un bandage autour de la plaie, désinfectée au préalable serait le plus adaptée à sa blessure.");
                         PidouxEnd = true;                        
                         ClearItem();
 
@@ -777,7 +777,7 @@ public class testCam : MonoBehaviour
                             // ici on a hippocrate nous a dit d'aller voir lapeyronie et nous n'avons pas parlé à lapeyronie
                             LapeyronieSpoken = true;
                             //Debug.Log("BLa Bla Bla voici la première Clef");
-                            UiDialogue(LapeyronieFace, "Bonjour jeune homme, tu as besoin de mes conseils il me semble. Écoute, je veux bien t'aider mais seulement si tu fais quelque chose pour moi en retour. Depuis que je suis dans ce tableau je n'ai pas eu accès a mes affaires, Ramène-moi mon scalpel préféré, il est jaune, et je t'aiderai avec Tonna mi. Si tout va bien ils sont toujours stockés dans mon casier, la clé des vestiaires est caché dans le pot de fleur me semble-t-il. ");
+                            UiDialogue(LapeyronieFace, "Bonjour jeune homme, tu as besoin de mes conseils il me semble. Écoute, je veux bien t'aider mais seulement si tu fais quelque chose pour moi en retour. \n\n-\n\nDepuis que je suis dans ce tableau je n'ai pas eu accès a mes affaires, Ramène-moi mon scalpel préféré, il est jaune, et je t'aiderai avec Tonna mi.\n\n-\n\n Si tout va bien ils sont toujours stockés dans mon casier, la clé des vestiaires est caché dans le pot de fleur me semble-t-il. ");
 
                         }
                     }
@@ -786,7 +786,7 @@ public class testCam : MonoBehaviour
                 {
 
                     //Debug.Log("Ho mon beau scalpel, grave refait wola");
-                    UiDialogue(LapeyronieFace, "/*AAAH ! Mon matériel ! Tu sais qu'il m'a servit à soigner Louis XV? Dans mon temps j'étais un grand chirurgien, j'ai même été président de l'académie royale de chirurgie ! Merci bien jeune homme Oh et pour ton ami, il devrait essayer de se mettre sur le dos, et de prendre une compresse chaude pour calmer la douleur.*/ ");
+                    UiDialogue(LapeyronieFace, "/*AAAH ! Mon matériel ! Tu sais qu'il m'a servit à soigner Louis XV? Dans mon temps j'étais un grand chirurgien, j'ai même été président de l'académie royale de chirurgie ! \n\n-\n\nMerci bien jeune homme Oh et pour ton ami, il devrait essayer de se mettre sur le dos, et de prendre une compresse chaude pour calmer la douleur.*/ ");
                     
 
                 }
@@ -808,7 +808,7 @@ public class testCam : MonoBehaviour
 
                         // ici on a fini avec pidoux et on lui parle
                         //Debug.Log("Je suis si fier de mon ptit fils");
-                        UiDialogue(Pidouxface, "Oh ! Mon arrière petit-fils est devenu un célèbre fabuliste? Il a même écrit pour des Rois? Mais c'est merveilleux! Merci beaucoup, me voilà soulagé.. Merci du fond du cœur! Pendant que tu cherchais j'ai réfléchit et il me semble que pour ton ami, un bandage autour de la plaie, désinfectée au préalable serait le plus adaptée à sa blessure.");
+                        UiDialogue(Pidouxface, "Oh ! Mon arrière petit-fils est devenu un célèbre fabuliste? Il a même écrit pour des Rois? Mais c'est merveilleux! Merci beaucoup, me voilà soulagé.. Merci du fond du cœur!\n\n-\n\n Pendant que tu cherchais j'ai réfléchit et il me semble que pour ton ami, un bandage autour de la plaie, désinfectée au préalable serait le plus adaptée à sa blessure.");
 
                     }
                     else
@@ -818,7 +818,7 @@ public class testCam : MonoBehaviour
 
                             // ici lapeyronie nous a filé l'indice pour pidoux et on ne lui a pas encore parlé
                             //Debug.Log("Comment va ton ami ? Ok voici ce que tu dois faire ");
-                            UiDialogue(Pidouxface, "Oh, bonjour mon petit, tu as l'air tout perturbé, ça va aller?Ah mince, ton ami a des ennuis. Je t'avoue que j'aurais besoin d'un petit service dans un premier temps Vois - tu, quelque chose me trotte dans la tête depuis ce qui me semble maintenant une éternité J'ai peur pour ma descendance. J'espère sincèrement du fond du cœur que mon nom n'est pas oublié, que ma famille a prospéré, qu'elle a continué à faire de grandes choses.J'ai besoin de savoir, alors si tu pouvais me rendre ce service, je vous aiderai avec plaisir toi et ton ami Peut-être dans la bibliothèque qui sait ? Je te conseil de retourner dans des lieux que tu as déjà visité, tu trouveras surement la clé quelque part!");
+                            UiDialogue(Pidouxface, "Oh, bonjour mon petit, tu as l'air tout perturbé, ça va aller?\n\n-\n\nAh mince, ton ami a des ennuis. Je t'avoue que j'aurais besoin d'un petit service dans un premier temps \n\n-\n\nVois - tu, quelque chose me trotte dans la tête depuis ce qui me semble maintenant une éternité \n\n-\n\nJ'ai peur pour ma descendance. J'espère sincèrement du fond du cœur que mon nom n'est pas oublié, que ma famille a prospéré, qu'elle a continué à faire de grandes choses.\n\n-\n\nJ'ai besoin de savoir, alors si tu pouvais me rendre ce service, je vous aiderai avec plaisir toi et ton ami Peut-être dans la bibliothèque qui sait ?\n\n-\n\n Je te conseil de retourner dans des lieux que tu as déjà visité, tu trouveras surement la clé quelque part!");
                             PidouxGaveClue = true;
                             ClefBibli.gameObject.SetActive(true);
 
@@ -893,7 +893,7 @@ public class testCam : MonoBehaviour
 
                             // ici nous parlons à chaptal il nous a pas donné l'indice
                             //Debug.Log("Hello mon ptit pote, voici ton indice pour la prochaine salle");
-                            UiDialogue(ChaptalFace, "Eh salut, quel bon vent t'amène? Oh ok je vois, Ca tombe bien je sais exactement comment t'aider! hein? un service? mais non t'inquiète, va plutôt voir le laboratoire ! La clé ,si je dis pas de bêtises, elle est dans la bibliothèque ! oula, en parlant du loup, il se passe du tumulte dans la bibliothèque!  Allez file, va sauver ton ami! ");
+                            UiDialogue(ChaptalFace, "Eh salut, quel bon vent t'amène? \n\n-\n\nOh ok je vois, Ca tombe bien je sais exactement comment t'aider! \n\n-\n\nHein? un service? mais non t'inquiète, va plutôt voir le laboratoire ! La clé ,si je dis pas de bêtises, elle est dans la bibliothèque ! \n\n-\n\nOula, en parlant du loup, il se passe du tumulte dans la bibliothèque!  Allez file, va sauver ton ami! ");
                             ChaptalGaveClue = true;
                             ClefLabo.gameObject.SetActive(true);
 
