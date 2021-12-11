@@ -96,7 +96,9 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject DoorClosed;
     [SerializeField] GameObject DoorOpen;
     [SerializeField] GameObject WalkieTalkie;
-    
+    [SerializeField] GameObject BibliToFall;
+    [SerializeField] GameObject BibliFalled;
+
 
 
     [Header(" INTERACTABLE ZONE ")]
@@ -906,6 +908,7 @@ public class testCam : MonoBehaviour
                             //Debug.Log("Hello mon ptit pote, voici ton indice pour la prochaine salle");
                             UiDialogue(ChaptalFace, "Eh salut, quel bon vent t'amène? \n\n-\n\nOh ok je vois, Ca tombe bien je sais exactement comment t'aider! \n\n-\n\nHein? un service? mais non t'inquiète, va plutôt voir le laboratoire ! La clé ,si je dis pas de bêtises, elle est dans la bibliothèque ! \n\n-\n\nOula, en parlant du loup, il se passe du tumulte dans la bibliothèque!  Allez file, va sauver ton ami! ");
                             ChaptalGaveClue = true;
+                            Tumult();
                             ClefLabo.gameObject.SetActive(true);
 
                         }
@@ -1385,9 +1388,22 @@ public class testCam : MonoBehaviour
         TheBlur.SetActive(false);
 
     }
-    
+
 
     // ---------------------------- ShootBook ---------------------------
+
+    // ---------------------------- Tumulte ---------------------------
+
+    public void Tumult()
+    {
+
+        BibliToFall.SetActive(false);
+        BibliFalled.SetActive(true);
+        ShakeTheSam();
+
+    }
+
+    // ---------------------------- Tumulte ---------------------------
 
 }
 
