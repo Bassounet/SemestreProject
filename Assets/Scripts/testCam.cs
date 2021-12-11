@@ -15,12 +15,14 @@ public class testCam : MonoBehaviour
     [Header("UI")]
     [SerializeField] Image BlurDialogue;
     [SerializeField] Image Dialogue;
-    [SerializeField] Button QuitBtn;
     [SerializeField] Canvas UiCadenas;
     [SerializeField] Text TxtDialogue;
     [SerializeField] GameObject DisplaceItem;
     [SerializeField] GameObject TalkieWalkieBtn;
     [SerializeField] GameObject Registre;
+    [SerializeField] GameObject TheBlur;
+    [SerializeField] GameObject BtnSkip;
+    [SerializeField] GameObject facingDialogue;
     //VINEK VVVV
     [SerializeField] GameObject TPBIBLI;
     [SerializeField] GameObject TPLABO;
@@ -77,6 +79,7 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject DoorClosed;
     [SerializeField] GameObject DoorOpen;
     [SerializeField] GameObject WalkieTalkie;
+    
 
 
     [Header(" INTERACTABLE ZONE ")]
@@ -1120,7 +1123,7 @@ public class testCam : MonoBehaviour
     {
 
         Dialogue.gameObject.SetActive(true);
-        Dialogue.sprite = DialogueFace;
+        facingDialogue.GetComponent<Image>().sprite = DialogueFace;
         TxtDialogue.text = TextDialogue;
         StartCoroutine("DesAppear");
 
@@ -1227,15 +1230,24 @@ public class testCam : MonoBehaviour
             if (hit.transform.gameObject.CompareTag("REGISTER"))
             {
 
-
+                Registre.SetActive(true);
+                inMenu = true;
+                TheBlur.SetActive(true);
 
             }
         }
     }
 
+    public void RegisterOut()
+    {
+
+        Registre.SetActive(false);
+        inMenu = false;
+        TheBlur.SetActive(false);
+
+    }
+
     // ---------------------------- REGISTER ---------------------------
-
-
 
 
     }
