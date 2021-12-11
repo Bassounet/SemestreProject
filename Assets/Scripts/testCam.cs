@@ -543,15 +543,17 @@ public class testCam : MonoBehaviour
             if (hit.transform.gameObject.CompareTag("TP") && hit.transform.GetComponent<detectPorteHallPortrait>().ToBibli)
             {
                
-                    holdBib = true;
+                holdBib = true;
                 Debug.Log("tu appuyes et c'est sur la bibli");
 
             }
 
             if (hit.transform.gameObject.CompareTag("TP") && hit.transform.GetComponent<detectPorteHallPortrait>().ToLabo)
             {
+
                 holdLab = true;
                 Debug.Log("tu appuyes et c'est sur le labo");
+
             }
 
         }
@@ -618,7 +620,6 @@ public class testCam : MonoBehaviour
 
                         ShakeTheSam();
                         holdLab = false; 
-
 
                     }
 
@@ -1017,7 +1018,7 @@ public class testCam : MonoBehaviour
         VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = Mathf.Clamp(currentPos,0, maxPos);
         float treshold = 0.15f;
 
-        if (inVestiaire || inBibli /*|| inPortrait*/)
+        if (inVestiaire || inBibli )
         {
             if (Mathf.Abs(maxPos - currentPos) < treshold)
             {

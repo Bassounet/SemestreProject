@@ -139,8 +139,6 @@ public class WalkieSlide : MonoBehaviour
             Winned = true;
             Player.GetComponent<testCam>().BackFromTalkie();
 
-
-
         }
 
     }
