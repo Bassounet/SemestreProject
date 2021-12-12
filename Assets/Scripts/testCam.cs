@@ -116,6 +116,8 @@ public class testCam : MonoBehaviour
     [SerializeField] AudioClip yeah;
     [SerializeField] AudioClip book;
     [SerializeField] AudioClip Tumulte;
+    [SerializeField] AudioClip Woosh;
+    [SerializeField] AudioClip CollectItem;
 
 
     [SerializeField] AudioClip SAM1;
@@ -201,10 +203,14 @@ public class testCam : MonoBehaviour
     public bool ChaptalGaveClue;
     public bool hasLabo;
     public bool hasPotion;
+    public bool aldyReaden;
+    public bool genealoged;
 
     public bool cleVespopped;
     public bool cleLabpopped;
     public bool cleBibpopped;
+
+    public bool AldyTalkToSam;
 
     private CinemachineVirtualCamera actualCam;
 
@@ -593,15 +599,45 @@ public class testCam : MonoBehaviour
         {
 
 
-            if (hit.transform.gameObject.GetComponent<item>() /*&& hit.distance <= distanceMaxForGrab*/) // pn vérifie que l'objet n'est pas à l'autre bout de la MAP avec une disatnce max de grab
+            if (hit.transform.gameObject.GetComponent<item>() && hit.distance <= distanceMaxForGrab) // pn vérifie que l'objet n'est pas à l'autre bout de la MAP avec une disatnce max de grab
             {
-                Debug.Log("It's In ");
-                var TargetItemScript = hit.transform.gameObject.GetComponent<item>();
+                if ( hit.transform.GetComponent<item>().itemIndex == 2)
+                {
 
-                ObjectCollected.sprite = TargetItemScript.picto;
-                ObjectCollected.GetComponent<displaceTheItem>().itemIndex = TargetItemScript.itemIndex;
+                    if (aldyReaden && genealoged)
+                    {
 
-                hit.transform.gameObject.SetActive(false);
+                        Debug.Log("It's In ");
+                        var TargetItemScript = hit.transform.gameObject.GetComponent<item>();
+
+                        ObjectCollected.sprite = TargetItemScript.picto;
+                        ObjectCollected.GetComponent<displaceTheItem>().itemIndex = TargetItemScript.itemIndex;
+                        AdSource.PlayOneShot(CollectItem);
+                        hit.transform.gameObject.SetActive(false);
+
+                    }
+                    else
+                    {
+
+                        Debug.Log("Cheh");
+
+                    }
+
+
+                }
+                else
+                {
+
+                    Debug.Log("It's In ");
+                    var TargetItemScript = hit.transform.gameObject.GetComponent<item>();
+
+                    ObjectCollected.sprite = TargetItemScript.picto;
+                    ObjectCollected.GetComponent<displaceTheItem>().itemIndex = TargetItemScript.itemIndex;
+                    AdSource.PlayOneShot(CollectItem);
+                    hit.transform.gameObject.SetActive(false);
+
+                }
+                
                 
                 
             }
@@ -656,7 +692,8 @@ public class testCam : MonoBehaviour
                     if (AccessBibli)
                     {
                         if (hasBib) { hasBib = false; }
-                        Debug.Log("GoTiLib");
+                        
+
                         TPBIBLI.gameObject.GetComponent<detectPorteHallPortrait>().
                            SendMeToNextWay(
                            TPBIBLI.GetComponent<detectPorteHallPortrait>().ScriptTestCam,
@@ -664,6 +701,7 @@ public class testCam : MonoBehaviour
                            TPBIBLI.GetComponent<detectPorteHallPortrait>().CamToDisable,
                            TPBIBLI.GetComponent<detectPorteHallPortrait>().GoToPortrait);
                         Debug.Log("Go To Bib");
+                        AdSource.PlayOneShot(Woosh);
                         TPBIBLI.GetComponent<detectPorteHallPortrait>().ScriptTestCam.gameObject.GetComponent<testCam>().hasBibli = true;
                         TPBIBLI.GetComponent<detectPorteHallPortrait>().ScriptTestCam.gameObject.GetComponent<testCam>().inBibli = true;
                         //ButtonLaboisActive = !ButtonLaboisActive;
@@ -694,6 +732,7 @@ public class testCam : MonoBehaviour
                            TPLABO.GetComponent<detectPorteHallPortrait>().CamToDisable,
                            TPLABO.GetComponent<detectPorteHallPortrait>().GoToPortrait);
                         Debug.Log("Go To Lab");
+                        AdSource.PlayOneShot(Woosh);
                         TPBIBLI.GetComponent<detectPorteHallPortrait>().ScriptTestCam.gameObject.GetComponent<testCam>().hasLabo = true;
                         TPBIBLI.GetComponent<detectPorteHallPortrait>().ScriptTestCam.gameObject.GetComponent<testCam>().inLabo = true;
                         holdLab = false;
@@ -738,6 +777,7 @@ public class testCam : MonoBehaviour
         {
             if (hit.transform.gameObject.CompareTag("CLEF"))
             {
+                AdSource.PlayOneShot(CollectItem);
                 if (hit.transform.GetComponent<Clef>().KeyVestaire)
                 {
 
@@ -1375,7 +1415,12 @@ public class testCam : MonoBehaviour
         StopGame = false;
         inPortrait = true;
         BtnSkip.SetActive(true);
-        AdSource.PlayOneShot(SAM2);
+        if (!AldyTalkToSam)
+        {
+
+            AdSource.PlayOneShot(SAM2);
+
+        }        
         UiDialogue(SameFace, "Ca y est tu m'entends? Tu as trouvé un moyen de m'aider? \n \n - \n Ah merci, je vais essayer ça tout de suite \n \n - \n Ca fait du bien, ça me soulage un peu.Merci beaucoup!\n \n Mais là je viens de m'ouvrir la cuisse en tombant, ça fait super mal et ça saigne pas mal, comment je fais?");
         if (RdyForLastDialoguePid)
         {
@@ -1387,6 +1432,7 @@ public class testCam : MonoBehaviour
         TalkieDialogue.gameObject.SetActive(false);
         VirtualCamPortrait.LookAt.SetPositionAndRotation(TargetPortraitRest.transform.position, Quaternion.identity);
         Guide.SetActive(true);
+        AldyTalkToSam = true;
 
     }
 
@@ -1503,17 +1549,34 @@ public class testCam : MonoBehaviour
                 inMenu = true;
                 TheBlur.SetActive(true);
                 Livre.SetActive(true);
-                Livre.GetComponent<Image>().sprite = Genealogie; 
+                AdSource.PlayOneShot(book);
+                Livre.GetComponent<Image>().sprite = Genealogie;
+                genealoged = true;
 
             }
 
             if (hit.transform.gameObject.CompareTag("BookBibli2"))
-            {
+            {          
+                
+                if (aldyReaden && genealoged)
+                {
 
-                inMenu = true;
-                TheBlur.SetActive(true);
-                Livre.SetActive(true);
-                Livre.GetComponent<Image>().sprite = Fable;
+                    AdSource.PlayOneShot(CollectItem);               
+
+                }
+                else
+                {
+
+                    Livre.SetActive(true);
+                    AdSource.PlayOneShot(book);
+                    Livre.GetComponent<Image>().sprite = Fable;
+                    aldyReaden = true;
+                    TheBlur.SetActive(true);
+                    inMenu = true;
+
+                }
+                
+                
 
             }
 
@@ -1571,8 +1634,7 @@ public class testCam : MonoBehaviour
 
         BibliToFall.SetActive(false);
         BibliFalled.SetActive(true);
-        AdSource.PlayOneShot(Tumulte);
-        ShakeTheSam();
+        Invoke("ShakeTheSam", 13f);
 
     }
 

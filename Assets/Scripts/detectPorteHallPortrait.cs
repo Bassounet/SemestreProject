@@ -93,8 +93,8 @@ public class detectPorteHallPortrait : MonoBehaviour
 
         if (ToLabo && Player.GetComponent<testCam>().AccessLabo)
         {
-            
 
+            Debug.Log("goto bibli ta reum");
             SendMeToNextWay(ScriptTestCam, CamToEnable, CamToDisable, GoToPortrait);
             Ads.PlayOneShot(woosh);
             ScriptTestCam.gameObject.GetComponent<testCam>().hasLabo = true;
