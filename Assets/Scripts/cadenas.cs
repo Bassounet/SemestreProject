@@ -14,7 +14,12 @@ public class cadenas : MonoBehaviour
     private bool winned;
 
     [SerializeField] GameObject Player;
-  
+    [SerializeField] AudioSource Ads;
+    [SerializeField] AudioClip Unlock;
+    [SerializeField] AudioClip Turn;
+    [SerializeField] AudioClip Correct;
+    [SerializeField] AudioClip Wrongz;
+
     void Update()
     {
 
@@ -92,14 +97,16 @@ public class cadenas : MonoBehaviour
     public void turnRight(GameObject cellule)
     {
         
-        cellule.transform.Rotate(Vector3.up * -36f);       
-        
+        cellule.transform.Rotate(Vector3.up * -36f);
+        Ads.PlayOneShot(Turn);
+
     }
-    
+
     public void turnLeft(GameObject cellule)
     {
 
         cellule.transform.Rotate(Vector3.up * 36f);
+        Ads.PlayOneShot(Turn);
 
     }
 
@@ -206,6 +213,8 @@ public class cadenas : MonoBehaviour
         winned = true;
         Player.GetComponent<testCam>().CadenasSolevd();
         Player.GetComponent<testCam>().backFromCadenas();
+        Ads.PlayOneShot(Unlock);
+        Ads.PlayOneShot(Correct);
 
     }
     
@@ -213,25 +222,19 @@ public class cadenas : MonoBehaviour
     {
 
         Debug.Log("Lose");
+        Ads.PlayOneShot(Wrongz);
 
     }
 
     public void testCode()
     {
 
-        Debug.Log("On teste le code");
-
-        Debug.Log("current code : " + currentCode);
-
-        Debug.Log("currentIndexC1 : " + currentIndexC1);
-        Debug.Log("currentIndexC2 : " + currentIndexC2);
-        Debug.Log("currentIndexC3 : " + currentIndexC3);
-        Debug.Log("currentIndexC4 : " + currentIndexC4);
 
         if ( currentCode == MDP)
         {
 
             Win();
+
 
         }
         else

@@ -113,6 +113,8 @@ public class testCam : MonoBehaviour
     [SerializeField] AudioSource AdSource;
     [SerializeField] AudioClip nope;
     [SerializeField] AudioClip yeah;
+    [SerializeField] AudioClip book;
+    [SerializeField] AudioClip Tumulte;
 
 
     [Header(" INTERACTABLE ZONE ")]
@@ -1289,6 +1291,7 @@ public class testCam : MonoBehaviour
 
         actualCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = shakingForce;
         StartCoroutine("UnShake");
+        AdSource.PlayOneShot(nope);
 
     }
 
@@ -1391,6 +1394,7 @@ public class testCam : MonoBehaviour
                 Registre.SetActive(true);
                 inMenu = true;
                 TheBlur.SetActive(true);
+                AdSource.PlayOneShot(book);
 
             }
         }
@@ -1525,6 +1529,7 @@ public class testCam : MonoBehaviour
 
         BibliToFall.SetActive(false);
         BibliFalled.SetActive(true);
+        AdSource.PlayOneShot(Tumulte);
         ShakeTheSam();
 
     }

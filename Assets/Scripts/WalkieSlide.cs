@@ -100,7 +100,7 @@ public class WalkieSlide : MonoBehaviour
         if (camMoving)
         {
 
-            transform.position = new Vector3(transform.position.x + pos.x, transform.position.y, transform.position.z);
+            transform.position = new Vector3(transform.position.x - pos.x, transform.position.y, transform.position.z);
 
         }
 

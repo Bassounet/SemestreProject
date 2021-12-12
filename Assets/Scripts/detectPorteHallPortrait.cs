@@ -18,6 +18,9 @@ public class detectPorteHallPortrait : MonoBehaviour
     [SerializeField] GameObject Cube2;
     [SerializeField] GameObject Cube3;
 
+    [SerializeField] AudioSource Ads;
+    [SerializeField] AudioClip woosh;
+
     bool inActualHall;
 
     public bool GoToVestiaire;
@@ -58,7 +61,8 @@ public class detectPorteHallPortrait : MonoBehaviour
 
     public void f_GoTo()
     {
-        
+
+        Ads.PlayOneShot(woosh);
 
         if (ThePortraix )
         {
