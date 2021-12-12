@@ -25,6 +25,7 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject facingDialogue;
     [SerializeField] GameObject GuyNam;
     [SerializeField] GameObject RectScroll;
+    [SerializeField] public GameObject Guide;
 
 
 
@@ -52,6 +53,7 @@ public class testCam : MonoBehaviour
     [SerializeField] Sprite NameChaptal;
     [SerializeField] Sprite NameHippocrate;
     [SerializeField] Sprite NameLapeyronie;
+    [SerializeField] Sprite NameSam;
     [SerializeField] Button TalkieDialogue;
 
     [SerializeField] Image ObjectCollected;
@@ -104,8 +106,13 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject DoorOpen;
     [SerializeField] GameObject WalkieTalkie;
     [SerializeField] GameObject BibliToFall;
-    [SerializeField] GameObject BibliFalled;
+    [SerializeField] GameObject BibliFalled;   
 
+
+    [Header("SND")]
+    [SerializeField] AudioSource AdSource;
+    [SerializeField] AudioClip nope;
+    [SerializeField] AudioClip yeah;
 
 
     [Header(" INTERACTABLE ZONE ")]
@@ -254,7 +261,7 @@ public class testCam : MonoBehaviour
 
         }
 
-        if (Input.touchCount == 0) // zone arrêt raycast
+        if (Input.touchCount == 0 && !inTalkie) // zone arrêt raycast
         {
 
             shoot = 0;
@@ -360,24 +367,7 @@ public class testCam : MonoBehaviour
                 DontPathOverTheMax(VirtualCamLabo, dollyLabo);
 
             }
-            //else if (inSlideP)
-            //{
-            //    inLabo = false;
-            //    actualCam = VirtualCamSlideP;
-            //    MakePositionCam(VirtualCamSlideP, pos);
-            //    DontPathOverTheMax(VirtualCamSlideP, dollySlideP);
-
-            //}
-            //else if (inCadenas)
-            //{
-
-            //    actualCam = VirtualCamCadenas;
-            //    inVestiaire = false;
-            //    MakePositionCam(VirtualCamLabo, pos);
-            //    DontPathOverTheMax(VirtualCamLabo, dollyLabo);
-
-            //}
-
+        
         }
 
         #endregion
@@ -443,8 +433,9 @@ public class testCam : MonoBehaviour
                     
                     // ici on a pas parlé à hippocrate ni à lapeyronie
                     Debug.Log("BlaBlaBla Va voir Lapyrouze");
-                    UiDialogue(HippoFace, "Bonjour mon petit, je suis Hippocrate, le père de la médecine moderne! Quel bon vent t'amènes?\n\n-\n\nOh! Ton ami est malade et tu cherches des solutions dans la faculté de médecine pour essayer de l'aider?\n\n-\n\nEt bien je sais peut - être comment tu peux faire!\n\n-\n\nS'il a mal à l'abdomen, c'est un problème interne! Va voir ce tableau là - bas, Lapeyronie pourra sans doutes t'aider! C'est le premier chirurgien du roi Louis XV tu sais!");
+                    UiDialogue(HippoFace, "Bonjour mon petit, je suis Hippocrate, le père de la médecine moderne! Quel bon vent t'amènes?\n\n-\n\nOh! Ton ami est malade et tu cherches des solutions dans la faculté de médecine pour essayer de l'aider?\n\n-\n\nEt bien je sais peut - être comment tu peux faire!\n\n-\n\nS'il a mal à l'abdomen, c'est un problème interne! Va voir ce tableau là - bas, Lapeyronie pourra sans doutes t'aider! C'est le premier chirurgien du roi Louis 15 tu sais!");
                     GoneToLapeyronie = true;
+                    ShowClue("Va parler au portrait de Lapeyronie ");
 
                 }
 
@@ -671,7 +662,6 @@ public class testCam : MonoBehaviour
                         Debug.Log("Go To Lab");
                         TPBIBLI.GetComponent<detectPorteHallPortrait>().ScriptTestCam.gameObject.GetComponent<testCam>().hasLabo = true;
                         TPBIBLI.GetComponent<detectPorteHallPortrait>().ScriptTestCam.gameObject.GetComponent<testCam>().inLabo = true;
-                        //ButtonLaboisActive = !ButtonLaboisActive;
                         holdLab = false;
                     }
                     else
@@ -723,6 +713,7 @@ public class testCam : MonoBehaviour
                     holdVes= true;
                     var textUI = hit.transform.GetComponent<Clef>().WhatUGat;
                     Debug.Log("Its a Key Vestiaire");
+                    ShowClue("Va chercher le scalpel et ramnene le a Lapeyronie");
                     WhatUGot.text = textUI;
                     WhatUGot.gameObject.SetActive(true);
                     if (!cleVespopped)
@@ -739,6 +730,7 @@ public class testCam : MonoBehaviour
                     AccessBibli = true;
                     var textUI = hit.transform.GetComponent<Clef>().WhatUGat;
                     Debug.Log("Its a Key Bibli");
+                    ShowClue("Va chercher un livre et ramene le a Pidoux");
                     WhatUGot.text = textUI;
                     WhatUGot.gameObject.SetActive(true);
                     if (!cleBibpopped)
@@ -754,6 +746,7 @@ public class testCam : MonoBehaviour
                     AccessLabo = true;
                     var textUI = hit.transform.GetComponent<Clef>().WhatUGat;
                     Debug.Log("Its a Key Bibli");
+                    ShowClue("Va chercher l'antidote dans le coffre");
                     WhatUGot.text = textUI;
                     WhatUGot.gameObject.SetActive(true);
                     if (!cleLabpopped)
@@ -801,12 +794,13 @@ public class testCam : MonoBehaviour
                         // ici hippocrate nous a dit d'aller voir lapeyronie mais on a pas encore parlé à lapeyronie
 
                         ClefVestiaire.gameObject.SetActive(true);
+                        ShowClue("Va chercher la clef du vestiaire");
 
                         if (LapeyronieSpoken)
                         {
 
                             // ici hippocrate nous a dit d'aller voir lapeyronie, et on a déjà parlé à lapeyronie
-
+                            
 
                             if (!AccesVestiaire && LapeyronieSpoken)
                             {
@@ -814,6 +808,7 @@ public class testCam : MonoBehaviour
                                 // ici hippocrate nous a dit d'aller voir lapeyronie, et on a déjà parlé à lapeyronie et on a PAS récup la clef
                                 //Debug.Log("Faudrait ptet récup la clef");
                                 UiDialogue(LapeyronieFace, "Tu ne trouves pas la clé? Elle est dans le pot, dans le hall!");
+                                
 
                             }
                             if (AccesVestiaire)
@@ -830,7 +825,8 @@ public class testCam : MonoBehaviour
                                         if (RdyForLastDIalogue)
                                         {
 
-                                            UiDialogue(LapeyronieFace, "Va Voir Pidouxxxx");
+                                            UiDialogue(LapeyronieFace, "Ah, alors la cuisse c'est quelque peu délicat, je préfère ne pas dire de bêtises qui risquerait d'aggraver son cas.\n \n - \n Va plutôt voir François Pidoux, il saura être plus juste.Il a été le médecin de trois rois consécutifs, à commencer par Henri II! \n \nBonne chance jeune homme et merci encore pour mon scalpel! ");
+                                            ShowClue("Va parler au portrait de Pidoux");
                                             LapeyronieEnd = true;
 
                                         }
@@ -904,6 +900,7 @@ public class testCam : MonoBehaviour
                             //Debug.Log("Comment va ton ami ? Ok voici ce que tu dois faire ");
                             UiDialogue(Pidouxface, "Oh, bonjour mon petit, tu as l'air tout perturbé, ça va aller?\n\n-\n\nAh mince, ton ami a des ennuis. Je t'avoue que j'aurais besoin d'un petit service dans un premier temps \n\n-\n\nVois - tu, quelque chose me trotte dans la tête depuis ce qui me semble maintenant une éternité \n\n-\n\nJ'ai peur pour ma descendance. J'espère sincèrement du fond du cœur que mon nom n'est pas oublié, que ma famille a prospéré, qu'elle a continué à faire de grandes choses.\n\n-\n\nJ'ai besoin de savoir, alors si tu pouvais me rendre ce service, je vous aiderai avec plaisir toi et ton ami Peut-être dans la bibliothèque qui sait ?\n\n-\n\n Je te conseil de retourner dans des lieux que tu as déjà visité, tu trouveras surement la clé quelque part!");
                             PidouxGaveClue = true;
+                            ShowClue("Va chercher la clef de la bibliotheque");
                             ClefBibli.gameObject.SetActive(true);
 
                         }
@@ -932,7 +929,8 @@ public class testCam : MonoBehaviour
                                         if (RdyForLastDialoguePid)
                                         {
 
-                                            UiDialogue(Pidouxface, "Va voir Chaptal");
+                                            UiDialogue(Pidouxface, "Oula, j'ai entendu ce que ton ami viens de te dire, décidément il lui en arrive des bricoles! \n \n Va vers Chaptal, il est chimiste, il a même recu des titres de noblesse de louis 16, il saura lui venir en aide!");
+                                            ShowClue("Va parler au portrait de Chaptal");
                                             PidouxEnd = true;
 
                                         }
@@ -986,6 +984,7 @@ public class testCam : MonoBehaviour
                             // ici nous parlons à chaptal il nous a pas donné l'indice
                             //Debug.Log("Hello mon ptit pote, voici ton indice pour la prochaine salle");
                             UiDialogue(ChaptalFace, "Eh salut, quel bon vent t'amène? \n\n-\n\nOh ok je vois, Ca tombe bien je sais exactement comment t'aider! \n\n-\n\nHein? un service? mais non t'inquiète, va plutôt voir le laboratoire ! La clé ,si je dis pas de bêtises, elle est dans la bibliothèque ! \n\n-\n\nOula, en parlant du loup, il se passe du tumulte dans la bibliothèque!  Allez file, va sauver ton ami! ");
+                            ShowClue("Va chercher la clef du labo");
                             ChaptalGaveClue = true;
                             Tumult();
                             ClefLabo.gameObject.SetActive(true);
@@ -1197,6 +1196,7 @@ public class testCam : MonoBehaviour
         inHall = false;
         UiCadenas.gameObject.SetActive(false);
         BlackScreen.SetActive(true);
+        Guide.SetActive(true);
         
     }
 
@@ -1234,6 +1234,7 @@ public class testCam : MonoBehaviour
         TxtDialogue.text = TextDialogue;
         GuyNam.gameObject.SetActive(true);
         BtnSkip.SetActive(true);
+        AdSource.PlayOneShot(yeah);
 
         if ( DialogueFace == HippoFace)
         {
@@ -1260,6 +1261,13 @@ public class testCam : MonoBehaviour
         {
 
             GuyNam.gameObject.GetComponent<Image>().sprite = NameChaptal;
+
+        }
+
+        if (DialogueFace == SameFace)
+        {
+
+            GuyNam.gameObject.GetComponent<Image>().sprite = NameSam;
 
         }
 
@@ -1308,7 +1316,8 @@ public class testCam : MonoBehaviour
         BlackScreen.gameObject.SetActive(true);
         StopGame = false;
         Dialogue.gameObject.SetActive(false);
-        
+        Guide.SetActive(false);
+
     }
     public void BackFromTalkie()
     {
@@ -1332,6 +1341,7 @@ public class testCam : MonoBehaviour
         Invoke("TurnUpSkip", 3f);
         TalkieDialogue.gameObject.SetActive(false);
         VirtualCamPortrait.LookAt.SetPositionAndRotation(TargetPortraitRest.transform.position, Quaternion.identity);
+        Guide.SetActive(false);
 
     }
 
@@ -1377,6 +1387,7 @@ public class testCam : MonoBehaviour
             if (hit.transform.gameObject.CompareTag("REGISTER"))
             {
 
+                AdSource.PlayOneShot(yeah);
                 Registre.SetActive(true);
                 inMenu = true;
                 TheBlur.SetActive(true);
@@ -1391,6 +1402,7 @@ public class testCam : MonoBehaviour
         Registre.SetActive(false);
         inMenu = false;
         TheBlur.SetActive(false);
+        AdSource.PlayOneShot(nope);
 
     }
 
@@ -1499,6 +1511,7 @@ public class testCam : MonoBehaviour
         inMenu = false;
         Livre.SetActive(false);
         TheBlur.SetActive(false);
+        AdSource.PlayOneShot(nope);
 
     }
 
@@ -1517,6 +1530,17 @@ public class testCam : MonoBehaviour
     }
 
     // ---------------------------- Tumulte ---------------------------
+
+    // ---------------------------- ShowClue ---------------------------
+
+    public void ShowClue(string Indice)
+    {
+
+        Guide.GetComponentInChildren<Text>().text = Indice;
+
+    }
+
+    // ---------------------------- ShowClue ---------------------------
 
 }
 

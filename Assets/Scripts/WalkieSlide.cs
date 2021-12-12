@@ -30,6 +30,13 @@ public class WalkieSlide : MonoBehaviour
     public bool Win;
     public bool Winned;
     public float TimeToStayForWin;
+
+    int shoot = 0;
+
+    Vector3 dragOrigin;
+    Vector3 endPosition;
+    bool camMoving;
+
     // Start is called before the first frame update
 
     private void Awake()
@@ -58,22 +65,60 @@ public class WalkieSlide : MonoBehaviour
         DetectWalk();
         Son();
 
-    }
-    void OnMouseDown()
-    {
+        if (Input.touchCount == 0)
+        {
 
-        
-            screenPoint = MaCam.WorldToScreenPoint(gameObject.transform.position);
-            offset = gameObject.transform.position - MaCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, 0, screenPoint.z));
-        
+            shoot = 0;
+
+        }
+
+
+        if (Input.touchCount > 0 && shoot == 0)
+        {
+
+            ShootForTheMove();
+
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+
+            dragOrigin = Input.mousePosition;
+
+        }
+
+        if (!camMoving)
+        {
+
+            dragOrigin = endPosition;
+
+        }
+
+        if (!Input.GetMouseButton(0)) return;
+        Vector3 pos = MaCam.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
+
+        if (camMoving)
+        {
+
+            transform.position = new Vector3(transform.position.x + pos.x, transform.position.y, transform.position.z);
+
+        }
+
+        if (Input.mousePosition != endPosition)
+        {
+            endPosition = Input.mousePosition;
+
+            camMoving = true;
+        }
+        else
+        {
+
+            camMoving = false;
+        }
+
     }
 
-    void OnMouseDrag()
-    {
-            Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, 0, screenPoint.z);
-            Vector3 curPosition = MaCam.ScreenToWorldPoint(curScreenPoint) + offset;
-            transform.position = curPosition;  
-    }
+
     void Block()
     {
         if (gameObject.transform.localPosition.x > 12)
@@ -146,5 +191,25 @@ public class WalkieSlide : MonoBehaviour
 
         }
 
+    }
+
+    public void ShootForTheMove()
+    {
+
+        RaycastHit hit;
+        Ray ray = MaCam.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.transform.gameObject.CompareTag("SLIDER"))
+            {
+                Debug.Log("It's Slider");
+
+                //print("Box Clicked!");
+                //Debug.Log("It ouch");
+                //screenPoint = MaCam.WorldToScreenPoint(gameObject.transform.position);
+                //offset = gameObject.transform.position - MaCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, 0, screenPoint.z));
+            }
+        }
     }
 }

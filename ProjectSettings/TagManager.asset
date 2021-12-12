@@ -21,6 +21,7 @@ TagManager:
   - BookBibli3
   - BookBibli2
   - COFFRE
+  - SLIDER
   layers:
   - Default
   - TransparentFX
