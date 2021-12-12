@@ -246,7 +246,7 @@ public class testCam : MonoBehaviour
         //    AdSource.enabled = true;
         //}
 
-            if ((hasBib && AccessBibli) || (hasLab && AccessLabo) || (holdVes && AccesVestiaire)) { Cle.SetActive(true); }
+            if ((hasBib && AccessBibli) || (hasLab && AccessLabo) || (holdVes && AccesVestiaire&&!HasVestiaire)) { Cle.SetActive(true); }
         else { Cle.SetActive(false); }
 
         if (CadenasSolved && !HascadenasSolved)
@@ -748,16 +748,7 @@ public class testCam : MonoBehaviour
                 }
             }
 
-
-            if (permahit.transform.GetComponent<detectPorteHallPortrait>().GoToVestiaire)
-            {
-
-                if (AccesVestiaire)
-                {
-                    if (holdVes)
-                    {    holdVes = false;}
-                }
-            }
+            
         }
 
     }
@@ -886,6 +877,7 @@ public class testCam : MonoBehaviour
 
                                 if (HasVestiaire)
                                 {
+                                    if (holdVes) { holdVes=false; }
                                     if (CadenasSolved)
                                     {
 
