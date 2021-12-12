@@ -26,6 +26,7 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject GuyNam;
     [SerializeField] GameObject RectScroll;
     [SerializeField] public GameObject Guide;
+    [SerializeField] GameObject GhostClue1;
 
 
 
@@ -39,7 +40,7 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject fleched;
 
     [SerializeField] GameObject Cle;
-   
+
 
 
     //FIN VINEK
@@ -107,7 +108,7 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject DoorOpen;
     [SerializeField] GameObject WalkieTalkie;
     [SerializeField] GameObject BibliToFall;
-    [SerializeField] GameObject BibliFalled;   
+    [SerializeField] GameObject BibliFalled;
 
 
     [Header("SND")]
@@ -161,11 +162,11 @@ public class testCam : MonoBehaviour
     Transform TargetForTp;
 
     [Header("POSITION > SPACEWORLD")]
-    public bool inHall ;
-    public bool inLabo ;
+    public bool inHall;
+    public bool inLabo;
     public bool inTalkie;
     public bool inVestiaire;
-    public bool inPortrait ;
+    public bool inPortrait;
     public bool inBibli;
     public bool inCadenas;
     public bool inSlideP;
@@ -184,7 +185,7 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject ClefVestiaire;
     [SerializeField] GameObject ClefBibli;
     [SerializeField] GameObject ClefLabo;
-    
+
 
 
     [Header("INTERACT PORTRAIT")]
@@ -209,6 +210,7 @@ public class testCam : MonoBehaviour
     public bool cleVespopped;
     public bool cleLabpopped;
     public bool cleBibpopped;
+    public bool touched;
 
     public bool AldyTalkToSam;
 
@@ -217,6 +219,7 @@ public class testCam : MonoBehaviour
     public bool StopGame;
 
     private bool HascadenasSolved;
+    public float TimebeforeAppearGhost;
 
 
 
@@ -234,7 +237,8 @@ public class testCam : MonoBehaviour
         camMoving = false;
         inHall = true;
         GoneToLapeyronie = false;
-                
+
+
     }
 
 
@@ -246,7 +250,7 @@ public class testCam : MonoBehaviour
         //    AdSource.enabled = true;
         //}
 
-            if ((hasBib && AccessBibli) || (hasLab && AccessLabo) || (holdVes && AccesVestiaire&&!HasVestiaire)) { Cle.SetActive(true); }
+        if ((hasBib && AccessBibli) || (hasLab && AccessLabo) || (holdVes && AccesVestiaire && !HasVestiaire)) { Cle.SetActive(true); }
         else { Cle.SetActive(false); }
 
         if (CadenasSolved && !HascadenasSolved)
@@ -256,7 +260,7 @@ public class testCam : MonoBehaviour
             DoorClosed.SetActive(false);
             DoorOpen.SetActive(true);
             HascadenasSolved = true;
-            
+
 
         }
 
@@ -300,6 +304,8 @@ public class testCam : MonoBehaviour
 
             shoot = 0;
             ShootTPout();
+            GhostClue();
+            touched = false;
 
         }
 
@@ -309,16 +315,18 @@ public class testCam : MonoBehaviour
             Collect();
             ShootTPin();
 
-                ShootTableaux();
-                TalkToHippo();
+            ShootTableaux();
+            TalkToHippo();
 
             ShootClefs();
-            
+
             ShootCadenas();
             ShootRegister();
             ShootForBibli();
             ShootForCoffr();
+            //GhostClue1.SetActive(false);
             Debug.Log("Shoot");
+            touched = true;
 
         }
 
@@ -352,12 +360,12 @@ public class testCam : MonoBehaviour
         }
 
         if (!Input.GetMouseButton(0)) return;
-        
+
         Vector3 pos = mainCam.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
 
 
         #region Where Are We ?
-        
+
 
         if (camMoving && !inMenu)
         {
@@ -367,7 +375,7 @@ public class testCam : MonoBehaviour
 
                 actualCam = VirtualCamHall;
                 MakePositionCam(VirtualCamHall, pos);
-                DontPathOverTheMax(VirtualCamHall, dollyHall);                
+                DontPathOverTheMax(VirtualCamHall, dollyHall);
 
             }
             else if (inPortrait)
@@ -375,7 +383,7 @@ public class testCam : MonoBehaviour
 
                 actualCam = VirtualCamPortrait;
                 MakePositionCam(VirtualCamPortrait, pos);
-                DontPathOverTheMax(VirtualCamPortrait, dollyPortrait);                
+                DontPathOverTheMax(VirtualCamPortrait, dollyPortrait);
 
             }
             else if (inVestiaire)
@@ -384,7 +392,7 @@ public class testCam : MonoBehaviour
                 inCadenas = false;
                 actualCam = VirtualCamVestiaire;
                 MakePositionCam(VirtualCamVestiaire, pos);
-                DontPathOverTheMax(VirtualCamVestiaire, dollyVestiaire);                
+                DontPathOverTheMax(VirtualCamVestiaire, dollyVestiaire);
 
             }
 
@@ -393,7 +401,7 @@ public class testCam : MonoBehaviour
 
                 actualCam = VirtualCamBibli;
                 MakePositionCam(VirtualCamBibli, pos);
-                DontPathOverTheMax(VirtualCamBibli, dollyBibli);                
+                DontPathOverTheMax(VirtualCamBibli, dollyBibli);
 
             }
             else if (inLabo)
@@ -404,7 +412,7 @@ public class testCam : MonoBehaviour
                 DontPathOverTheMax(VirtualCamLabo, dollyLabo);
 
             }
-        
+
         }
 
         #endregion
@@ -467,17 +475,17 @@ public class testCam : MonoBehaviour
 
                 if (!GoneToLapeyronie && !LapeyronieSpoken)
                 {
-                    
+
                     // ici on a pas parlé à hippocrate ni à lapeyronie
                     Debug.Log("BlaBlaBla Va voir Lapyrouze");
                     AdSource.PlayOneShot(Hippo);
-                    UiDialogue(HippoFace, "Bonjour mon petit, je suis Hippocrate, le père de la médecine moderne! Quel bon vent t'amènes?\n\n-\n\nOh! Ton ami est malade et tu cherches des solutions dans la faculté de médecine pour essayer de l'aider?\n\n-\n\nEt bien je sais peut - être comment tu peux faire!\n\n-\n\nS'il a mal à l'abdomen, c'est un problème interne! Va voir ce tableau là - bas, Lapeyronie pourra sans doutes t'aider! C'est le premier chirurgien du roi Louis 15 tu sais!");
+                    UiDialogue(HippoFace, "Bonjour mon petit, je suis Hippocrate, le papa de la médecine moderne! Quel bon vent t'amènes?\n\n-\n\nOh! Ton ami est malade et tu cherches des solutions dans la faculté de médecine pour essayer de l'aider?\n\n-\n\nEt bien je sais peut - être comment tu peux faire!\n\n-\n\nS'il a mal à l'abdomen, c'est un problème interne! Va voir ce tableau là - bas, Lapeyronie pourra sans doutes t'aider! C'est le premier chirurgien du roi Louis 15 tu sais!");
                     GoneToLapeyronie = true;
                     ShowClue("Va parler au portrait de Lapeyronie ");
 
                 }
 
-               
+
 
             }
         }
@@ -513,7 +521,7 @@ public class testCam : MonoBehaviour
                         AdSource.PlayOneShot(Lapey2);
                         UiDialogue(LapeyronieFace, "AAAH ! Mon matériel ! Tu sais qu'il m'a servit à soigner Louis XV? Dans mon temps j'étais un grand chirurgien, j'ai même été président de l'académie royale de chirurgie ! \n\n-\n\nMerci bien jeune homme.\n\n-\n\nOh et pour ton ami, il devrait essayer de se mettre sur le dos, et de prendre une compresse chaude pour calmer la douleur. ");
                         StopGame = true;
-                        TalkieDialogue.gameObject.SetActive(true);                        
+                        TalkieDialogue.gameObject.SetActive(true);
                         ClearItem();
 
                     }
@@ -526,7 +534,7 @@ public class testCam : MonoBehaviour
 
                 if (DisplaceItem.GetComponent<displaceTheItem>().itemIndex == 2)
                 {
-                    
+
                     Debug.Log("Tu le book et tu essayes de le donner");
 
                     if (hit.transform.gameObject.CompareTag("TableauPidoux"))
@@ -534,9 +542,9 @@ public class testCam : MonoBehaviour
                         AdSource.PlayOneShot(Pidoux2);
                         UiDialogue(Pidouxface, "Oh ! Mon arrière petit-fils est devenu un célèbre fabuliste? Il a même écrit pour des Rois? Mais c'est merveilleux! Merci beaucoup, me voilà soulagé.. Merci du fond du cœur!\n\n-\n\n Pendant que tu cherchais j'ai réfléchit et il me semble que pour ton ami, un bandage autour de la plaie, désinfectée au préalable serait le plus adaptée à sa blessure.");
                         TalkieDialogue.gameObject.SetActive(true);
-                        RdyForLastDialoguePid = true;                        
+                        RdyForLastDialoguePid = true;
                         ClearItem();
-                        
+
                     }
 
 
@@ -570,7 +578,7 @@ public class testCam : MonoBehaviour
     {
 
         yield return new WaitForSeconds(1f);
-        TalkieWalkieBtn.gameObject.SetActive(true);        
+        TalkieWalkieBtn.gameObject.SetActive(true);
 
     }
 
@@ -601,7 +609,7 @@ public class testCam : MonoBehaviour
 
             if (hit.transform.gameObject.GetComponent<item>() && hit.distance <= distanceMaxForGrab) // pn vérifie que l'objet n'est pas à l'autre bout de la MAP avec une disatnce max de grab
             {
-                if ( hit.transform.GetComponent<item>().itemIndex == 2)
+                if (hit.transform.GetComponent<item>().itemIndex == 2)
                 {
 
                     if (aldyReaden && genealoged)
@@ -637,9 +645,9 @@ public class testCam : MonoBehaviour
                     hit.transform.gameObject.SetActive(false);
 
                 }
-                
-                
-                
+
+
+
             }
         }
     }
@@ -650,18 +658,18 @@ public class testCam : MonoBehaviour
 
     public void ShootTPin()
     {
-     
+
         touch = Input.GetTouch(0);
-        
+
         ray = mainCam.ScreenPointToRay(touch.position);
-       
+
 
         if (Physics.Raycast(ray, out hit))
         {
 
             if (hit.transform.gameObject.CompareTag("TP") && hit.transform.GetComponent<detectPorteHallPortrait>().ToBibli)
             {
-               
+
                 holdBib = true;
                 Debug.Log("tu appuyes et c'est sur la bibli");
 
@@ -678,7 +686,7 @@ public class testCam : MonoBehaviour
         }
 
     }
-    
+
     public void ShootTPout()
     {
 
@@ -692,7 +700,7 @@ public class testCam : MonoBehaviour
                     if (AccessBibli)
                     {
                         if (hasBib) { hasBib = false; }
-                        
+
 
                         TPBIBLI.gameObject.GetComponent<detectPorteHallPortrait>().
                            SendMeToNextWay(
@@ -723,7 +731,8 @@ public class testCam : MonoBehaviour
                 if (holdLab)
                 {
                     if (AccessLabo)
-                    {if (hasLab) { hasLab = false; }
+                    {
+                        if (hasLab) { hasLab = false; }
                         Debug.Log("Go To Labo");
                         TPLABO.gameObject.GetComponent<detectPorteHallPortrait>().
                            SendMeToNextWay(
@@ -748,7 +757,7 @@ public class testCam : MonoBehaviour
                 }
             }
 
-            
+
         }
 
     }
@@ -762,7 +771,7 @@ public class testCam : MonoBehaviour
 
         Touch touch = Input.GetTouch(0);
         RaycastHit hit;
-        Ray ray = mainCam.ScreenPointToRay(touch.position);        
+        Ray ray = mainCam.ScreenPointToRay(touch.position);
 
         if (Physics.Raycast(ray, out hit))
         {
@@ -773,15 +782,15 @@ public class testCam : MonoBehaviour
                 {
 
                     AccesVestiaire = true;
-                    holdVes= true;
+                    holdVes = true;
                     var textUI = hit.transform.GetComponent<Clef>().WhatUGat;
                     Debug.Log("Its a Key Vestiaire");
                     ShowClue("Va chercher le scalpel et ramnene le a Lapeyronie");
                     WhatUGot.text = textUI;
                     WhatUGot.gameObject.SetActive(true);
-                    
-                        ClefVestiaire.SetActive(false);
- 
+
+                    ClefVestiaire.SetActive(false);
+
 
                 }
 
@@ -795,9 +804,9 @@ public class testCam : MonoBehaviour
                     ShowClue("Va chercher un livre et ramene le a Pidoux");
                     WhatUGot.text = textUI;
                     WhatUGot.gameObject.SetActive(true);
-                    
-                        ClefBibli.SetActive(false);
-                 
+
+                    ClefBibli.SetActive(false);
+
                 }
 
                 if (hit.transform.GetComponent<Clef>().KeyLabo)
@@ -809,9 +818,9 @@ public class testCam : MonoBehaviour
                     ShowClue("Va chercher l'antidote dans le coffre");
                     WhatUGot.text = textUI;
                     WhatUGot.gameObject.SetActive(true);
-              
-                        ClefLabo.SetActive(false);
-                 
+
+                    ClefLabo.SetActive(false);
+
 
                 }
             }
@@ -829,7 +838,7 @@ public class testCam : MonoBehaviour
         RaycastHit hit;
         Ray ray = mainCam.ScreenPointToRay(touch.position);
 
-        if (Physics.Raycast(ray, out hit)&&hit.distance<8f)
+        if (Physics.Raycast(ray, out hit) && hit.distance < 8f)
         {
 
             #region LAPEYRONIE 
@@ -861,7 +870,7 @@ public class testCam : MonoBehaviour
                         {
 
                             // ici hippocrate nous a dit d'aller voir lapeyronie, et on a déjà parlé à lapeyronie
-                            
+
 
                             if (!AccesVestiaire && LapeyronieSpoken)
                             {
@@ -869,7 +878,7 @@ public class testCam : MonoBehaviour
                                 // ici hippocrate nous a dit d'aller voir lapeyronie, et on a déjà parlé à lapeyronie et on a PAS récup la clef
                                 //Debug.Log("Faudrait ptet récup la clef");
                                 UiDialogue(LapeyronieFace, "Tu ne trouves pas la clé? Elle est dans le pot, dans le hall!");
-                                
+
 
                             }
                             if (AccesVestiaire)
@@ -877,7 +886,7 @@ public class testCam : MonoBehaviour
 
                                 if (HasVestiaire)
                                 {
-                                    if (holdVes) { holdVes=false; }
+                                    if (holdVes) { holdVes = false; }
                                     if (CadenasSolved)
                                     {
 
@@ -931,7 +940,7 @@ public class testCam : MonoBehaviour
                     //Debug.Log("Ho mon beau scalpel, grave refait wola");
                     AdSource.PlayOneShot(Lapey2);
                     UiDialogue(LapeyronieFace, "/*AAAH ! Mon matériel ! Tu sais qu'il m'a servit à soigner Louis XV? Dans mon temps j'étais un grand chirurgien, j'ai même été président de l'académie royale de chirurgie ! \n\n-\n\nMerci bien jeune homme Oh et pour ton ami, il devrait essayer de se mettre sur le dos, et de prendre une compresse chaude pour calmer la douleur.\n\n - \n Ah, alors la cuisse c'est quelque peu délicat, je préfère ne pas dire de bêtises qui risquerait d'aggraver son cas. \n \n - \n Va plutôt voir François Pidoux, il saura être plus juste.Il a été le médecin de trois rois consécutifs, à commencer par Henri II! \n Bonne chance jeune homme et merci encore pour mon scalpel!");
-                    
+
 
                 }
 
@@ -1165,7 +1174,7 @@ public class testCam : MonoBehaviour
 
         }
 
-        if (other.gameObject.CompareTag("Hippocrate") )
+        if (other.gameObject.CompareTag("Hippocrate"))
         {
             Debug.Log("We lache hippo");
             actualCam.LookAt.SetPositionAndRotation(TargetPortraitRest.transform.position, Quaternion.identity);
@@ -1179,21 +1188,22 @@ public class testCam : MonoBehaviour
     // ---------------------------- DON'T Pass over the max Path -------------------------
 
     float currentPos;
-    float maxPos; 
+    float maxPos;
     public void DontPathOverTheMax(CinemachineVirtualCamera VirtualCam, GameObject DollyCam)
     {
         maxPos = DollyCam.GetComponent<CinemachineSmoothPath>().MaxPos;
         currentPos = VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition;
 
-        VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = Mathf.Clamp(currentPos,0, maxPos);
+        VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = Mathf.Clamp(currentPos, 0, maxPos);
         float treshold = 0.15f;
 
-        if (inTalkie || inCadenas) {
+        if (inTalkie || inCadenas)
+        {
             fleched.gameObject.SetActive(false);
             flecheg.gameObject.SetActive(false);
         }
 
-        if (inVestiaire || inBibli )
+        if (inVestiaire || inBibli)
         {
             if (Mathf.Abs(maxPos - currentPos) < treshold)
             {
@@ -1234,15 +1244,15 @@ public class testCam : MonoBehaviour
 
     public void MakePositionCam(CinemachineVirtualCamera VirtualCam, Vector3 pos)
     {
-        if ( inVestiaire || inLabo || inBibli )
+        if (inVestiaire || inLabo || inBibli)
         {
-            if ( !StopGame)
+            if (!StopGame)
             {
 
                 VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition += pos.x * dragSpeed;
 
             }
-            
+
 
         }
         else if (inHall || inPortrait)
@@ -1251,7 +1261,7 @@ public class testCam : MonoBehaviour
                 VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition += pos.x * -dragSpeed;
 
         }
-        
+
 
     }
 
@@ -1270,7 +1280,7 @@ public class testCam : MonoBehaviour
         UiCadenas.gameObject.SetActive(false);
         BlackScreen.SetActive(true);
         Guide.SetActive(true);
-        
+
     }
 
     // ---------------------------- BACK FROM CADENAS ---------------------------
@@ -1292,25 +1302,25 @@ public class testCam : MonoBehaviour
 
         }
 
-        
+
     }
 
     // ---------------------------- CADENAS SOLVED ---------------------------
 
     // ---------------------------- DIALOGUE ---------------------------
 
-    public void UiDialogue(Sprite DialogueFace, string TextDialogue )
+    public void UiDialogue(Sprite DialogueFace, string TextDialogue)
     {
 
-            Dialogue.gameObject.SetActive(true);
-            facingDialogue.GetComponent<Image>().sprite = DialogueFace;
-            TxtDialogue.text = TextDialogue;
-            GuyNam.gameObject.SetActive(true);
-            BtnSkip.SetActive(true);
-            AdSource.PlayOneShot(yeah);
-     
+        Dialogue.gameObject.SetActive(true);
+        facingDialogue.GetComponent<Image>().sprite = DialogueFace;
+        TxtDialogue.text = TextDialogue;
+        GuyNam.gameObject.SetActive(true);
+        BtnSkip.SetActive(true);
+        AdSource.PlayOneShot(yeah);
 
-        if ( DialogueFace == HippoFace)
+
+        if (DialogueFace == HippoFace)
         {
 
             GuyNam.gameObject.GetComponent<Image>().sprite = NameHippocrate;
@@ -1412,7 +1422,7 @@ public class testCam : MonoBehaviour
 
             AdSource.PlayOneShot(SAM2);
 
-        }        
+        }
         UiDialogue(SameFace, "Ca y est tu m'entends? Tu as trouvé un moyen de m'aider? \n \n - \n Ah merci, je vais essayer ça tout de suite \n \n - \n Ca fait du bien, ça me soulage un peu.Merci beaucoup!\n \n Mais là je viens de m'ouvrir la cuisse en tombant, ça fait super mal et ça saigne pas mal, comment je fais?");
         if (RdyForLastDialoguePid)
         {
@@ -1442,7 +1452,7 @@ public class testCam : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
 
-            if (hit.transform.gameObject.CompareTag("CADENAS")&&!hasSolvedCadenas)
+            if (hit.transform.gameObject.CompareTag("CADENAS") && !hasSolvedCadenas)
             {
 
                 hit.transform.gameObject.GetComponent<detectPorteHallPortrait>().f_GoTo();
@@ -1497,13 +1507,13 @@ public class testCam : MonoBehaviour
     public void OkForTheGame()
     {
 
-        StopGame = false;       
+        StopGame = false;
 
     }
 
     public void ResetPosition()
     {
-                
+
         RectScroll.GetComponent<ScrollRect>().movementType = ScrollRect.MovementType.Unrestricted;
 
     }
@@ -1548,12 +1558,12 @@ public class testCam : MonoBehaviour
             }
 
             if (hit.transform.gameObject.CompareTag("BookBibli2"))
-            {          
-                
+            {
+
                 if (aldyReaden && genealoged)
                 {
 
-                    AdSource.PlayOneShot(CollectItem);               
+                    AdSource.PlayOneShot(CollectItem);
 
                 }
                 else
@@ -1567,8 +1577,8 @@ public class testCam : MonoBehaviour
                     inMenu = true;
 
                 }
-                
-                
+
+
 
             }
 
@@ -1598,7 +1608,7 @@ public class testCam : MonoBehaviour
             if (hit.transform.gameObject.CompareTag("COFFRE"))
             {
 
-                SceneManager.LoadScene("PuzzleSlide"); 
+                SceneManager.LoadScene("PuzzleSlide");
 
             }
 
@@ -1643,7 +1653,31 @@ public class testCam : MonoBehaviour
 
     // ---------------------------- ShowClue ---------------------------
 
+    // ---------------------------- ShowClue ---------------------------
+
+    public void GhostClue()
+    {
+
+        StartCoroutine("WaitForClue");
+
+    }
+
+    IEnumerator WaitForClue()
+    {
+
+        yield return new WaitForSeconds(TimebeforeAppearGhost);
+        if (!touched)
+        {
+
+            GhostClue1.SetActive(true);
+
+        }
+
+
+    }
 }
+
+    // ---------------------------- ShowClue ---------------------------
 
 
 

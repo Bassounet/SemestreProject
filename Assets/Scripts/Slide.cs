@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; 
+
 
 public class Slide : MonoBehaviour
 {
@@ -28,6 +30,8 @@ public class Slide : MonoBehaviour
 
     public float defX;
     public float defY;
+
+    public bool AldyWin;
 
     private Vector3 screenPoint;
     private Vector3 offset;
@@ -80,8 +84,16 @@ public class Slide : MonoBehaviour
         Block();
         if (fiole && gameObject.transform.localPosition.y < -5 && !Dragging)
         {
-            Debug.Log("win!");
+
+            if (!AldyWin)
+            {
+
+                SceneManager.LoadScene("Fin");
+                AldyWin = true;
+
+            }
         }
+
         if (!Dragging)
         {
             gameObject.transform.localPosition = drop;

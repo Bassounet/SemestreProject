@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/intro.unity
+    guid: 0e57f3d5ba487f24590b6a0c34a1f400
+  - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 0
@@ -14,4 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PuzzleSlide.unity
     guid: 83f645a18078b4547b4e56f4552491a7
+  - enabled: 1
+    path: Assets/Scenes/TestWalkieTalkie.unity
+    guid: 081f749a91cba6c43b6f73b66f528920
+  - enabled: 1
+    path: Assets/Scenes/Fin.unity
+    guid: 0ca1296c141e7ad4caddeb96977c297a
   m_configObjects: {}

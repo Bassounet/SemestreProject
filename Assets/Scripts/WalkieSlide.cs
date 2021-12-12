@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Cinemachine;
+using UnityEngine.SceneManagement;
 
 public class WalkieSlide : MonoBehaviour
 {
@@ -30,6 +31,7 @@ public class WalkieSlide : MonoBehaviour
     public bool Win;
     public bool Winned;
     public float TimeToStayForWin;
+    public bool Intro;
 
     int shoot = 0;
 
@@ -179,18 +181,30 @@ public class WalkieSlide : MonoBehaviour
 
     public void Winning()
     {
-
+        
         if (Win)
         {
+            if (Intro)
+            {
 
-            Debug.Log("Tu es resté OK");
-            gameObject.transform.localPosition = Default;
-            Obj = Random.Range(-12.0f, 12.0f);
-            if (0 <= Obj && Obj < 4) { Obj = 4f; }
-            if (-4 < Obj && Obj < 0) { Obj = -4f; }
-            Winned = true;
-            Win = false;
-            Player.GetComponent<testCam>().BackFromTalkie();
+                Debug.Log("C'est parti");
+                SceneManager.LoadScene("SampleScene");
+
+            }
+            else
+            {
+
+                Debug.Log("Tu es resté OK");
+                gameObject.transform.localPosition = Default;
+                Obj = Random.Range(-12.0f, 12.0f);
+                if (0 <= Obj && Obj < 4) { Obj = 4f; }
+                if (-4 < Obj && Obj < 0) { Obj = -4f; }
+                Winned = true;
+                Win = false;
+                Player.GetComponent<testCam>().BackFromTalkie();
+                
+
+            }             
 
         }
 
@@ -215,4 +229,5 @@ public class WalkieSlide : MonoBehaviour
             }
         }
     }
+
 }
