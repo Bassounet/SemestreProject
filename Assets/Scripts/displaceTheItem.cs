@@ -15,7 +15,8 @@ public class displaceTheItem : MonoBehaviour, IPointerDownHandler, IBeginDragHan
 
     private void Start()
     {
-        BasePos = transform.position;
+       BasePos = transform.localPosition;
+       // BasePos = Vector3.zero;
         
     }
 
@@ -31,7 +32,7 @@ public class displaceTheItem : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     {       
 
         Debug.Log("End Drag");
-        transform.position = BasePos;
+        transform.localPosition = BasePos;
         HoldingItem = false;
 
     }

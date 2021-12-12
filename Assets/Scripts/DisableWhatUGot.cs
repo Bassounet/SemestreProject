@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class DisableWhatUGot : MonoBehaviour
 {
-
     [SerializeField] AudioSource Ads;
-    [SerializeField] AudioClip nope;
+    [SerializeField] AudioClip No;
+    public bool activado;
       public void DisableMe()
     {
-
+        if (!activado)
+        {
+            Ads.enabled = false;
+            Ads.enabled = true;
+            Ads.PlayOneShot(No);
+            Debug.Log("bidoudou");
+        }
+        
         this.gameObject.SetActive(false);
-        Ads.PlayOneShot(nope);
+
 
     }
 }

@@ -37,6 +37,8 @@ public class WalkieSlide : MonoBehaviour
     Vector3 endPosition;
     bool camMoving;
 
+    public float DragSpeed;
+
     // Start is called before the first frame update
 
     private void Awake()
@@ -100,7 +102,7 @@ public class WalkieSlide : MonoBehaviour
         if (camMoving)
         {
 
-            transform.position = new Vector3(transform.position.x - pos.x, transform.position.y, transform.position.z);
+            transform.position = new Vector3(transform.position.x - pos.x * DragSpeed, transform.position.y, transform.position.z);
 
         }
 
@@ -187,6 +189,7 @@ public class WalkieSlide : MonoBehaviour
             if (0 <= Obj && Obj < 4) { Obj = 4f; }
             if (-4 < Obj && Obj < 0) { Obj = -4f; }
             Winned = true;
+            Win = false;
             Player.GetComponent<testCam>().BackFromTalkie();
 
         }

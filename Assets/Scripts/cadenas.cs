@@ -11,7 +11,7 @@ public class cadenas : MonoBehaviour
 
     public int startingIndex =0;
     public string currentCode, MDP;
-    private bool winned;
+    public bool winned;
 
     [SerializeField] GameObject Player;
     [SerializeField] AudioSource Ads;

@@ -20,6 +20,7 @@ public class detectPorteHallPortrait : MonoBehaviour
 
     [SerializeField] AudioSource Ads;
     [SerializeField] AudioClip woosh;
+    [SerializeField] AudioClip no;
 
     bool inActualHall;
 
@@ -52,7 +53,7 @@ public class detectPorteHallPortrait : MonoBehaviour
         
         if (other.gameObject.CompareTag("Player"))
         {
-
+            //Player.GetComponent<testCam>().canExit = true;
             GoToPortrait.gameObject.SetActive(true);
 
         }
@@ -62,22 +63,28 @@ public class detectPorteHallPortrait : MonoBehaviour
     public void f_GoTo()
     {
 
-        Ads.PlayOneShot(woosh);
+        if ((GoToVestiaire && !Player.GetComponent<testCam>().AccesVestiaire) || (ToBibli && !Player.GetComponent<testCam>().AccessBibli) || (ToLabo && !Player.GetComponent<testCam>().AccessLabo)) {
+            Debug.Log("allerauvesiatier");
+            Ads.PlayOneShot(no);
+        }
+       // else { Ads.PlayOneShot(woosh); }
 
         if (ThePortraix )
         {
 
             SendMeToNextWay(ScriptTestCam, CamToEnable, CamToDisable, GoToPortrait);
-            
+           Ads.PlayOneShot(woosh);
             ScriptTestCam.gameObject.GetComponent<testCam>().inPortrait = true;
-            
+           
+
+
         }
 
         if (GoToVestiaire && Player.GetComponent<testCam>().AccesVestiaire)
         {
 
             SendMeToNextWay(ScriptTestCam, CamToEnable, CamToDisable, GoToPortrait);
-           
+            Ads.PlayOneShot(woosh);
             ScriptTestCam.gameObject.GetComponent<testCam>().inVestiaire = true;
             Player.GetComponent<testCam>().HasVestiaire = true;
 
@@ -89,7 +96,7 @@ public class detectPorteHallPortrait : MonoBehaviour
             
 
             SendMeToNextWay(ScriptTestCam, CamToEnable, CamToDisable, GoToPortrait);
-            
+            Ads.PlayOneShot(woosh);
             ScriptTestCam.gameObject.GetComponent<testCam>().hasLabo = true;
             ScriptTestCam.gameObject.GetComponent<testCam>().inLabo = true;
 
@@ -99,7 +106,7 @@ public class detectPorteHallPortrait : MonoBehaviour
         {
 
             SendMeToNextWay(ScriptTestCam, CamToEnable, CamToDisable, GoToPortrait);
-            
+            Ads.PlayOneShot(woosh);
             ScriptTestCam.gameObject.GetComponent<testCam>().inBibli = true;
             Player.GetComponent<testCam>().hasBibli = true;
 
@@ -107,7 +114,7 @@ public class detectPorteHallPortrait : MonoBehaviour
         
         if (ToCadenas)
         {
-
+            Ads.PlayOneShot(woosh);
             SendMeToNextWay(ScriptTestCam, CamToEnable, CamToDisable, GoToPortrait);
             Player.GetComponent<testCam>().Guide.SetActive(false);
             ScriptTestCam.gameObject.GetComponent<testCam>().inCadenas = true;
@@ -116,7 +123,7 @@ public class detectPorteHallPortrait : MonoBehaviour
 
         if (ToThehall)
         {
-
+            Ads.PlayOneShot(woosh);
             SendMeToNextWay(ScriptTestCam, CamToEnable, CamToDisable, GoToPortrait);
             Debug.Log("GoToHall");            
             ScriptTestCam.gameObject.GetComponent<testCam>().inPortrait = false;
@@ -132,7 +139,7 @@ public class detectPorteHallPortrait : MonoBehaviour
 
         if (other.gameObject.CompareTag("Player"))
         {
-
+           // Player.GetComponent<testCam>().canExit = false;
             GoToPortrait.gameObject.SetActive(false);
 
         }

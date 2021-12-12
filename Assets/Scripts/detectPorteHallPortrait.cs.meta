@@ -3,7 +3,21 @@ guid: 2d4357c0e0118b2419a405d98ad39054
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - GoToPortrait: {instanceID: 0}
+  - CamToDisable: {instanceID: 0}
+  - CamToEnable: {instanceID: 0}
+  - ScriptTestCam: {instanceID: 0}
+  - TargetLookAt: {instanceID: 0}
+  - Player: {instanceID: 0}
+  - BlackScreen: {instanceID: 0}
+  - OpenMat: {instanceID: 0}
+  - Cube1: {instanceID: 0}
+  - Cube2: {instanceID: 0}
+  - Cube3: {instanceID: 0}
+  - Ads: {instanceID: 0}
+  - woosh: {instanceID: 0}
+  - no: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -39,6 +39,7 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject fleched;
 
     [SerializeField] GameObject Cle;
+   
 
 
     //FIN VINEK
@@ -117,6 +118,23 @@ public class testCam : MonoBehaviour
     [SerializeField] AudioClip Tumulte;
 
 
+    [SerializeField] AudioClip SAM1;
+    [SerializeField] AudioClip Hippo;
+
+    [SerializeField] AudioClip Lapey1;
+    [SerializeField] AudioClip Lapey2;
+    [SerializeField] AudioClip SAM2;
+    [SerializeField] AudioClip Lapey3;
+
+    [SerializeField] AudioClip Pidoux1;
+    [SerializeField] AudioClip Pidoux2;
+    [SerializeField] AudioClip SAM3;
+    [SerializeField] AudioClip Pidoux3;
+
+    [SerializeField] AudioClip Chaptal;
+
+
+
     [Header(" INTERACTABLE ZONE ")]
     public float distanceMaxForGrab;
     public float dragSpeed = -2;
@@ -152,6 +170,9 @@ public class testCam : MonoBehaviour
     public bool holdVes;
     public bool holdBib;
     public bool holdLab;
+    public bool hasBib;
+    public bool hasLab;
+    public bool canExit;
 
 
     [Header("KEY ACCESS")]
@@ -213,9 +234,13 @@ public class testCam : MonoBehaviour
 
     void Update()
     {
+        //if (!inPortrait)
+        //{ Dialogue.gameObject.SetActive(false);
+        //    AdSource.enabled = false;
+        //    AdSource.enabled = true;
+        //}
 
-
-        if ((holdBib && AccessBibli) || (holdLab && AccessLabo) || (holdVes && AccesVestiaire)) { Cle.SetActive(true); }
+            if ((hasBib && AccessBibli) || (hasLab && AccessLabo) || (holdVes && AccesVestiaire)) { Cle.SetActive(true); }
         else { Cle.SetActive(false); }
 
         if (CadenasSolved && !HascadenasSolved)
@@ -225,6 +250,7 @@ public class testCam : MonoBehaviour
             DoorClosed.SetActive(false);
             DoorOpen.SetActive(true);
             HascadenasSolved = true;
+            
 
         }
 
@@ -276,9 +302,12 @@ public class testCam : MonoBehaviour
 
             Collect();
             ShootTPin();
-            ShootTableaux();
+
+                ShootTableaux();
+                TalkToHippo();
+
             ShootClefs();
-            TalkToHippo();
+            
             ShootCadenas();
             ShootRegister();
             ShootForBibli();
@@ -414,7 +443,7 @@ public class testCam : MonoBehaviour
         RaycastHit hit;
         Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit) && hit.distance < 7f)
         {
             if (hit.transform.gameObject.CompareTag("Hippocrate"))
             {
@@ -435,6 +464,7 @@ public class testCam : MonoBehaviour
                     
                     // ici on a pas parlé à hippocrate ni à lapeyronie
                     Debug.Log("BlaBlaBla Va voir Lapyrouze");
+                    AdSource.PlayOneShot(Hippo);
                     UiDialogue(HippoFace, "Bonjour mon petit, je suis Hippocrate, le père de la médecine moderne! Quel bon vent t'amènes?\n\n-\n\nOh! Ton ami est malade et tu cherches des solutions dans la faculté de médecine pour essayer de l'aider?\n\n-\n\nEt bien je sais peut - être comment tu peux faire!\n\n-\n\nS'il a mal à l'abdomen, c'est un problème interne! Va voir ce tableau là - bas, Lapeyronie pourra sans doutes t'aider! C'est le premier chirurgien du roi Louis 15 tu sais!");
                     GoneToLapeyronie = true;
                     ShowClue("Va parler au portrait de Lapeyronie ");
@@ -474,6 +504,7 @@ public class testCam : MonoBehaviour
                     {
 
                         RdyForLastDIalogue = true;
+                        AdSource.PlayOneShot(Lapey2);
                         UiDialogue(LapeyronieFace, "AAAH ! Mon matériel ! Tu sais qu'il m'a servit à soigner Louis XV? Dans mon temps j'étais un grand chirurgien, j'ai même été président de l'académie royale de chirurgie ! \n\n-\n\nMerci bien jeune homme.\n\n-\n\nOh et pour ton ami, il devrait essayer de se mettre sur le dos, et de prendre une compresse chaude pour calmer la douleur. ");
                         StopGame = true;
                         TalkieDialogue.gameObject.SetActive(true);                        
@@ -494,7 +525,7 @@ public class testCam : MonoBehaviour
 
                     if (hit.transform.gameObject.CompareTag("TableauPidoux"))
                     {
-
+                        AdSource.PlayOneShot(Pidoux2);
                         UiDialogue(Pidouxface, "Oh ! Mon arrière petit-fils est devenu un célèbre fabuliste? Il a même écrit pour des Rois? Mais c'est merveilleux! Merci beaucoup, me voilà soulagé.. Merci du fond du cœur!\n\n-\n\n Pendant que tu cherchais j'ai réfléchit et il me semble que pour ton ami, un bandage autour de la plaie, désinfectée au préalable serait le plus adaptée à sa blessure.");
                         TalkieDialogue.gameObject.SetActive(true);
                         RdyForLastDialoguePid = true;                        
@@ -624,6 +655,7 @@ public class testCam : MonoBehaviour
                 {
                     if (AccessBibli)
                     {
+                        if (hasBib) { hasBib = false; }
                         Debug.Log("GoTiLib");
                         TPBIBLI.gameObject.GetComponent<detectPorteHallPortrait>().
                            SendMeToNextWay(
@@ -653,7 +685,7 @@ public class testCam : MonoBehaviour
                 if (holdLab)
                 {
                     if (AccessLabo)
-                    {
+                    {if (hasLab) { hasLab = false; }
                         Debug.Log("Go To Labo");
                         TPLABO.gameObject.GetComponent<detectPorteHallPortrait>().
                            SendMeToNextWay(
@@ -680,13 +712,11 @@ public class testCam : MonoBehaviour
 
             if (permahit.transform.GetComponent<detectPorteHallPortrait>().GoToVestiaire)
             {
-                if (holdVes)
-                {
-                    if (AccesVestiaire)
-                    {
 
-                        holdVes = false;
-                    }
+                if (AccesVestiaire)
+                {
+                    if (holdVes)
+                    {    holdVes = false;}
                 }
             }
         }
@@ -718,11 +748,9 @@ public class testCam : MonoBehaviour
                     ShowClue("Va chercher le scalpel et ramnene le a Lapeyronie");
                     WhatUGot.text = textUI;
                     WhatUGot.gameObject.SetActive(true);
-                    if (!cleVespopped)
-                    {
+                    
                         ClefVestiaire.SetActive(false);
-                        cleVespopped = true;
-                    }
+ 
 
                 }
 
@@ -730,32 +758,29 @@ public class testCam : MonoBehaviour
                 {
 
                     AccessBibli = true;
+                    hasBib = true;
                     var textUI = hit.transform.GetComponent<Clef>().WhatUGat;
                     Debug.Log("Its a Key Bibli");
                     ShowClue("Va chercher un livre et ramene le a Pidoux");
                     WhatUGot.text = textUI;
                     WhatUGot.gameObject.SetActive(true);
-                    if (!cleBibpopped)
-                    {
+                    
                         ClefBibli.SetActive(false);
-                        cleBibpopped = true;
-                    }
+                 
                 }
 
                 if (hit.transform.GetComponent<Clef>().KeyLabo)
                 {
-
+                    hasLab = true;
                     AccessLabo = true;
                     var textUI = hit.transform.GetComponent<Clef>().WhatUGat;
                     Debug.Log("Its a Key Bibli");
                     ShowClue("Va chercher l'antidote dans le coffre");
                     WhatUGot.text = textUI;
                     WhatUGot.gameObject.SetActive(true);
-                    if (!cleLabpopped)
-                    {
+              
                         ClefLabo.SetActive(false);
-                        cleLabpopped = true;
-                    }
+                 
 
                 }
             }
@@ -773,7 +798,7 @@ public class testCam : MonoBehaviour
         RaycastHit hit;
         Ray ray = mainCam.ScreenPointToRay(touch.position);
 
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit)&&hit.distance<8f)
         {
 
             #region LAPEYRONIE 
@@ -794,8 +819,11 @@ public class testCam : MonoBehaviour
                     {
 
                         // ici hippocrate nous a dit d'aller voir lapeyronie mais on a pas encore parlé à lapeyronie
-
-                        ClefVestiaire.gameObject.SetActive(true);
+                        if (!cleVespopped)
+                        {
+                            ClefVestiaire.gameObject.SetActive(true);
+                            cleVespopped = true;
+                        }
                         ShowClue("Va chercher la clef du vestiaire");
 
                         if (LapeyronieSpoken)
@@ -826,7 +854,7 @@ public class testCam : MonoBehaviour
 
                                         if (RdyForLastDIalogue)
                                         {
-
+                                            AdSource.PlayOneShot(Lapey3);
                                             UiDialogue(LapeyronieFace, "Ah, alors la cuisse c'est quelque peu délicat, je préfère ne pas dire de bêtises qui risquerait d'aggraver son cas.\n \n - \n Va plutôt voir François Pidoux, il saura être plus juste.Il a été le médecin de trois rois consécutifs, à commencer par Henri II! \n \nBonne chance jeune homme et merci encore pour mon scalpel! ");
                                             ShowClue("Va parler au portrait de Pidoux");
                                             LapeyronieEnd = true;
@@ -859,6 +887,7 @@ public class testCam : MonoBehaviour
                             // ici on a hippocrate nous a dit d'aller voir lapeyronie et nous n'avons pas parlé à lapeyronie
                             LapeyronieSpoken = true;
                             //Debug.Log("BLa Bla Bla voici la première Clef");
+                            AdSource.PlayOneShot(Lapey1);
                             UiDialogue(LapeyronieFace, "Bonjour jeune homme, tu as besoin de mes conseils il me semble. Écoute, je veux bien t'aider mais seulement si tu fais quelque chose pour moi en retour. \n\n-\n\nDepuis que je suis dans ce tableau je n'ai pas eu accès a mes affaires, Ramène-moi mon scalpel préféré, il est jaune, et je t'aiderai avec Tonna mi.\n\n-\n\n Si tout va bien ils sont toujours stockés dans mon casier, la clé des vestiaires est caché dans le pot de fleur me semble-t-il. ");
 
                         }
@@ -868,6 +897,7 @@ public class testCam : MonoBehaviour
                 {
 
                     //Debug.Log("Ho mon beau scalpel, grave refait wola");
+                    AdSource.PlayOneShot(Lapey2);
                     UiDialogue(LapeyronieFace, "/*AAAH ! Mon matériel ! Tu sais qu'il m'a servit à soigner Louis XV? Dans mon temps j'étais un grand chirurgien, j'ai même été président de l'académie royale de chirurgie ! \n\n-\n\nMerci bien jeune homme Oh et pour ton ami, il devrait essayer de se mettre sur le dos, et de prendre une compresse chaude pour calmer la douleur.\n\n - \n Ah, alors la cuisse c'est quelque peu délicat, je préfère ne pas dire de bêtises qui risquerait d'aggraver son cas. \n \n - \n Va plutôt voir François Pidoux, il saura être plus juste.Il a été le médecin de trois rois consécutifs, à commencer par Henri II! \n Bonne chance jeune homme et merci encore pour mon scalpel!");
                     
 
@@ -890,6 +920,7 @@ public class testCam : MonoBehaviour
 
                         // ici on a fini avec pidoux et on lui parle
                         //Debug.Log("Je suis si fier de mon ptit fils");
+                        AdSource.PlayOneShot(Pidoux2);
                         UiDialogue(Pidouxface, "Oh ! Mon arrière petit-fils est devenu un célèbre fabuliste? Il a même écrit pour des Rois? Mais c'est merveilleux! Merci beaucoup, me voilà soulagé.. Merci du fond du cœur!\n\n-\n\n Pendant que tu cherchais j'ai réfléchit et il me semble que pour ton ami, un bandage autour de la plaie, désinfectée au préalable serait le plus adaptée à sa blessure.");
 
                     }
@@ -900,11 +931,15 @@ public class testCam : MonoBehaviour
 
                             // ici lapeyronie nous a filé l'indice pour pidoux et on ne lui a pas encore parlé
                             //Debug.Log("Comment va ton ami ? Ok voici ce que tu dois faire ");
+                            AdSource.PlayOneShot(Pidoux1);
                             UiDialogue(Pidouxface, "Oh, bonjour mon petit, tu as l'air tout perturbé, ça va aller?\n\n-\n\nAh mince, ton ami a des ennuis. Je t'avoue que j'aurais besoin d'un petit service dans un premier temps \n\n-\n\nVois - tu, quelque chose me trotte dans la tête depuis ce qui me semble maintenant une éternité \n\n-\n\nJ'ai peur pour ma descendance. J'espère sincèrement du fond du cœur que mon nom n'est pas oublié, que ma famille a prospéré, qu'elle a continué à faire de grandes choses.\n\n-\n\nJ'ai besoin de savoir, alors si tu pouvais me rendre ce service, je vous aiderai avec plaisir toi et ton ami Peut-être dans la bibliothèque qui sait ?\n\n-\n\n Je te conseil de retourner dans des lieux que tu as déjà visité, tu trouveras surement la clé quelque part!");
                             PidouxGaveClue = true;
                             ShowClue("Va chercher la clef de la bibliotheque");
-                            ClefBibli.gameObject.SetActive(true);
-
+                            if (!cleBibpopped)
+                            {
+                                ClefBibli.gameObject.SetActive(true);
+                                cleBibpopped = true;
+                            }
                         }
                         else
                         {
@@ -930,7 +965,7 @@ public class testCam : MonoBehaviour
 
                                         if (RdyForLastDialoguePid)
                                         {
-
+                                            AdSource.PlayOneShot(Pidoux3);
                                             UiDialogue(Pidouxface, "Oula, j'ai entendu ce que ton ami viens de te dire, décidément il lui en arrive des bricoles! \n \n Va vers Chaptal, il est chimiste, il a même recu des titres de noblesse de louis 16, il saura lui venir en aide!");
                                             ShowClue("Va parler au portrait de Chaptal");
                                             PidouxEnd = true;
@@ -985,12 +1020,16 @@ public class testCam : MonoBehaviour
 
                             // ici nous parlons à chaptal il nous a pas donné l'indice
                             //Debug.Log("Hello mon ptit pote, voici ton indice pour la prochaine salle");
+                            AdSource.PlayOneShot(Chaptal);
                             UiDialogue(ChaptalFace, "Eh salut, quel bon vent t'amène? \n\n-\n\nOh ok je vois, Ca tombe bien je sais exactement comment t'aider! \n\n-\n\nHein? un service? mais non t'inquiète, va plutôt voir le laboratoire ! La clé ,si je dis pas de bêtises, elle est dans la bibliothèque ! \n\n-\n\nOula, en parlant du loup, il se passe du tumulte dans la bibliothèque!  Allez file, va sauver ton ami! ");
                             ShowClue("Va chercher la clef du labo");
                             ChaptalGaveClue = true;
                             Tumult();
-                            ClefLabo.gameObject.SetActive(true);
-
+                            if (!cleLabpopped)
+                            {
+                                ClefLabo.gameObject.SetActive(true);
+                                cleLabpopped = true;
+                            }
                         }
                         else
                         {
@@ -1231,12 +1270,13 @@ public class testCam : MonoBehaviour
     public void UiDialogue(Sprite DialogueFace, string TextDialogue )
     {
 
-        Dialogue.gameObject.SetActive(true);
-        facingDialogue.GetComponent<Image>().sprite = DialogueFace;
-        TxtDialogue.text = TextDialogue;
-        GuyNam.gameObject.SetActive(true);
-        BtnSkip.SetActive(true);
-        AdSource.PlayOneShot(yeah);
+            Dialogue.gameObject.SetActive(true);
+            facingDialogue.GetComponent<Image>().sprite = DialogueFace;
+            TxtDialogue.text = TextDialogue;
+            GuyNam.gameObject.SetActive(true);
+            BtnSkip.SetActive(true);
+            AdSource.PlayOneShot(yeah);
+     
 
         if ( DialogueFace == HippoFace)
         {
@@ -1310,7 +1350,8 @@ public class testCam : MonoBehaviour
 
     public void AppearTalkie()
     {
-
+        AdSource.enabled = false;
+        AdSource.enabled = true;
         inTalkie = true;
         WalkieTalkie.SetActive(true);
         VirtualCamPortrait.gameObject.SetActive(false);
@@ -1334,17 +1375,18 @@ public class testCam : MonoBehaviour
         StopGame = false;
         inPortrait = true;
         BtnSkip.SetActive(true);
+        AdSource.PlayOneShot(SAM2);
         UiDialogue(SameFace, "Ca y est tu m'entends? Tu as trouvé un moyen de m'aider? \n \n - \n Ah merci, je vais essayer ça tout de suite \n \n - \n Ca fait du bien, ça me soulage un peu.Merci beaucoup!\n \n Mais là je viens de m'ouvrir la cuisse en tombant, ça fait super mal et ça saigne pas mal, comment je fais?");
         if (RdyForLastDialoguePid)
         {
-
+            AdSource.PlayOneShot(SAM3);
             UiDialogue(SameFace, "Hello, c'est bon tu m'entends? \n \n - \n Ok cool, c'est super que tu arrives à m'aider, merci mon pote! \n \n Je vais chercher dans mon placard et me bander la jambe!\n \n - \n Ok, ça piquait un peu mais là ça fait du bien, c'est super! \n \n - \nPar contre qu'est-ce que ma tête me fait mal!!\n \n J'ai des nausées c'est horrible..t'as pas une solution sous la main?\n \n j'ai l'impression que je vais tomber dans les pommes");
 
         }
         Invoke("TurnUpSkip", 3f);
         TalkieDialogue.gameObject.SetActive(false);
         VirtualCamPortrait.LookAt.SetPositionAndRotation(TargetPortraitRest.transform.position, Quaternion.identity);
-        Guide.SetActive(false);
+        Guide.SetActive(true);
 
     }
 
@@ -1362,7 +1404,7 @@ public class testCam : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
 
-            if (hit.transform.gameObject.CompareTag("CADENAS"))
+            if (hit.transform.gameObject.CompareTag("CADENAS")&&!hasSolvedCadenas)
             {
 
                 hit.transform.gameObject.GetComponent<detectPorteHallPortrait>().f_GoTo();
@@ -1452,7 +1494,7 @@ public class testCam : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
-            Debug.Log(hit.normal);
+            //Debug.Log(hit.normal);
 
             if (hit.transform.gameObject.CompareTag("BookBibli1"))
             {
@@ -1496,7 +1538,7 @@ public class testCam : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
-            Debug.Log(hit.normal);
+            //Debug.Log(hit.normal);
 
             if (hit.transform.gameObject.CompareTag("COFFRE"))
             {
