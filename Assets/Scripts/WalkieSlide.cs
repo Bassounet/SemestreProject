@@ -13,7 +13,9 @@ public class WalkieSlide : MonoBehaviour
     [SerializeField] GameObject Player;
     [SerializeField] GameObject Fond;
     [SerializeField] Material YES;
-
+    [Range(0f, 0.99f)]
+    public float reduc;
+    public bool voiceAffected;
     private Vector3 screenPoint;
     private Vector3 offset;
 
@@ -173,9 +175,10 @@ public class WalkieSlide : MonoBehaviour
             frequVolume = 0;
         }
         frequVolume = (Mathf.Abs((Obj) - Mathf.Round((gameObject.transform.localPosition.x))) / (Mathf.Abs((Obj))));
-        SAM.GetComponent<AudioSource>().volume = 1-frequVolume;
-        NOISE.GetComponent<AudioSource>().volume = frequVolume;
-
+        if (!voiceAffected) { SAM.GetComponent<AudioSource>().volume = (1 - frequVolume); }
+        else { SAM.GetComponent<AudioSource>().volume = (1 - frequVolume) - reduc; }
+        NOISE.GetComponent<AudioSource>().volume = (frequVolume)-reduc;
+        if (NOISE.GetComponent<AudioSource>().volume > 1 - reduc) { NOISE.GetComponent<AudioSource>().volume = 1 - reduc; }
         //Debug.Log(1-(Mathf.Abs((Obj) - Mathf.Round((gameObject.transform.localPosition.x))) / (Mathf.Abs((Obj)))));
     }
 

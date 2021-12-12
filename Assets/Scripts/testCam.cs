@@ -213,6 +213,8 @@ public class testCam : MonoBehaviour
     public bool touched;
 
     public bool AldyTalkToSam;
+    public bool reseted;
+    public bool first =true;
 
     private CinemachineVirtualCamera actualCam;
 
@@ -448,9 +450,11 @@ public class testCam : MonoBehaviour
     }
 
     #endregion
-
+    private void OnEnable()
+    {
+        BackFromTalkie();
+    }
     // ---------------------------- Talk To HIPPO  ----------------------
-
     public void TalkToHippo()
     {
 
@@ -785,7 +789,7 @@ public class testCam : MonoBehaviour
                     holdVes = true;
                     var textUI = hit.transform.GetComponent<Clef>().WhatUGat;
                     Debug.Log("Its a Key Vestiaire");
-                    ShowClue("Va chercher le scalpel et ramnene le a Lapeyronie");
+                    ShowClue("Va chercher le scalpel et ramène-le à Lapeyronie");
                     WhatUGot.text = textUI;
                     WhatUGot.gameObject.SetActive(true);
 
@@ -801,7 +805,7 @@ public class testCam : MonoBehaviour
                     hasBib = true;
                     var textUI = hit.transform.GetComponent<Clef>().WhatUGat;
                     Debug.Log("Its a Key Bibli");
-                    ShowClue("Va chercher un livre et ramene le a Pidoux");
+                    ShowClue("Va chercher un livre et ramène-le àPidoux");
                     WhatUGot.text = textUI;
                     WhatUGot.gameObject.SetActive(true);
 
@@ -975,7 +979,7 @@ public class testCam : MonoBehaviour
                             AdSource.PlayOneShot(Pidoux1);
                             UiDialogue(Pidouxface, "Oh, bonjour mon petit, tu as l'air tout perturbé, ça va aller?\n\n-\n\nAh mince, ton ami a des ennuis. Je t'avoue que j'aurais besoin d'un petit service dans un premier temps \n\n-\n\nVois - tu, quelque chose me trotte dans la tête depuis ce qui me semble maintenant une éternité \n\n-\n\nJ'ai peur pour ma descendance. J'espère sincèrement du fond du cœur que mon nom n'est pas oublié, que ma famille a prospéré, qu'elle a continué à faire de grandes choses.\n\n-\n\nJ'ai besoin de savoir, alors si tu pouvais me rendre ce service, je vous aiderai avec plaisir toi et ton ami Peut-être dans la bibliothèque qui sait ?\n\n-\n\n Je te conseil de retourner dans des lieux que tu as déjà visité, tu trouveras surement la clé quelque part!");
                             PidouxGaveClue = true;
-                            ShowClue("Va chercher la clef de la bibliotheque");
+                            ShowClue("Va chercher la clef de la bibliothèque");
                             if (!cleBibpopped)
                             {
                                 ClefBibli.gameObject.SetActive(true);
@@ -1407,6 +1411,7 @@ public class testCam : MonoBehaviour
     }
     public void BackFromTalkie()
     {
+        currentPos = maxPos / 2;
 
         inTalkie = false;
         WalkieTalkie.SetActive(false);
@@ -1417,16 +1422,26 @@ public class testCam : MonoBehaviour
         StopGame = false;
         inPortrait = true;
         BtnSkip.SetActive(true);
-        if (!AldyTalkToSam)
+
+        
+        if (!AldyTalkToSam&&!first)
         {
 
             AdSource.PlayOneShot(SAM2);
-
+            ShowClue("Reparle à Lapeyronie");
+            UiDialogue(SameFace, "Ca y est tu m'entends? Tu as trouvé un moyen de m'aider? \n \n - \n Ah merci, je vais essayer ça tout de suite \n \n - \n Ca fait du bien, ça me soulage un peu.Merci beaucoup!\n \n Mais là je viens de m'ouvrir la cuisse en tombant, ça fait super mal et ça saigne pas mal, comment je fais?");
         }
-        UiDialogue(SameFace, "Ca y est tu m'entends? Tu as trouvé un moyen de m'aider? \n \n - \n Ah merci, je vais essayer ça tout de suite \n \n - \n Ca fait du bien, ça me soulage un peu.Merci beaucoup!\n \n Mais là je viens de m'ouvrir la cuisse en tombant, ça fait super mal et ça saigne pas mal, comment je fais?");
+        if (first)
+        {
+
+            AdSource.PlayOneShot(SAM1);
+            first = false;
+            UiDialogue(SameFace, "Allô, C'est moi!\nMerci encore d'être aller chercher de quoi me soigner.\n\n-\n\nJ'ai vraiment mal au milieu du ventre si ça peut t'aider à trouver des solutions!");
+        }
         if (RdyForLastDialoguePid)
         {
             AdSource.PlayOneShot(SAM3);
+            ShowClue("Reparle à Pidoux ");
             UiDialogue(SameFace, "Hello, c'est bon tu m'entends? \n \n - \n Ok cool, c'est super que tu arrives à m'aider, merci mon pote! \n \n Je vais chercher dans mon placard et me bander la jambe!\n \n - \n Ok, ça piquait un peu mais là ça fait du bien, c'est super! \n \n - \nPar contre qu'est-ce que ma tête me fait mal!!\n \n J'ai des nausées c'est horrible..t'as pas une solution sous la main?\n \n j'ai l'impression que je vais tomber dans les pommes");
 
         }
@@ -1435,6 +1450,7 @@ public class testCam : MonoBehaviour
         VirtualCamPortrait.LookAt.SetPositionAndRotation(TargetPortraitRest.transform.position, Quaternion.identity);
         Guide.SetActive(true);
         AldyTalkToSam = true;
+        if (!reseted) { AldyTalkToSam = false; reseted = true; }
 
     }
 

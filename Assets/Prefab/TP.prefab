@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 282999975439397281}
   m_LocalRotation: {x: -0, y: 0.2588195, z: -0, w: 0.96592575}
   m_LocalPosition: {x: -0.089, y: 1.088, z: -0.47}
-  m_LocalScale: {x: 1.1431749, y: 0.6514824, z: 0.4234}
+  m_LocalScale: {x: 1.1431749, y: 0.5550695, z: 0.4234}
   m_Children: []
   m_Father: {fileID: 9084905110401268940}
   m_RootOrder: 2
@@ -220,7 +220,7 @@ Transform:
   m_GameObject: {fileID: 3990441425745711201}
   m_LocalRotation: {x: -0, y: -0.2588186, z: -0, w: 0.965926}
   m_LocalPosition: {x: -0.068999976, y: 1.088, z: 0.120001614}
-  m_LocalScale: {x: 1.1431749, y: 0.6514824, z: 0.4234}
+  m_LocalScale: {x: 1.1431749, y: 0.5550695, z: 0.4234}
   m_Children: []
   m_Father: {fileID: 9084905110401268940}
   m_RootOrder: 1
@@ -361,6 +361,9 @@ MonoBehaviour:
   Cube1: {fileID: 553690398450629901}
   Cube2: {fileID: 3990441425745711201}
   Cube3: {fileID: 282999975439397281}
+  Ads: {fileID: 0}
+  woosh: {fileID: 0}
+  no: {fileID: 0}
   GoToVestiaire: 0
   ThePortraix: 0
   ToThehall: 0
