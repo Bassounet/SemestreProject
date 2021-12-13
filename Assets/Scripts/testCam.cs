@@ -27,6 +27,10 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject RectScroll;
     [SerializeField] public GameObject Guide;
     [SerializeField] GameObject GhostClue1;
+    [SerializeField] GameObject GhostClue2;
+    [SerializeField] GameObject GhostClue3;
+    [SerializeField] GameObject GhostClue4;
+
 
 
 
@@ -222,6 +226,7 @@ public class testCam : MonoBehaviour
 
     private bool HascadenasSolved;
     public float TimebeforeAppearGhost;
+    public int TheGhost;
 
 
 
@@ -246,11 +251,6 @@ public class testCam : MonoBehaviour
 
     void Update()
     {
-        //if (!inPortrait)
-        //{ Dialogue.gameObject.SetActive(false);
-        //    AdSource.enabled = false;
-        //    AdSource.enabled = true;
-        //}
 
         if ((hasBib && AccessBibli) || (hasLab && AccessLabo) || (holdVes && AccesVestiaire && !HasVestiaire)) { Cle.SetActive(true); }
         else { Cle.SetActive(false); }
@@ -283,15 +283,9 @@ public class testCam : MonoBehaviour
         {
 
             inLabo = false;
-            //UiCadenas.gameObject.SetActive(true);
 
         }
-        else
-        {
 
-            //iCadenas.gameObject.SetActive(false);
-
-        }
 
 
         if (ObjectCollected.GetComponent<displaceTheItem>().HoldingItem)
@@ -308,7 +302,7 @@ public class testCam : MonoBehaviour
             ShootTPout();
             GhostClue();
             touched = false;
-
+        
         }
 
         if (Input.touchCount > 0 && shoot == 0 && !StopGame) // fonction lancment de collect quand on appuie 
@@ -326,9 +320,9 @@ public class testCam : MonoBehaviour
             ShootRegister();
             ShootForBibli();
             ShootForCoffr();
-            //GhostClue1.SetActive(false);
             Debug.Log("Shoot");
             touched = true;
+            TheGhost++;
 
         }
 
@@ -340,7 +334,6 @@ public class testCam : MonoBehaviour
             permaray = mainCam.ScreenPointToRay(touch.position);
 
         }
-
 
 
         #region ControlCam       
@@ -1686,6 +1679,40 @@ public class testCam : MonoBehaviour
         {
 
             GhostClue1.SetActive(true);
+            if ( TheGhost>= 1)
+            {
+
+                GhostClue1.SetActive(false);
+                GhostClue2.SetActive(true);
+                if ( TheGhost >= 3)
+                {
+
+                    GhostClue2.SetActive(false);
+                    GhostClue3.SetActive(true);
+                    if ( TheGhost >= 5)
+                    {
+
+                        GhostClue3.SetActive(false);
+                        GhostClue4.SetActive(true);
+
+                        if ( TheGhost>= 7)
+                        {
+
+                            GhostClue4.SetActive(false);
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+        else
+        {
+
+            GhostClue1.SetActive(false);
 
         }
 
