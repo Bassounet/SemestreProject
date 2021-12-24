@@ -197,6 +197,7 @@ public class testCam : MonoBehaviour
     public bool LapeyronieSpoken; // si lapeyronie nous a parlé     
     public bool HasVestiaire;
     public bool CadenasSolved;
+    public bool ScalpelCollected;
     public bool RdyForLastDIalogue;
     public bool LapeyronieEnd;
     public bool hasBibli;
@@ -227,6 +228,8 @@ public class testCam : MonoBehaviour
     private bool HascadenasSolved;
     public float TimebeforeAppearGhost;
     public int TheGhost;
+
+
 
 
 
@@ -265,6 +268,15 @@ public class testCam : MonoBehaviour
 
 
         }
+
+        if (!RdyForLastDIalogue && inPortrait && ScalpelCollected)
+        {
+
+            GhostClue4.SetActive(true);
+
+        }
+
+        
 
         if (inCadenas)
         {
@@ -514,6 +526,7 @@ public class testCam : MonoBehaviour
                     if (hit.transform.gameObject.CompareTag("TableauLapeyronie"))
                     {
 
+                        GhostClue4.SetActive(false);
                         RdyForLastDIalogue = true;
                         AdSource.PlayOneShot(Lapey2);
                         UiDialogue(LapeyronieFace, "AAAH ! Mon matériel ! Tu sais qu'il m'a servit à soigner Louis XV? Dans mon temps j'étais un grand chirurgien, j'ai même été président de l'académie royale de chirurgie ! \n\n-\n\nMerci bien jeune homme.\n\n-\n\nOh et pour ton ami, il devrait essayer de se mettre sur le dos, et de prendre une compresse chaude pour calmer la douleur. ");
@@ -640,6 +653,7 @@ public class testCam : MonoBehaviour
                     ObjectCollected.GetComponent<displaceTheItem>().itemIndex = TargetItemScript.itemIndex;
                     AdSource.PlayOneShot(CollectItem);
                     hit.transform.gameObject.SetActive(false);
+                    ScalpelCollected = true;
 
                 }
 
@@ -858,10 +872,13 @@ public class testCam : MonoBehaviour
                         // ici hippocrate nous a dit d'aller voir lapeyronie mais on a pas encore parlé à lapeyronie
                         if (!cleVespopped)
                         {
+
                             ClefVestiaire.gameObject.SetActive(true);
                             cleVespopped = true;
+                            ShowClue("Va chercher la clef du vestiaire");
+
                         }
-                        ShowClue("Va chercher la clef du vestiaire");
+                        
 
                         if (LapeyronieSpoken)
                         {
@@ -892,6 +909,7 @@ public class testCam : MonoBehaviour
 
                                         if (RdyForLastDIalogue)
                                         {
+
                                             AdSource.PlayOneShot(Lapey3);
                                             UiDialogue(LapeyronieFace, "Ah, alors la cuisse c'est quelque peu délicat, je préfère ne pas dire de bêtises qui risquerait d'aggraver son cas.\n \n - \n Va plutôt voir François Pidoux, il saura être plus juste.Il a été le médecin de trois rois consécutifs, à commencer par Henri II! \n \nBonne chance jeune homme et merci encore pour mon scalpel! ");
                                             ShowClue("Va parler au portrait de Pidoux");
@@ -1684,23 +1702,15 @@ public class testCam : MonoBehaviour
 
                 GhostClue1.SetActive(false);
                 GhostClue2.SetActive(true);
-                if ( TheGhost >= 3)
+                if ( TheGhost >= 2)
                 {
 
                     GhostClue2.SetActive(false);
                     GhostClue3.SetActive(true);
-                    if ( TheGhost >= 5)
+                    if ( TheGhost >= 4)
                     {
 
                         GhostClue3.SetActive(false);
-                        GhostClue4.SetActive(true);
-
-                        if ( TheGhost>= 7)
-                        {
-
-                            GhostClue4.SetActive(false);
-
-                        }
 
                     }
 

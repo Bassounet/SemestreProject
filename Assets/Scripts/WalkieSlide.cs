@@ -13,6 +13,7 @@ public class WalkieSlide : MonoBehaviour
     [SerializeField] GameObject Player;
     [SerializeField] GameObject Fond;
     [SerializeField] Material YES;
+    [SerializeField] Material YesIntro;
     [Range(0f, 0.99f)]
     public float reduc;
     public bool voiceAffected;
@@ -34,6 +35,7 @@ public class WalkieSlide : MonoBehaviour
     public bool Winned;
     public float TimeToStayForWin;
     public bool Intro;
+    public bool AldyWin;
 
     int shoot = 0;
 
@@ -140,12 +142,30 @@ public class WalkieSlide : MonoBehaviour
     void DetectWalk() {
         if (Obj - marge < gameObject.transform.localPosition.x && gameObject.transform.localPosition.x < Obj + marge)
         {
+            if (Intro)
+            {
+                if (!AldyWin)
+                {
 
-            // LA VICTOIRE 
-            Debug.Log("YES");
-            Fond.GetComponent<MeshRenderer>().material = YES;
-            Win = true;
-            Invoke("Winning", TimeToStayForWin);
+                    // LA VICTOIRE 
+                    Debug.Log("YesIntro");
+                    Fond.GetComponent<MeshRenderer>().material = YesIntro;
+                    Win = true;
+                    Winning();
+                    AldyWin = true;
+
+                }
+            }
+            else
+            {
+
+                // LA VICTOIRE 
+                Debug.Log("YES");
+                Fond.GetComponent<MeshRenderer>().material = YES;
+                Win = true;
+                Invoke("Winning", TimeToStayForWin);
+
+            }          
 
         }
         else 
