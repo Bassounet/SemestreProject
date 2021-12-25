@@ -1304,7 +1304,7 @@ public class testCam : MonoBehaviour
                 }
                 if (VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition > 4.07f)
                 {
-                    a
+                    
                     VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition += variableJoystick.Vertical * -dragSpeed;
                     variableJoystick.GetComponent<VariableJoystick>().AxisOptions = AxisOptions.Vertical;
                     Joystick.GetComponent<Image>().sprite = VerticalJoystick;
