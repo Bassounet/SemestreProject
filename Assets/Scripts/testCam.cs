@@ -30,7 +30,10 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject GhostClue2;
     [SerializeField] GameObject GhostClue3;
     [SerializeField] GameObject GhostClue4;
-
+    public Joystick variableJoystick;
+    [SerializeField] Sprite HorizontalJoystick;
+    [SerializeField] Sprite VerticalJoystick;
+    [SerializeField] Image Joystick;
 
 
 
@@ -139,6 +142,8 @@ public class testCam : MonoBehaviour
     [SerializeField] AudioClip Pidoux3;
 
     [SerializeField] AudioClip Chaptal;
+
+    
 
 
 
@@ -351,24 +356,24 @@ public class testCam : MonoBehaviour
         #region ControlCam       
 
 
-        if (Input.GetMouseButtonDown(0) && !StopGame)
-        {
+        //if (Input.GetMouseButtonDown(0) && !StopGame)
+        //{
 
-            camMoving = true;
-            dragOrigin = Input.mousePosition;
+        //    camMoving = true;
+        //    dragOrigin = Input.mousePosition;
 
-        }
+        //}
 
-        if (!camMoving)
-        {
+        //if (!camMoving)
+        //{
 
-            dragOrigin = endPosition;
+        //    dragOrigin = endPosition;
 
-        }
+        //}
 
-        if (!Input.GetMouseButton(0)) return;
+        //if (!Input.GetMouseButton(0)) return;
 
-        Vector3 pos = mainCam.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
+        //Vector3 pos = mainCam.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
 
 
         #region Where Are We ?
@@ -381,7 +386,7 @@ public class testCam : MonoBehaviour
             {
 
                 actualCam = VirtualCamHall;
-                MakePositionCam(VirtualCamHall, pos);
+                MakePositionCam(VirtualCamHall);
                 DontPathOverTheMax(VirtualCamHall, dollyHall);
 
             }
@@ -389,7 +394,7 @@ public class testCam : MonoBehaviour
             {
 
                 actualCam = VirtualCamPortrait;
-                MakePositionCam(VirtualCamPortrait, pos);
+                MakePositionCam(VirtualCamPortrait);
                 DontPathOverTheMax(VirtualCamPortrait, dollyPortrait);
 
             }
@@ -398,7 +403,7 @@ public class testCam : MonoBehaviour
 
                 inCadenas = false;
                 actualCam = VirtualCamVestiaire;
-                MakePositionCam(VirtualCamVestiaire, pos);
+                MakePositionCam(VirtualCamVestiaire);
                 DontPathOverTheMax(VirtualCamVestiaire, dollyVestiaire);
 
             }
@@ -407,7 +412,7 @@ public class testCam : MonoBehaviour
             {
 
                 actualCam = VirtualCamBibli;
-                MakePositionCam(VirtualCamBibli, pos);
+                MakePositionCam(VirtualCamBibli);
                 DontPathOverTheMax(VirtualCamBibli, dollyBibli);
 
             }
@@ -415,7 +420,7 @@ public class testCam : MonoBehaviour
             {
                 inSlideP = false;
                 actualCam = VirtualCamLabo;
-                MakePositionCam(VirtualCamLabo, pos);
+                MakePositionCam(VirtualCamLabo);
                 DontPathOverTheMax(VirtualCamLabo, dollyLabo);
 
             }
@@ -455,6 +460,7 @@ public class testCam : MonoBehaviour
     }
 
     #endregion
+
     private void OnEnable()
     {
         BackFromTalkie();
@@ -1257,27 +1263,55 @@ public class testCam : MonoBehaviour
 
     // ---------------------------- MOVE THE CAM -------------------------
 
-    public void MakePositionCam(CinemachineVirtualCamera VirtualCam, Vector3 pos)
+    public void MakePositionCam(CinemachineVirtualCamera VirtualCam/*, Vector3 pos*/)
     {
         if (inVestiaire || inLabo || inBibli)
         {
             if (!StopGame)
             {
 
-                VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition += pos.x * dragSpeed;
+                VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition += variableJoystick.Horizontal * -dragSpeed;
 
             }
 
 
         }
-        else if (inHall || inPortrait)
+        else if (inHall)
         {
             if (!StopGame)
-                VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition += pos.x * -dragSpeed;
+            {
+
+                VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition += variableJoystick.Horizontal * dragSpeed;
+                variableJoystick.GetComponent<VariableJoystick>().AxisOptions = AxisOptions.Horizontal;
+                Joystick.GetComponent<Image>().sprite = HorizontalJoystick;
+
+            }
+                
 
         }
+        else if( inPortrait)
+        {
 
+            if (!StopGame)
+            {
+                if (0 <= VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition && VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition < 4.07f)
+                {
 
+                    VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition += variableJoystick.Vertical * dragSpeed;
+                    variableJoystick.GetComponent<VariableJoystick>().AxisOptions = AxisOptions.Vertical;
+                    Joystick.GetComponent<Image>().sprite = VerticalJoystick;
+
+                }
+                if (VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition > 4.07f)
+                {
+
+                    VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition += variableJoystick.Vertical * -dragSpeed;
+                    variableJoystick.GetComponent<VariableJoystick>().AxisOptions = AxisOptions.Vertical;
+                    Joystick.GetComponent<Image>().sprite = VerticalJoystick;
+
+                }
+            }
+        }
     }
 
     // ---------------------------- MOVE THE CAM -------------------------
