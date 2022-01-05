@@ -36,5 +36,10 @@ public class Intro : MonoBehaviour
 
     }
 
+      public void GoVibration()
+    {
 
+        Handheld.Vibrate();
+
+    }
 }

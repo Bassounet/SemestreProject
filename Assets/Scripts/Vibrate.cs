@@ -2,7 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class Vibrate
+public class Vibrate : MonoBehaviour
 {
-  
+ 
+    public void GoVibrate()
+    {
+
+        Handheld.Vibrate();
+
+    }
+
 }
