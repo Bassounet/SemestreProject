@@ -150,6 +150,7 @@ public class WalkieSlide : MonoBehaviour
                     // LA VICTOIRE 
                     Debug.Log("YesIntro");
                     Fond.GetComponent<MeshRenderer>().material = YesIntro;
+                   
                     Win = true;
                     Winning();
                     AldyWin = true;

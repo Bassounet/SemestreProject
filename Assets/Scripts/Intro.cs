@@ -32,7 +32,7 @@ public class Intro : MonoBehaviour
     public void GoToGame()
     {
 
-        SceneManager.LoadScene("TestWalkieTalkie");
+        SceneManager.LoadScene("TlkWlk2");
 
     }
 
