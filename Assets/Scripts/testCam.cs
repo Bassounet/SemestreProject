@@ -28,7 +28,7 @@ public class testCam : MonoBehaviour
     [SerializeField] public GameObject Guide;
     [SerializeField] GameObject GhostClue1;
     [SerializeField] GameObject GhostClue2;
-    [SerializeField] GameObject GhostClue3;
+    //[SerializeField] GameObject GhostClue3;
     [SerializeField] GameObject GhostClue4;
     public Joystick variableJoystick;
     [SerializeField] Sprite HorizontalJoystick;
@@ -116,6 +116,12 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject WalkieTalkie;
     [SerializeField] GameObject BibliToFall;
     [SerializeField] GameObject BibliFalled;
+
+    [Header("This Is Talk To Me")]
+    [SerializeField] GameObject TalkToLapeyronie;
+    [SerializeField] GameObject TalkToChaptal;
+    [SerializeField] GameObject TalkToPidoux;
+    [SerializeField] GameObject TalkToHippopo;
 
 
     [Header("SND")]
@@ -497,6 +503,7 @@ public class testCam : MonoBehaviour
                     UiDialogue(HippoFace, "Bonjour mon petit, je suis Hippocrate, le papa de la médecine moderne! Quel bon vent t'amènes?\n\n-\n\nOh! Ton ami est malade et tu cherches des solutions dans la faculté de médecine pour essayer de l'aider?\n\n-\n\nEt bien je sais peut - être comment tu peux faire!\n\n-\n\nS'il a mal à l'abdomen, c'est un problème interne! Va voir ce tableau là - bas, Lapeyronie pourra sans doutes t'aider! C'est le premier chirurgien du roi Louis 15 tu sais!");
                     GoneToLapeyronie = true;
                     ShowClue("Va parler au portrait de Lapeyronie ");
+                    TalkToMe(TalkToLapeyronie);
 
                 }
 
@@ -876,12 +883,14 @@ public class testCam : MonoBehaviour
                     {
 
                         // ici hippocrate nous a dit d'aller voir lapeyronie mais on a pas encore parlé à lapeyronie
+                        
                         if (!cleVespopped)
                         {
 
                             ClefVestiaire.gameObject.SetActive(true);
                             cleVespopped = true;
                             ShowClue("Va chercher la clef du vestiaire");
+                            DontTalkToMe(TalkToLapeyronie);
 
                         }
                         
@@ -919,6 +928,7 @@ public class testCam : MonoBehaviour
                                             AdSource.PlayOneShot(Lapey3);
                                             UiDialogue(LapeyronieFace, "Ah, alors la cuisse c'est quelque peu délicat, je préfère ne pas dire de bêtises qui risquerait d'aggraver son cas.\n \n - \n Va plutôt voir François Pidoux, il saura être plus juste.Il a été le médecin de trois rois consécutifs, à commencer par Henri II! \n \nBonne chance jeune homme et merci encore pour mon scalpel! ");
                                             ShowClue("Va parler au portrait de Pidoux");
+                                            TalkToMe(TalkToChaptal);
                                             LapeyronieEnd = true;
 
                                         }
@@ -984,7 +994,7 @@ public class testCam : MonoBehaviour
                         //Debug.Log("Je suis si fier de mon ptit fils");
                         AdSource.PlayOneShot(Pidoux2);
                         UiDialogue(Pidouxface, "Oh ! Mon arrière petit-fils est devenu un célèbre fabuliste? Il a même écrit pour des Rois? Mais c'est merveilleux! Merci beaucoup, me voilà soulagé.. Merci du fond du cœur!\n\n-\n\n Pendant que tu cherchais j'ai réfléchit et il me semble que pour ton ami, un bandage autour de la plaie, désinfectée au préalable serait le plus adaptée à sa blessure.");
-
+                        TalkToMe(TalkToChaptal);
                     }
                     else
                     {
@@ -995,7 +1005,9 @@ public class testCam : MonoBehaviour
                             //Debug.Log("Comment va ton ami ? Ok voici ce que tu dois faire ");
                             AdSource.PlayOneShot(Pidoux1);
                             UiDialogue(Pidouxface, "Oh, bonjour mon petit, tu as l'air tout perturbé, ça va aller?\n\n-\n\nAh mince, ton ami a des ennuis. Je t'avoue que j'aurais besoin d'un petit service dans un premier temps \n\n-\n\nVois - tu, quelque chose me trotte dans la tête depuis ce qui me semble maintenant une éternité \n\n-\n\nJ'ai peur pour ma descendance. J'espère sincèrement du fond du cœur que mon nom n'est pas oublié, que ma famille a prospéré, qu'elle a continué à faire de grandes choses.\n\n-\n\nJ'ai besoin de savoir, alors si tu pouvais me rendre ce service, je vous aiderai avec plaisir toi et ton ami Peut-être dans la bibliothèque qui sait ?\n\n-\n\n Je te conseil de retourner dans des lieux que tu as déjà visité, tu trouveras surement la clé quelque part!");
+                            DontTalkToMe(TalkToChaptal);
                             PidouxGaveClue = true;
+                            
                             ShowClue("Va chercher la clef de la bibliothèque");
                             if (!cleBibpopped)
                             {
@@ -1030,6 +1042,7 @@ public class testCam : MonoBehaviour
                                             AdSource.PlayOneShot(Pidoux3);
                                             UiDialogue(Pidouxface, "Oula, j'ai entendu ce que ton ami viens de te dire, décidément il lui en arrive des bricoles! \n \n Va vers Chaptal, il est chimiste, il a même recu des titres de noblesse de louis 16, il saura lui venir en aide!");
                                             ShowClue("Va parler au portrait de Chaptal");
+                                            TalkToMe(TalkToPidoux);
                                             PidouxEnd = true;
 
                                         }
@@ -1085,6 +1098,7 @@ public class testCam : MonoBehaviour
                             AdSource.PlayOneShot(Chaptal);
                             UiDialogue(ChaptalFace, "Eh salut, quel bon vent t'amène? \n\n-\n\nOh ok je vois, Ca tombe bien je sais exactement comment t'aider! \n\n-\n\nHein? un service? mais non t'inquiète, va plutôt voir le laboratoire ! La clé ,si je dis pas de bêtises, elle est dans la bibliothèque ! \n\n-\n\nOula, en parlant du loup, il se passe du tumulte dans la bibliothèque!  Allez file, va sauver ton ami! ");
                             ShowClue("Va chercher la clef du labo");
+                            DontTalkToMe(TalkToPidoux);
                             ChaptalGaveClue = true;
                             Tumult();
                             if (!cleLabpopped)
@@ -1263,7 +1277,7 @@ public class testCam : MonoBehaviour
 
     // ---------------------------- MOVE THE CAM -------------------------
 
-    public void MakePositionCam(CinemachineVirtualCamera VirtualCam/*, Vector3 pos*/)
+    public void MakePositionCam(CinemachineVirtualCamera VirtualCam)
     {
         if (inVestiaire || inLabo || inBibli)
         {
@@ -1740,13 +1754,7 @@ public class testCam : MonoBehaviour
                 {
 
                     GhostClue2.SetActive(false);
-                    GhostClue3.SetActive(true);
-                    if ( TheGhost >= 4)
-                    {
-
-                        GhostClue3.SetActive(false);
-
-                    }
+                    
 
                 }
 
@@ -1762,9 +1770,32 @@ public class testCam : MonoBehaviour
 
 
     }
-}
+
 
     // ---------------------------- ShowClue ---------------------------
+
+    // ---------------------------- TalkeToMe ---------------------------
+
+    public void TalkToMe(GameObject TheTalkToMe)
+    {
+
+        TheTalkToMe.SetActive(true);
+
+    }
+
+    public void DontTalkToMe(GameObject TheTalkToMe)
+    {
+
+        TheTalkToMe.SetActive(false);
+
+    }
+
+    // ---------------------------- TalkeToMe ---------------------------
+
+
+}
+
+
 
 
 
