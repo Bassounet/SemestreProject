@@ -1459,6 +1459,7 @@ public class testCam : MonoBehaviour
         AdSource.enabled = true;
         inTalkie = true;
         WalkieTalkie.SetActive(true);
+        WalkieTalkie.GetComponentInChildren<TalkieManager>().enabled = true;
         VirtualCamPortrait.gameObject.SetActive(false);
         VirtualCamTalkie.gameObject.SetActive(true);
         TalkieWalkieBtn.gameObject.SetActive(false);

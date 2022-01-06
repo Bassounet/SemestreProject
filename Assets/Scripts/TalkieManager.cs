@@ -42,11 +42,18 @@ public class TalkieManager : MonoBehaviour
         // Start is called before the first frame update
         void Start()
     {
+        //Obj = Random.Range(0f, 10.0f);
+        //if (5 <= Obj && Obj < 6) { Obj = 6f; }
+        //if (4 < Obj && Obj < 5) { Obj = 4f; }
+        //Debug.Log("valeur:" + Obj.ToString());
+
+    }
+    private void OnEnable()
+    {
         Obj = Random.Range(0f, 10.0f);
         if (5 <= Obj && Obj < 6) { Obj = 6f; }
         if (4 < Obj && Obj < 5) { Obj = 4f; }
         Debug.Log("valeur:" + Obj.ToString());
-
     }
 
     // Update is called once per frame
@@ -108,7 +115,7 @@ public class TalkieManager : MonoBehaviour
         }
 
         frequVolume = ((Mathf.Abs((Obj) - Mathf.Round(val)) / (Mathf.Abs((Obj)))));
-        Debug.Log("frequ:"+frequVolume);
+       
         if (!voiceAffected) { talk.GetComponent<AudioSource>().volume = (1 - frequVolume); }
         else {
             if ((1 - frequVolume) - reduc < 0) { talk.GetComponent<AudioSource>().volume = 0; }
@@ -122,6 +129,7 @@ public class TalkieManager : MonoBehaviour
         if (radio.GetComponent<AudioSource>().volume > 1 - reduc) { radio.GetComponent<AudioSource>().volume = 1 - reduc; }
 
         //DEBUG
+        Debug.Log("frequ:" + frequVolume);
         Debug.Log("Voice:" + talk.GetComponent<AudioSource>().volume);
         Debug.Log("Radio:" + radio.GetComponent<AudioSource>().volume);
     }
@@ -147,6 +155,7 @@ public class TalkieManager : MonoBehaviour
                 Winned = true;
                 Win = false;
                 Player.GetComponent<testCam>().BackFromTalkie();
+
 
 
             }
