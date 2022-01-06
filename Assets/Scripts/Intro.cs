@@ -7,6 +7,7 @@ public class Intro : MonoBehaviour
 {
     public float TimeBeforeTalkieAppear;
     [SerializeField]GameObject TalkieWalkie;
+    [SerializeField]GameObject Event;
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +32,7 @@ public class Intro : MonoBehaviour
 
     public void GoToGame()
     {
-
+        Event.SetActive(false);
         SceneManager.LoadScene("TlkWlk2");
 
     }

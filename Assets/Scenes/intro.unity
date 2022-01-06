@@ -340,6 +340,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TimeBeforeTalkieAppear: 10
   TalkieWalkie: {fileID: 1768181113}
+  Event: {fileID: 1960983986}
 --- !u!4 &476853104
 Transform:
   m_ObjectHideFlags: 0
