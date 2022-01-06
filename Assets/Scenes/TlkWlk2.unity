@@ -365,6 +365,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3824952925724584895, guid: bc1f3e13113cd024a8cf35152532924b, type: 3}
+      propertyPath: Intro
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5014421666013451232, guid: bc1f3e13113cd024a8cf35152532924b, type: 3}
       propertyPath: m_Name
       value: TalkieWalkieV2
