@@ -245,7 +245,7 @@ public class testCam : MonoBehaviour
     public float TimebeforeAppearGhost;
     public int TheGhost;
 
-
+    public bool aldyBonked;
 
 
 
@@ -1234,52 +1234,86 @@ public class testCam : MonoBehaviour
     float maxPos;
     public void DontPathOverTheMax(CinemachineVirtualCamera VirtualCam, GameObject DollyCam)
     {
+
         maxPos = DollyCam.GetComponent<CinemachineSmoothPath>().MaxPos;
         currentPos = VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition;
 
         VirtualCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = Mathf.Clamp(currentPos, 0, maxPos);
-        float treshold = 0.15f;
+        //float treshold = 0.15f;
 
-        if (inTalkie || inCadenas)
-        {
-            fleched.gameObject.SetActive(false);
-            flecheg.gameObject.SetActive(false);
-        }
+        //if (inTalkie || inCadenas)
+        //{
+        //    fleched.gameObject.SetActive(false);
+        //    flecheg.gameObject.SetActive(false);
+        //}
 
-        if (inVestiaire || inBibli)
-        {
-            if (Mathf.Abs(maxPos - currentPos) < treshold)
-            {
-                flecheg.gameObject.SetActive(false);
-            }
-            else if (currentPos < treshold)
-            {
-                fleched.gameObject.SetActive(false);
-            }
-            else
-            {
-                fleched.gameObject.SetActive(true);
-                as_2D.PlayOneShot(book);
-                flecheg.gameObject.SetActive(true);
-            }
-        }
-        else
-        {
-            if (Mathf.Abs(maxPos - currentPos) < treshold)
-            {
-                fleched.gameObject.SetActive(false);
-            }
-            else if (currentPos < treshold)
-            {
-                flecheg.gameObject.SetActive(false);
-            }
-            else
-            {
-                fleched.gameObject.SetActive(true);
-                as_2D.PlayOneShot(book);
-                flecheg.gameObject.SetActive(true);
-            }
-        }
+        //if (inVestiaire || inBibli)
+        //{
+        //    if (Mathf.Abs(maxPos - currentPos) < treshold)
+        //    {
+        //        flecheg.gameObject.SetActive(false);
+        //        if (!aldyBonked)
+        //        {
+        //            as_2D.PlayOneShot(bonk);
+        //            aldyBonked = true;
+        //        }
+        //        StartCoroutine("StopBonking");
+
+        //    }
+        //    else if (currentPos < treshold)
+        //    {
+        //        fleched.gameObject.SetActive(false);
+        //        if (!aldyBonked)
+        //        {
+        //            as_2D.PlayOneShot(bonk);
+        //            aldyBonked = true;
+        //        }
+        //        StartCoroutine("StopBonking");
+        //    }
+        //    else
+        //    {
+        //        fleched.gameObject.SetActive(true);
+                
+        //        flecheg.gameObject.SetActive(true);
+        //    }
+        //}
+        //else
+        //{
+        //    if (Mathf.Abs(maxPos - currentPos) < treshold)
+        //    {
+        //        fleched.gameObject.SetActive(false);
+        //        if (!aldyBonked)
+        //        {
+        //            as_2D.PlayOneShot(bonk);
+        //            aldyBonked = true;
+        //        }
+        //        StartCoroutine("StopBonking");
+                
+        //    }
+        //    else if (currentPos < treshold)
+        //    {
+        //        flecheg.gameObject.SetActive(false);
+        //        if (!aldyBonked)
+        //        {
+        //            as_2D.PlayOneShot(bonk);
+        //            aldyBonked = true;
+        //        }
+        //        StartCoroutine("StopBonking");
+        //    }
+        //    else
+        //    {
+        //        fleched.gameObject.SetActive(true);
+        //        flecheg.gameObject.SetActive(true);
+        //    }
+        //}
+    }
+
+    IEnumerator StopBonking()
+    {
+        yield return new WaitForSeconds(5f);
+
+        aldyBonked = false;
+
     }
 
 
