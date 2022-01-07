@@ -44,7 +44,9 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject BlackScreen;
 
     [SerializeField] GameObject flecheg;
+    [SerializeField] AudioSource as_2D;
     [SerializeField] GameObject fleched;
+    [SerializeField] AudioClip bonk;
 
     [SerializeField] GameObject Cle;
 
@@ -116,6 +118,9 @@ public class testCam : MonoBehaviour
     [SerializeField] GameObject WalkieTalkie;
     [SerializeField] GameObject BibliToFall;
     [SerializeField] GameObject BibliFalled;
+    [SerializeField] GameObject PS_Pidoux;
+    [SerializeField] GameObject PS_Chaptal;
+    [SerializeField] GameObject PS_Lapeyronie;
 
     [Header("This Is Talk To Me")]
     [SerializeField] GameObject TalkToLapeyronie;
@@ -504,6 +509,7 @@ public class testCam : MonoBehaviour
                     GoneToLapeyronie = true;
                     ShowClue("Va parler au portrait de Lapeyronie ");
                     TalkToMe(TalkToLapeyronie);
+                    PS_Lapeyronie.SetActive(false);
 
                 }
 
@@ -929,6 +935,7 @@ public class testCam : MonoBehaviour
                                             UiDialogue(LapeyronieFace, "Ah, alors la cuisse c'est quelque peu délicat, je préfère ne pas dire de bêtises qui risquerait d'aggraver son cas.\n \n - \n Va plutôt voir François Pidoux, il saura être plus juste.Il a été le médecin de trois rois consécutifs, à commencer par Henri II! \n \nBonne chance jeune homme et merci encore pour mon scalpel! ");
                                             ShowClue("Va parler au portrait de Pidoux");
                                             TalkToMe(TalkToChaptal);
+                                            PS_Pidoux.SetActive(false);
                                             LapeyronieEnd = true;
 
                                         }
@@ -1006,6 +1013,7 @@ public class testCam : MonoBehaviour
                             AdSource.PlayOneShot(Pidoux1);
                             UiDialogue(Pidouxface, "Oh, bonjour mon petit, tu as l'air tout perturbé, ça va aller?\n\n-\n\nAh mince, ton ami a des ennuis. Je t'avoue que j'aurais besoin d'un petit service dans un premier temps \n\n-\n\nVois - tu, quelque chose me trotte dans la tête depuis ce qui me semble maintenant une éternité \n\n-\n\nJ'ai peur pour ma descendance. J'espère sincèrement du fond du cœur que mon nom n'est pas oublié, que ma famille a prospéré, qu'elle a continué à faire de grandes choses.\n\n-\n\nJ'ai besoin de savoir, alors si tu pouvais me rendre ce service, je vous aiderai avec plaisir toi et ton ami Peut-être dans la bibliothèque qui sait ?\n\n-\n\n Je te conseil de retourner dans des lieux que tu as déjà visité, tu trouveras surement la clé quelque part!");
                             DontTalkToMe(TalkToChaptal);
+                            PS_Chaptal.SetActive(false);
                             PidouxGaveClue = true;
                             
                             ShowClue("Va chercher la clef de la bibliothèque");
@@ -1251,6 +1259,7 @@ public class testCam : MonoBehaviour
             else
             {
                 fleched.gameObject.SetActive(true);
+                as_2D.PlayOneShot(book);
                 flecheg.gameObject.SetActive(true);
             }
         }
@@ -1267,6 +1276,7 @@ public class testCam : MonoBehaviour
             else
             {
                 fleched.gameObject.SetActive(true);
+                as_2D.PlayOneShot(book);
                 flecheg.gameObject.SetActive(true);
             }
         }
